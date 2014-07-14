@@ -1,0 +1,31 @@
+/home/huangzhe/.rbenv/versions/1.9.3-p392/bin/ruby extconf.rb 
+>>>>> Creating Makefile for ruby version 1.9.3 on i686-linux <<<<<
+creating Makefile
+
+make  clean
+
+make
+compiling odd.c
+compiling oj.c
+compiling dump.c
+compiling object.c
+compiling err.c
+compiling fast.c
+compiling val_stack.c
+compiling compat.c
+compiling cache8.c
+compiling resolve.c
+compiling parse.c
+compiling hash_test.c
+compiling strict.c
+compiling scp.c
+compiling reader.c
+compiling sparse.c
+compiling circarray.c
+compiling hash.c
+compiling saj.c
+linking shared-object oj.so
+
+make  install
+/usr/bin/install -c -m 0755 oj.so /home/huangzhe/authpuppy/vendor/bundle/gems/oj-2.9.3/ext/oj/.gem.20140605-16480-y0uj92
+installing default oj libraries
