@@ -1,0 +1,22 @@
+/home/huangzhe/.rbenv/versions/1.9.3-p392/bin/ruby extconf.rb 
+creating Makefile
+
+make  clean
+
+make
+compiling wrapper.c
+In file included from wrapper.c:27:0:
+/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward/util.h:2:2: warning: #warning use "ruby/util.h" instead of bare "util.h" [-Wcpp]
+compiling bcrypt_ext.c
+bcrypt_ext.c: In function ‘bcrypt_wrapper’:
+bcrypt_ext.c:27:5: warning: implicit declaration of function ‘ruby_bcrypt’ [-Wimplicit-function-declaration]
+bcrypt_ext.c: At top level:
+bcrypt_ext.c:25:14: warning: ‘bcrypt_wrapper’ defined but not used [-Wunused-function]
+compiling crypt_blowfish.c
+compiling crypt_gensalt.c
+compiling crypt.c
+linking shared-object bcrypt_ext.so
+
+make  install
+/usr/bin/install -c -m 0755 bcrypt_ext.so /home/huangzhe/authpuppy/vendor/bundle/gems/bcrypt-ruby-3.0.1/ext/mri/.gem.20140605-16480-1ga9rib
+installing default bcrypt_ext libraries

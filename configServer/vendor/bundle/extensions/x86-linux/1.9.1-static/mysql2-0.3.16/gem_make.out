@@ -1,0 +1,34 @@
+/home/huangzhe/.rbenv/versions/1.9.3-p392/bin/ruby extconf.rb 
+checking for ruby/thread.h... no
+checking for rb_thread_blocking_region()... yes
+checking for rb_wait_for_single_fd()... yes
+checking for rb_hash_dup()... yes
+checking for rb_intern3()... yes
+-----
+Using mysql_config at /usr/bin/mysql_config
+-----
+checking for mysql.h... yes
+checking for errmsg.h... yes
+checking for mysqld_error.h... yes
+-----
+Setting libpath to /usr/lib/i386-linux-gnu
+-----
+creating Makefile
+
+make  clean
+
+make
+compiling result.c
+result.c: In function ‘rb_mysql_result_fetch_fields’:
+result.c:415:35: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+compiling infile.c
+compiling client.c
+client.c: In function ‘rb_connect’:
+client.c:331:3: warning: ISO C90 forbids mixed declarations and code [-Wdeclaration-after-statement]
+client.c:357:26: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+compiling mysql2_ext.c
+linking shared-object mysql2/mysql2.so
+
+make  install
+/usr/bin/install -c -m 0755 mysql2.so /home/huangzhe/authpuppy/vendor/bundle/gems/mysql2-0.3.16/ext/mysql2/.gem.20140605-16480-mnti53/mysql2
+installing default mysql2 libraries

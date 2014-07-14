@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  province: MyString
+  city: MyString
+  district: MyString
+  detail: MyString
+  access_node_id: 1
+
+two:
+  province: MyString
+  city: MyString
+  district: MyString
+  detail: MyString
+  access_node_id: 1

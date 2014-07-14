@@ -1,0 +1,684 @@
+have_macro: checking for CLOCK_MONOTONIC in time.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <time.h>
+4: /*top*/
+5: #ifndef CLOCK_MONOTONIC
+6: # error
+7: >>>>>> CLOCK_MONOTONIC undefined <<<<<<
+8: #endif
+/* end */
+
+--------------------
+
+have_type: checking for clockid_t in time.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <time.h>
+4: 
+5: /*top*/
+6: typedef clockid_t conftest_type;
+7: int conftestval[sizeof(conftest_type)?1:-1];
+/* end */
+
+--------------------
+
+have_library: checking for clock_gettime() in -lrt... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:7:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <time.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))clock_gettime; return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for t_open() in -lnsl... -------------------- no
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lnsl -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:53: error: ‘t_open’ undeclared (first use in this function)
+conftest.c:5:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))t_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lnsl -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:1: warning: implicit declaration of function ‘t_open’ [-Wimplicit-function-declaration]
+/tmp/ccPtFuCP.o: In function `t':
+/home/huangzhe/authpuppy/vendor/bundle/gems/kgio-2.9.2/ext/kgio/conftest.c:5: undefined reference to `t_open'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { t_open(); return 0; }
+/* end */
+
+--------------------
+
+have_library: checking for socket() in -lsocket... -------------------- no
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lsocket -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:53: error: ‘socket’ undeclared (first use in this function)
+conftest.c:5:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))socket; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lsocket -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:1: warning: implicit declaration of function ‘socket’ [-Wimplicit-function-declaration]
+/usr/bin/ld: cannot find -lsocket
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { socket(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for poll() in poll.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:7:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <poll.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))poll; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for getaddrinfo() in sys/types.h,sys/socket.h,netdb.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:9:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sys/types.h>
+4: #include <sys/socket.h>
+5: #include <netdb.h>
+6: 
+7: /*top*/
+8: int main() {return 0;}
+9: int t() { void ((*volatile p)()); p = (void ((*)()))getaddrinfo; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for getnameinfo() in sys/types.h,sys/socket.h,netdb.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:9:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sys/types.h>
+4: #include <sys/socket.h>
+5: #include <netdb.h>
+6: 
+7: /*top*/
+8: int main() {return 0;}
+9: int t() { void ((*volatile p)()); p = (void ((*)()))getnameinfo; return 0; }
+/* end */
+
+--------------------
+
+have_type: checking for struct sockaddr_storage in sys/types.h,sys/socket.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sys/types.h>
+4: #include <sys/socket.h>
+5: 
+6: /*top*/
+7: typedef struct sockaddr_storage conftest_type;
+8: int conftestval[sizeof(conftest_type)?1:-1];
+/* end */
+
+--------------------
+
+have_func: checking for accept4() in sys/socket.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:7:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sys/socket.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))accept4; return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for sys/select.h... -------------------- yes
+
+"gcc -E -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sys/select.h>
+/* end */
+
+--------------------
+
+have_func: checking for writev() in sys/uio.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:7:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <sys/uio.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))writev; return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for ruby/io.h... -------------------- yes
+
+"gcc -E -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby/io.h>
+/* end */
+
+--------------------
+
+have_struct_member: checking for rb_io_t.fd in ruby.h,ruby/io.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: #include <ruby/io.h>
+5: 
+6: /*top*/
+7: int main() {return 0;}
+8: int s = (char *)&((rb_io_t*)0)->fd - (char *)0;
+/* end */
+
+--------------------
+
+have_struct_member: checking for rb_io_t.mode in ruby.h,ruby/io.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: #include <ruby/io.h>
+5: 
+6: /*top*/
+7: int main() {return 0;}
+8: int s = (char *)&((rb_io_t*)0)->mode - (char *)0;
+/* end */
+
+--------------------
+
+have_struct_member: checking for rb_io_t.pathv in ruby.h,ruby/io.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: #include <ruby/io.h>
+5: 
+6: /*top*/
+7: int main() {return 0;}
+8: int s = (char *)&((rb_io_t*)0)->pathv - (char *)0;
+/* end */
+
+--------------------
+
+have_type: checking for struct RFile in ruby.h,ruby/io.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: #include <ruby/io.h>
+5: 
+6: /*top*/
+7: typedef struct RFile conftest_type;
+8: int conftestval[sizeof(conftest_type)?1:-1];
+/* end */
+
+--------------------
+
+check_sizeof: checking size of struct RFile in ruby.h,ruby/io.h... -------------------- 12
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <ruby.h>
+ 4: #include <ruby/io.h>
+ 5: typedef struct RFile rbcv_typedef_;
+ 6: static rbcv_typedef_ *rbcv_ptr_;
+ 7: 
+ 8: #include <stdio.h>
+ 9: /*top*/
+10: int conftest_const = (int)(sizeof((*rbcv_ptr_)));
+11: int main() {printf("%d\n", conftest_const); return 0;}
+/* end */
+
+./conftest |
+--------------------
+
+have_type: checking for struct RObject... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: typedef struct RObject conftest_type;
+5: int conftestval[sizeof(conftest_type)?1:-1];
+/* end */
+
+--------------------
+
+check_sizeof: checking size of struct RObject... -------------------- 20
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: typedef struct RObject rbcv_typedef_;
+4: static rbcv_typedef_ *rbcv_ptr_;
+5: 
+6: #include <stdio.h>
+7: /*top*/
+8: int conftest_const = (int)(sizeof((*rbcv_ptr_)));
+9: int main() {printf("%d\n", conftest_const); return 0;}
+/* end */
+
+./conftest |
+--------------------
+
+check_sizeof: checking size of int... -------------------- 4
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: typedef int rbcv_typedef_;
+4: static rbcv_typedef_ *rbcv_ptr_;
+5: 
+6: #include <stdio.h>
+7: /*top*/
+8: int conftest_const = (int)(sizeof((*rbcv_ptr_)));
+9: int main() {printf("%d\n", conftest_const); return 0;}
+/* end */
+
+./conftest |
+--------------------
+
+have_func: checking for rb_io_ascii8bit_binmode()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_io_ascii8bit_binmode; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_update_max_fd()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_update_max_fd; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_fd_fix_cloexec()... -------------------- no
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:53: error: ‘rb_fd_fix_cloexec’ undeclared (first use in this function)
+conftest.c:5:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_fd_fix_cloexec; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:1: warning: implicit declaration of function ‘rb_fd_fix_cloexec’ [-Wimplicit-function-declaration]
+/tmp/cc3bYLXF.o: In function `t':
+/home/huangzhe/authpuppy/vendor/bundle/gems/kgio-2.9.2/ext/kgio/conftest.c:5: undefined reference to `rb_fd_fix_cloexec'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { rb_fd_fix_cloexec(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_cloexec_open()... -------------------- no
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:53: error: ‘rb_cloexec_open’ undeclared (first use in this function)
+conftest.c:5:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_cloexec_open; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:1: warning: implicit declaration of function ‘rb_cloexec_open’ [-Wimplicit-function-declaration]
+/tmp/cc19mZGL.o: In function `t':
+/home/huangzhe/authpuppy/vendor/bundle/gems/kgio-2.9.2/ext/kgio/conftest.c:5: undefined reference to `rb_cloexec_open'
+collect2: ld returned 1 exit status
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { rb_cloexec_open(); return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for ruby/thread.h... -------------------- no
+
+"gcc -E -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration  conftest.c -o conftest.i"
+conftest.c:3:25: fatal error: ruby/thread.h: No such file or directory
+compilation terminated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby/thread.h>
+/* end */
+
+--------------------
+
+have_func: checking for rb_thread_call_without_gvl() in ruby/thread.h... -------------------- no
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c:3:25: fatal error: ruby/thread.h: No such file or directory
+compilation terminated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby/thread.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))rb_thread_call_without_gvl; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c:3:25: fatal error: ruby/thread.h: No such file or directory
+compilation terminated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby/thread.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { rb_thread_call_without_gvl(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_thread_blocking_region()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_thread_blocking_region; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_thread_io_blocking_region()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:53: error: ‘rb_thread_io_blocking_region’ undeclared (first use in this function)
+conftest.c:5:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_thread_io_blocking_region; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:1: warning: implicit declaration of function ‘rb_thread_io_blocking_region’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { rb_thread_io_blocking_region(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_str_set_len()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_str_set_len; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_time_interval()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_time_interval; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_wait_for_single_fd()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:53: error: ‘rb_wait_for_single_fd’ undeclared (first use in this function)
+conftest.c:5:53: note: each undeclared identifier is reported only once for each function it appears in
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_wait_for_single_fd; return 0; }
+/* end */
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:1: warning: implicit declaration of function ‘rb_wait_for_single_fd’ [-Wimplicit-function-declaration]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { rb_wait_for_single_fd(); return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_str_subseq()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_str_subseq; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for rb_ary_subseq()... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_GNU_SOURCE -DPOSIX_C_SOURCE=1-D_POSIX_C_SOURCE=200112L  -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic    -lrt  -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static -lrt  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:5:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: /*top*/
+4: int main() {return 0;}
+5: int t() { void ((*volatile p)()); p = (void ((*)()))rb_ary_subseq; return 0; }
+/* end */
+
+--------------------
+
