@@ -1,0 +1,22 @@
+
+    <div class="row">
+      <div class="span6 offset1">
+        <h3>基本设置</h3>
+        <p></p>
+        <%= form_for(@access) do |f| %>
+  <div class="field">
+          <%= f.label "设备名称" %>
+          <%= f.text_field :name %>
+          <%= f.label "设备MAC" %>
+          <%= f.text_field :mac %>
+          <%= f.label "认证页面" %>
+          <%= f.text_field :redirect_url %>
+          <%= f.label "欢迎页面" %>
+          <%= f.text_field :portal_url %>
+          <%= f.label "广告间隔" %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option>'.html_safe ) %>
+        </div>
+         <%= f.submit "更新节点", :class => "btn btn-large btn-primary" %> 
+      <% end %>
+    </div>
+  </div>
