@@ -1,0 +1,12 @@
+/home/huangzhe/.rbenv/versions/1.9.3-p392/bin/ruby extconf.rb 
+creating Makefile
+
+make  clean
+
+make
+compiling parser.c
+linking shared-object json/ext/parser.so
+
+make  install
+/usr/bin/install -c -m 0755 parser.so /home/huangzhe/authpuppy/vendor/bundle/gems/json-1.8.1/ext/json/ext/parser/.gem.20140605-16480-gh014u/json/ext
+installing default parser libraries
