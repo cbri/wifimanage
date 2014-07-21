@@ -22,7 +22,7 @@ Authpuppy::Application.routes.draw do
   post "authenticate_old" =>"user#authenticate_old"
   post "freeland" =>"user#freeland"
   get "logout/:token" =>"user#logout", :as => "offline"
-  get "sign_out" =>"user#sign_out", :as => "killline"
+  post "sign_out" =>"user#sign_out", :as => "killline"
   get "client_status" =>"user#client_status", :as => "client_status"
   post "addnodes" =>"guest#addnodes"
   post "query_lat_long" => "access_nodes#query_lat_long"

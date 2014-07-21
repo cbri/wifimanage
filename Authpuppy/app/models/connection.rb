@@ -1,6 +1,7 @@
+require 'net/http'
 class Connection < ActiveRecord::Base
   default_scope order('updated_at DESC')
-  attr_accessible :access_mac, :access_node_id, :expired_on, :incoming, :ipaddr, :mac, :outgoing, :token, :used_on, :device, :portal_url, :phonenum
+  attr_accessible :access_mac, :access_node_id, :expired_on, :incoming, :ipaddr, :mac, :outgoing, :token, :used_on, :device, :portal_url, :phonenum, :status
   belongs_to :access_node
 
   validates_presence_of :access_mac
@@ -79,10 +80,21 @@ class Connection < ActiveRecord::Base
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
             :outgoing => params[:outgoing],
-            :used_on => Time.now
+            :used_on => Time.now,
+            :status => "login"
           })                        
           auth = 1
-        end
+        
+          observerconns = Observer.where("type = 2 ") 
+          observerconns.each do |observerconn|
+             url = URI.parse(observerconn.url)
+             Net::HTTP.start(url.host, url.port) do |http|
+                req = Net::HTTP::Post.new(url.path)
+                req.set_form_data({ 'gw_id' => connection.access_mac, 'client_id' => connection.token,'status' => 'online' })
+                puts http.request(req).body
+             end
+          end
+         end
       when 'counters'
         if !connection.expired?
           auth = 1
@@ -90,12 +102,22 @@ class Connection < ActiveRecord::Base
             :mac => params[:mac],
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
-            :outgoing => params[:outgoing]
+            :outgoing => params[:outgoing],
+            :status => "ping"
           })                        
           end
       when 'logout'
         logger.info "Logging out: #{params[:token]}"
+          connection.update_attributes({
+            :status => "ping"
+          })                        
         connection.expire!
+        url = URI.parse('http://www.rubyinside.com/test.cgi')
+        Net::HTTP.start(url.host, url.port) do |http|
+             req = Net::HTTP::Post.new(url.path)
+             req.set_form_data({ 'gw_id' => connection.access_mac, 'client_id' => connection.token,'status' => 'offline' })
+             puts http.request(req).body
+        end
       else          
         logger.info "Invalid stage: #{params[:stage]}"
       end    

@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(:version => 20140606094235) do
     t.string   "device"
     t.string   "portal_url"
     t.string   "phonenum"
+    t.string   "status"
   end
 
   create_table "contacts", :force => true do |t|
@@ -152,6 +153,17 @@ ActiveRecord::Schema.define(:version => 20140606094235) do
   create_table "servers", :force => true do |t|
     t.integer  "access_node_id"
     t.string   "serverIP"
+  end
+
+  create_table "accesskeys", :force => true do |t|
+    t.string  "access_key_id"
+    t.string   "public_key"
+    t.string   "private_key"
+  end
+
+  create_table "observers", :force => true do |t|
+    t.string  "url"
+    t.integer   "type"
   end
 
 end

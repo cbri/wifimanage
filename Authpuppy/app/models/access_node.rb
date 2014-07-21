@@ -116,9 +116,10 @@ class AccessNode < ActiveRecord::Base
     return  false;
   end
 
+
   def self.addnodes(params)
-    if params[:AP].nil? || params[:AP].length > 10
-      {:check=>false,:code=>104, :msg=>"AP More Than ten"}
+    if params[:AP].nil? and params[:data].nil? and params[:name]
+      {:check=>false,:code=>104, :msg=>"param error"}
     elsif params[:data] 
       object = param[:data]
       object[:developer] = params[:username]
@@ -129,6 +130,13 @@ class AccessNode < ActiveRecord::Base
       Address.create!(access_node_id:access.id,city:ob_address[:city],detail:ob_address[:detail],province:ob_address[:province],district:ob_address[:districtl])
       ob_contact = param[:contact]
       Contact.create!(access_node_id:access.id,merchant:ob_contact[:merchant],name:ob_contact[:name],phonenum:ob_contact[:phonenum],telephonenum:ob_contact[:telephonenum],email:ob_contact[:email],weixin:ob_contact[:weixin])
+    elsif params[:name]
+      access = self.create!(name:params[:contact],mac:params[:mac],redirect_url:params[:redirect_url],portal_url:params[:portal_url])
+      Auth.create!(auth_type:"radius",auth_device:false,access_node_id:access.id)
+      Conf.create!(access_node_id:access.id)
+      Address.create!(access_node_id:access.id,city:params[:city],detail:params[:detail],province:params[:province],district:params[:districtl])
+      Contact.create!(access_node_id:access.id,merchant:params[:merchant],name:params[:name],phonenum:params[:phonenum],telephonenum:params[:telephonenum],email:params[:email],weixin:params[:weixin])
+      {:check=>true, :code=>200, :msg=>"Success", :serverIP=>""}
     else
       begin
         self.transaction do
@@ -305,6 +313,17 @@ class AccessNode < ActiveRecord::Base
      node = self.find_by_mac(params[:gw_id])
      pongstr = "Pong"
      if node
+       if node.status != "ping"
+        observernodes = Observer.where("type = 1 ") 
+        observernodes.each do |observernode|
+           url = URI.parse(obeservernode.url)
+           Net::HTTP.start(url.host, url.port) do |http|
+             req = Net::HTTP::Post.new(url.path)
+             req.set_form_data({ 'gw_id' => node.gw_id,'status' => 'online' })
+             puts http.request(req).body
+           end
+        end
+       end
        node.update_attributes(
          :sys_uptime => params[:sys_uptime],
          :sys_upload => params[:sys_load],
@@ -313,7 +332,7 @@ class AccessNode < ActiveRecord::Base
          #:remote_addr => request.remote_addr,
          :ssid =>  params[:ssid],
          :last_seen => Time.now,
-         :status => "running"
+         :status => "ping"
        )
 
        if node.cmdflag == true
@@ -393,7 +412,7 @@ class AccessNode < ActiveRecord::Base
     end
   end
 
-  def self.authenticate_old(params,device)
+  def self.authenticate(params,device)
     node = self.find_by_mac(params[:gw_id])
     if node.nil? or  params[:gw_id].nil? or params[:gw_address].nil? or params[:gw_port].nil? or params[:logintype].nil? or !node.auth.check_device(device)
       redirect_url = "/404"
@@ -428,7 +447,7 @@ class AccessNode < ActiveRecord::Base
     end
   end
 
-  def self.authenticate(params,device)
+  def self.authenticate_new(params,device)
     node = self.find_by_mac(params[:gw_id])
     if node.nil?
         return {:check=>false,:code=>40104, :msg=>"gw_id parameter error "}
