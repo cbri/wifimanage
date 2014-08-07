@@ -308,8 +308,9 @@ class AccessNode < ActiveRecord::Base
         self.transaction do
           params[:AP].each do |param|
             province_code = param[:address][:province]
+logger.info "province_code=#{province_code}"
             pservers = Server.find(:all,:conditions=>["province_code=?",province_code])
-            
+logger.info "pservers.size=#{pservers.size}"            
             if pservers.nil? or pservers.size == 0
               return {:check=>false,:code=>103,:msg=>"Province code not found"}
             end
@@ -379,13 +380,12 @@ logger.info "181 ok param=#{param}"
       end
     end
     
-    uri = URI.parse("http://124.127.116.181/setconfigflag")  
-    res = Net::HTTP.post_form(uri, params)   
-  
-    puts res.header['set-cookie']  
-    puts res.body 
 
     if !node.authserver.nil?
+      uri = URI.parse("http://#{node.authserver.ipaddr}/setconfigflag")  
+      res = Net::HTTP.post_form(uri, params)   
+      puts res.header['set-cookie']  
+      puts res.body 
       str += "&authserver=#{node.authserver.ipaddr}"
     end
     str
