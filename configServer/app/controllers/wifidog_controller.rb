@@ -14,6 +14,10 @@ class WifidogController < ApplicationController
     render :text => AccessNode.fetchconf(params)
   end
 
+  def setconfigflag
+    render :text => AccessNode.setconfigflag(params)
+  end
+
   def denied
     render :text=>"Denied Action", :status => 404
   end

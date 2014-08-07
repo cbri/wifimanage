@@ -378,6 +378,12 @@ logger.info "181 ok param=#{param}"
         str += ips.join("+")
       end
     end
+    
+    uri = URI.parse("http://124.127.116.181/setconfigflag")  
+    res = Net::HTTP.post_form(uri, params)   
+  
+    puts res.header['set-cookie']  
+    puts res.body 
 
     if !node.authserver.nil?
       str += "&authserver=#{node.authserver.ipaddr}"

@@ -30071,3 +30071,59 @@ cache error: invalid byte sequence in UTF-8
 /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/bin/unicorn_rails:209:in `<top (required)>'
 /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `load'
 /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `<main>'
+/home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:206:in `pid=': Already running on PID:7107 (or pid=/home/huangzhe/chenfw/195server/tmp/pids/unicorn.pid is stale) (ArgumentError)
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:135:in `start'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/bin/unicorn_rails:209:in `<top (required)>'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `load'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `<main>'
+/home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:206:in `pid=': Already running on PID:7107 (or pid=/home/huangzhe/chenfw/195server/tmp/pids/unicorn.pid is stale) (ArgumentError)
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:135:in `start'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/bin/unicorn_rails:209:in `<top (required)>'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `load'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `<main>'
+I, [2014-07-24T16:57:48.209450 #6532]  INFO -- : listening on addr=0.0.0.0:8080 fd=10
+I, [2014-07-24T16:57:48.209731 #6532]  INFO -- : unlinking existing socket=/tmp/unicorn.sock
+I, [2014-07-24T16:57:48.209968 #6532]  INFO -- : listening on addr=/tmp/unicorn.sock fd=11
+I, [2014-07-24T16:57:48.212386 #6532]  INFO -- : worker=0 spawning...
+I, [2014-07-24T16:57:48.212763 #6532]  INFO -- : worker=1 spawning...
+I, [2014-07-24T16:57:48.213159 #6532]  INFO -- : master process ready
+I, [2014-07-24T16:57:48.218554 #6535]  INFO -- : worker=0 spawned pid=6535
+I, [2014-07-24T16:57:48.218706 #6535]  INFO -- : Refreshing Gem list
+I, [2014-07-24T16:57:48.220818 #6537]  INFO -- : worker=1 spawned pid=6537
+I, [2014-07-24T16:57:48.220974 #6537]  INFO -- : Refreshing Gem list
+I, [2014-07-24T16:57:56.314565 #6537]  INFO -- : worker=1 ready
+I, [2014-07-24T16:57:56.315103 #6535]  INFO -- : worker=0 ready
+/home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:206:in `pid=': Already running on PID:6532 (or pid=/home/huangzhe/chenfw/195server/tmp/pids/unicorn.pid is stale) (ArgumentError)
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:135:in `start'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/bin/unicorn_rails:209:in `<top (required)>'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `load'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `<main>'
+I, [2014-07-24T17:12:54.877504 #6731]  INFO -- : listening on addr=0.0.0.0:8080 fd=10
+I, [2014-07-24T17:12:54.877774 #6731]  INFO -- : unlinking existing socket=/tmp/unicorn.sock
+I, [2014-07-24T17:12:54.877883 #6731]  INFO -- : listening on addr=/tmp/unicorn.sock fd=11
+I, [2014-07-24T17:12:54.877984 #6731]  INFO -- : worker=0 spawning...
+I, [2014-07-24T17:12:54.880188 #6731]  INFO -- : worker=1 spawning...
+I, [2014-07-24T17:12:54.880578 #6731]  INFO -- : master process ready
+I, [2014-07-24T17:12:54.886022 #6734]  INFO -- : worker=0 spawned pid=6734
+I, [2014-07-24T17:12:54.886181 #6734]  INFO -- : Refreshing Gem list
+I, [2014-07-24T17:12:54.891766 #6736]  INFO -- : worker=1 spawned pid=6736
+I, [2014-07-24T17:12:54.891914 #6736]  INFO -- : Refreshing Gem list
+I, [2014-07-24T17:13:00.545311 #6736]  INFO -- : worker=1 ready
+I, [2014-07-24T17:13:00.547944 #6734]  INFO -- : worker=0 ready
+/home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:206:in `pid=': Already running on PID:6731 (or pid=/home/huangzhe/chenfw/195server/tmp/pids/unicorn.pid is stale) (ArgumentError)
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/lib/unicorn/http_server.rb:135:in `start'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/lib/ruby/gems/1.9.1/gems/unicorn-4.8.3/bin/unicorn_rails:209:in `<top (required)>'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `load'
+	from /home/huangzhe/.rbenv/versions/1.9.3-p392/bin/unicorn_rails:23:in `<main>'
+I, [2014-07-24T17:16:55.833635 #6956]  INFO -- : listening on addr=0.0.0.0:8080 fd=10
+I, [2014-07-24T17:16:55.836074 #6956]  INFO -- : unlinking existing socket=/tmp/unicorn.sock
+I, [2014-07-24T17:16:55.836182 #6956]  INFO -- : listening on addr=/tmp/unicorn.sock fd=11
+I, [2014-07-24T17:16:55.836282 #6956]  INFO -- : worker=0 spawning...
+I, [2014-07-24T17:16:55.836669 #6956]  INFO -- : worker=1 spawning...
+I, [2014-07-24T17:16:55.837066 #6956]  INFO -- : master process ready
+I, [2014-07-24T17:16:55.842599 #6959]  INFO -- : worker=0 spawned pid=6959
+I, [2014-07-24T17:16:55.842764 #6959]  INFO -- : Refreshing Gem list
+I, [2014-07-24T17:16:55.847890 #6961]  INFO -- : worker=1 spawned pid=6961
+I, [2014-07-24T17:16:55.848040 #6961]  INFO -- : Refreshing Gem list
+I, [2014-07-24T17:17:01.674063 #6959]  INFO -- : worker=0 ready
+I, [2014-07-24T17:17:01.678336 #6961]  INFO -- : worker=1 ready

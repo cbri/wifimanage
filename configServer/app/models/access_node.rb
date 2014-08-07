@@ -361,6 +361,11 @@ class AccessNode < ActiveRecord::Base
     str
   end
 
+  def self.setconfigflag(params)
+    node = self.find_by_mac(params[:gw_id])
+    node.update_attributes( :configflag => true );
+  end
+
   def self.fetchconf(params)
     node = self.find_by_mac(params[:gw_id])
     str ="Conf:"

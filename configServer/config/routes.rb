@@ -17,6 +17,7 @@ Authpuppy::Application.routes.draw do
   get "wifilogin" => "user#login"
   get "post/:aunnum" => "wifidog#authupdate"
   get "portal" => "user#portal"
+  post "setconfigflag" => "wifidog#setconfigflag"
   post "authenticate" =>"user#authenticate"
   post "freeland" =>"user#freeland"
   get "logout/:token" =>"user#logout", :as => "offline"
