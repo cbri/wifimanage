@@ -1,0 +1,138 @@
+ip_acl.lo: ip_acl.c ../config.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/stdio.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/features.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_config.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/cdefs.h \
+ /home/huangzhe/tools/toolchain/bin/../lib/gcc/arm-hsan-linux-uclibcgnueabi/4.4.6/include/stddef.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/types.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/wordsize.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/typesizes.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/pthreadtypes.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/endian.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/endian.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/byteswap.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/byteswap.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/byteswap-common.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_stdio.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/wchar.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/wchar.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_mutex.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/pthread.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sched.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/time.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/sched.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/time.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_clk_tck.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/signal.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/sigset.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/setjmp.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_pthread.h \
+ /home/huangzhe/tools/toolchain/bin/../lib/gcc/arm-hsan-linux-uclibcgnueabi/4.4.6/include/stdarg.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/stdio_lim.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/stdlib.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/types.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/select.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/select.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/sysmacros.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/alloca.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/stdint.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/string.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/unistd.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/posix_opt.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/confname.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/getopt.h \
+ httpd.h \
+ /home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/time.h \
+ httpd_priv.h
+
+../config.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/stdio.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/features.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_config.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/cdefs.h:
+
+/home/huangzhe/tools/toolchain/bin/../lib/gcc/arm-hsan-linux-uclibcgnueabi/4.4.6/include/stddef.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/types.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/wordsize.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/typesizes.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/pthreadtypes.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/endian.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/endian.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/byteswap.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/byteswap.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/byteswap-common.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_stdio.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/wchar.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/wchar.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_mutex.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/pthread.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sched.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/time.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/sched.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/time.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_clk_tck.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/signal.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/sigset.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/setjmp.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/uClibc_pthread.h:
+
+/home/huangzhe/tools/toolchain/bin/../lib/gcc/arm-hsan-linux-uclibcgnueabi/4.4.6/include/stdarg.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/stdio_lim.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/stdlib.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/types.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/select.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/select.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/sysmacros.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/alloca.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/stdint.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/string.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/unistd.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/posix_opt.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/confname.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/bits/getopt.h:
+
+httpd.h:
+
+/home/huangzhe/tools/toolchain/bin/../arm-hsan-linux-uclibcgnueabi/sysroot/usr/include/sys/time.h:
+
+httpd_priv.h:

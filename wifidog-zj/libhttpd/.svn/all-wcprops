@@ -1,0 +1,53 @@
+K 25
+svn:wc:ra_dav:version-url
+V 34
+/svn/smartwifi/!svn/ver/1/libhttpd
+END
+protocol.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/smartwifi/!svn/ver/1/libhttpd/protocol.c
+END
+version.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/smartwifi/!svn/ver/1/libhttpd/version.c
+END
+ip_acl.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/libhttpd/ip_acl.c
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 46
+/svn/smartwifi/!svn/ver/1/libhttpd/Makefile.am
+END
+httpd.h
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/smartwifi/!svn/ver/1/libhttpd/httpd.h
+END
+httpd_priv.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/smartwifi/!svn/ver/1/libhttpd/httpd_priv.h
+END
+api.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/smartwifi/!svn/ver/1/libhttpd/api.c
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/smartwifi/!svn/ver/1/libhttpd/README
+END

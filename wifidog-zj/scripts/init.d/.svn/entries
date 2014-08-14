@@ -1,0 +1,28 @@
+8
+
+dir
+1
+http://124.127.116.187/svn/smartwifi/scripts/init.d
+http://124.127.116.187/svn/smartwifi
+
+
+
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+
+svn:special svn:externals svn:needs-lock
+
+wifidog
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+c02f2de1ec1dc2f0500e8d8fa1f2816e
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+

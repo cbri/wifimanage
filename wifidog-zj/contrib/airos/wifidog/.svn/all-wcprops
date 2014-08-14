@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/smartwifi/!svn/ver/1/contrib/airos/wifidog
+END
+files.patch
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/smartwifi/!svn/ver/1/contrib/airos/wifidog/files.patch
+END
+readme.txt
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/smartwifi/!svn/ver/1/contrib/airos/wifidog/readme.txt
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/smartwifi/!svn/ver/1/contrib/airos/wifidog/Makefile
+END

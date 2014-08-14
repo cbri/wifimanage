@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/smartwifi/!svn/ver/1/doc
+END
+doxygen.cfg.in
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/smartwifi/!svn/ver/1/doc/doxygen.cfg.in
+END
+README.developers.txt
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/smartwifi/!svn/ver/1/doc/README.developers.txt
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/smartwifi/!svn/ver/1/doc/Makefile.am
+END
+wifidog_firewall_diagram.dia
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/smartwifi/!svn/ver/1/doc/wifidog_firewall_diagram.dia
+END

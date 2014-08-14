@@ -1,0 +1,233 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/smartwifi/!svn/ver/1/src
+END
+fw_iptables.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/fw_iptables.c
+END
+fw_iptables.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/fw_iptables.h
+END
+firewall.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/smartwifi/!svn/ver/1/src/firewall.c
+END
+firewall.h
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/smartwifi/!svn/ver/1/src/firewall.h
+END
+retrieve_thread.c
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/smartwifi/!svn/ver/1/src/retrieve_thread.c
+END
+util.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/util.c
+END
+safe.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/safe.c
+END
+http.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/http.c
+END
+centralserver.c
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/smartwifi/!svn/ver/1/src/centralserver.c
+END
+retrieve_thread.h
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/smartwifi/!svn/ver/1/src/retrieve_thread.h
+END
+util.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/util.h
+END
+safe.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/safe.h
+END
+http.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/http.h
+END
+centralserver.h
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/smartwifi/!svn/ver/1/src/centralserver.h
+END
+conf.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/conf.c
+END
+commandline.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/commandline.c
+END
+debug.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/smartwifi/!svn/ver/1/src/debug.c
+END
+conf.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/conf.h
+END
+commandline.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/commandline.h
+END
+debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/smartwifi/!svn/ver/1/src/debug.h
+END
+fetchconf.c
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/smartwifi/!svn/ver/1/src/fetchconf.c
+END
+gateway.c
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/smartwifi/!svn/ver/1/src/gateway.c
+END
+auth.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/auth.c
+END
+fetchconf.h
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/smartwifi/!svn/ver/1/src/fetchconf.h
+END
+wdctl_thread.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/smartwifi/!svn/ver/1/src/wdctl_thread.c
+END
+gateway.h
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/smartwifi/!svn/ver/1/src/gateway.h
+END
+auth.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/src/auth.h
+END
+client_list.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/client_list.c
+END
+wdctl_thread.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/smartwifi/!svn/ver/1/src/wdctl_thread.h
+END
+httpd_thread.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/smartwifi/!svn/ver/1/src/httpd_thread.c
+END
+wdctl.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/smartwifi/!svn/ver/1/src/wdctl.c
+END
+client_list.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/client_list.h
+END
+httpd_thread.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/smartwifi/!svn/ver/1/src/httpd_thread.h
+END
+wdctl.h
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/smartwifi/!svn/ver/1/src/wdctl.h
+END
+ping_thread.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/ping_thread.c
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/smartwifi/!svn/ver/1/src/Makefile.am
+END
+ping_thread.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/src/ping_thread.h
+END
+common.h
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/smartwifi/!svn/ver/1/src/common.h
+END

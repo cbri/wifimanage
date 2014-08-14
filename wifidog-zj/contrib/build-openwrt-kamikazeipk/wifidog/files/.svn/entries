@@ -1,0 +1,40 @@
+8
+
+dir
+1
+http://124.127.116.187/svn/smartwifi/contrib/build-openwrt-kamikazeipk/wifidog/files
+http://124.127.116.187/svn/smartwifi
+
+
+
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+
+svn:special svn:externals svn:needs-lock
+
+wifidog.init
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+70b4d8b392129859e2c33a998b72a4d7
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+wifidog.conf
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+547b175b6bc22d3acc5aaecae8b80cbe
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+

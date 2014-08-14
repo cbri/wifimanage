@@ -1,0 +1,83 @@
+K 25
+svn:wc:ra_dav:version-url
+V 26
+/svn/smartwifi/!svn/ver/1/
+END
+wifidog-msg.html.in
+K 25
+svn:wc:ra_dav:version-url
+V 45
+/svn/smartwifi/!svn/ver/1/wifidog-msg.html.in
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/smartwifi/!svn/ver/1/AUTHORS
+END
+configure.in
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/smartwifi/!svn/ver/1/configure.in
+END
+wifidog.spec.in
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/smartwifi/!svn/ver/1/wifidog.spec.in
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 35
+/svn/smartwifi/!svn/ver/1/ChangeLog
+END
+FAQ
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/smartwifi/!svn/ver/1/FAQ
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/smartwifi/!svn/ver/1/COPYING
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/smartwifi/!svn/ver/1/Makefile.am
+END
+README.openwrt
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/smartwifi/!svn/ver/1/README.openwrt
+END
+autogen.sh
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/smartwifi/!svn/ver/1/autogen.sh
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 30
+/svn/smartwifi/!svn/ver/1/NEWS
+END
+wifidog.conf
+K 25
+svn:wc:ra_dav:version-url
+V 38
+/svn/smartwifi/!svn/ver/1/wifidog.conf
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 32
+/svn/smartwifi/!svn/ver/1/README
+END

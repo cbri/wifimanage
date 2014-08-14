@@ -1,0 +1,19 @@
+8
+
+dir
+1
+http://124.127.116.187/svn/smartwifi/scripts
+http://124.127.116.187/svn/smartwifi
+
+
+
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+
+svn:special svn:externals svn:needs-lock
+
+init.d
+dir
+

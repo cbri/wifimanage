@@ -1,0 +1,58 @@
+8
+
+dir
+1
+http://124.127.116.187/svn/smartwifi/contrib/airos/wifidog
+http://124.127.116.187/svn/smartwifi
+
+
+
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+
+svn:special svn:externals svn:needs-lock
+
+files.patch
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+2cf5f4cddceeaa33841bd996b07076a4
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+files
+dir
+
+patches
+dir
+
+readme.txt
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+5e71667e7e5bf2a9b48423f962bf26e0
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+Makefile
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+99d16635b8fa4a4e0103665e567d29f9
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+

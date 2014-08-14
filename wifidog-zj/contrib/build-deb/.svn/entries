@@ -1,0 +1,52 @@
+8
+
+dir
+1
+http://124.127.116.187/svn/smartwifi/contrib/build-deb
+http://124.127.116.187/svn/smartwifi
+
+
+
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+
+svn:special svn:externals svn:needs-lock
+
+control
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+50a678f67f41a9fe89b2b8b17394fdc5
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+changelog
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+3115dd9b6cfabed56029a6cc8ecd8f53
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+rules
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+ff20e8c94750fc9b71433a69fb008eaf
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+

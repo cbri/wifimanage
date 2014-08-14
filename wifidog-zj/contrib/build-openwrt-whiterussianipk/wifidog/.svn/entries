@@ -1,0 +1,46 @@
+8
+
+dir
+1
+http://124.127.116.187/svn/smartwifi/contrib/build-openwrt-whiterussianipk/wifidog
+http://124.127.116.187/svn/smartwifi
+
+
+
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+
+svn:special svn:externals svn:needs-lock
+
+files
+dir
+
+Config.in
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+9675ccf5f143abbada7650d85f657c09
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+
+ipkg
+dir
+
+Makefile
+file
+
+
+
+
+2014-01-26T02:28:28.000000Z
+2ffe12d706af78ba156782ab09b12232
+2014-08-05T11:07:04.493518Z
+1
+zhanggw
+

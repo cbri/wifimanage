@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/smartwifi/!svn/ver/1/contrib/build-openwrt-whiterussianipk/wifidog/ipkg
+END
+wifidog.conffiles
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/smartwifi/!svn/ver/1/contrib/build-openwrt-whiterussianipk/wifidog/ipkg/wifidog.conffiles
+END
+wifidog.control
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/smartwifi/!svn/ver/1/contrib/build-openwrt-whiterussianipk/wifidog/ipkg/wifidog.control
+END

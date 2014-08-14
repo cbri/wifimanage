@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/smartwifi/!svn/ver/1/contrib/build-deb
+END
+control
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/smartwifi/!svn/ver/1/contrib/build-deb/control
+END
+changelog
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/smartwifi/!svn/ver/1/contrib/build-deb/changelog
+END
+rules
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/smartwifi/!svn/ver/1/contrib/build-deb/rules
+END

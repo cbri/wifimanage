@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/smartwifi/!svn/ver/1/contrib/build-openwrt-kamikazeipk8.09up/wifidog/files
+END
+wifidog.init
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/smartwifi/!svn/ver/1/contrib/build-openwrt-kamikazeipk8.09up/wifidog/files/wifidog.init
+END
+wifidog.conf
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/smartwifi/!svn/ver/1/contrib/build-openwrt-kamikazeipk8.09up/wifidog/files/wifidog.conf
+END
