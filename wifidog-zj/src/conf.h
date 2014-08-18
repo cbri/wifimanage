@@ -141,6 +141,8 @@ typedef struct {
 				     firewall rules */
     char *gw_id;		/**< @brief ID of the Gateway, sent to central
 				     server */
+    char *gw_mac;		/**< @brief mac of the Gateway, sent to central
+				     server */
     char *gw_interface;		/**< @brief Interface we will accept connections on */
     char *gw_address;		/**< @brief Internal IP address for our web
 				     server */
@@ -149,6 +151,7 @@ typedef struct {
     t_serv	*auth_servers;	/**< @brief Auth servers list */
     t_serv	*plat_servers;	/**< @brief plat servers list */
     t_serv *portal_servers;	/**< @brief portal servers list */
+    t_serv *sub_servers;	/**< @brief submission servers list */
     char *httpdname;		/**< @brief Name the web server will return when
 				     replying to a request */
     int httpdmaxconn;		/**< @brief Used by libhttpd, not sure what it
@@ -193,6 +196,10 @@ t_serv *get_portal_server(void);
 
 /** @brief Get the active platform server */
 t_serv *get_plat_server(void);
+
+/** @brief Get the active submission server */
+t_serv *get_sub_server(void);
+
 
 
 /** @brief Bump server to bottom of the list */

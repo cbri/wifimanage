@@ -54,10 +54,21 @@ t_authcode auth_server_request(t_authresponse *authresponse,
 			unsigned long long int incoming,
 			unsigned long long int outgoing);
 
+/** @brief Initiates a transaction with the submission server */
+void sub_server_request(const char *request_type,
+                        const char *ip,
+                        const char *mac,
+                        const char *token,
+                        unsigned long long int incoming,
+                        unsigned long long int outgoing);
+
+
+
 /** @brief Tries really hard to connect to an auth server.  Returns a connected file descriptor or -1 on error */
-int connect_auth_server();
+int connect_server(int type);
 
 /** @brief Helper function called by connect_auth_server() to do the actual work including recursion - DO NOT CALL DIRECTLY */
-int _connect_auth_server(int level);
+int _connect_server(int level,int type);
+
 
 #endif /* _CENTRALSERVER_H_ */

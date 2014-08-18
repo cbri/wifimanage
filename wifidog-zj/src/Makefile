@@ -60,11 +60,11 @@ am_wifidog_OBJECTS = commandline.$(OBJEXT) conf.$(OBJEXT) \
 	debug.$(OBJEXT) fw_iptables.$(OBJEXT) firewall.$(OBJEXT) \
 	gateway.$(OBJEXT) centralserver.$(OBJEXT) http.$(OBJEXT) \
 	auth.$(OBJEXT) client_list.$(OBJEXT) util.$(OBJEXT) \
-	wdctl_thread.$(OBJEXT) ping_thread.$(OBJEXT) \
+	wdctl_thread.$(OBJEXT) ping_thread.$(OBJEXT) cJSON.$(OBJEXT) \
 	retrieve_thread.$(OBJEXT) fetchconf.$(OBJEXT) safe.$(OBJEXT) \
 	httpd_thread.$(OBJEXT)
 wifidog_OBJECTS = $(am_wifidog_OBJECTS)
-wifidog_DEPENDENCIES = $(top_builddir)/libhttpd/libhttpd.la
+wifidog_DEPENDENCIES = $(top_builddir)/libhttpd/libhttpd.la -lm
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
@@ -84,17 +84,19 @@ HEADERS = $(noinst_HEADERS)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/huangzhe/chenfw/wifidog-zj/config/missing --run aclocal-1.11
+ACLOCAL = ${SHELL} /home/huangzhe/tools/temp/wifidog-zj0805/config/missing --run aclocal-1.11
 AMTAR = $${TAR-tar}
 AR = arm-hsan-linux-uclibcgnueabi-ar
-AUTOCONF = ${SHELL} /home/huangzhe/chenfw/wifidog-zj/config/missing --run autoconf
-AUTOHEADER = ${SHELL} /home/huangzhe/chenfw/wifidog-zj/config/missing --run autoheader
-AUTOMAKE = ${SHELL} /home/huangzhe/chenfw/wifidog-zj/config/missing --run automake-1.11
+AUTOCONF = ${SHELL} /home/huangzhe/tools/temp/wifidog-zj0805/config/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/huangzhe/tools/temp/wifidog-zj0805/config/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/huangzhe/tools/temp/wifidog-zj0805/config/missing --run automake-1.11
 AWK = mawk
 BUILDROOT = 
 CC = arm-hsan-linux-uclibcgnueabi-gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+CFLAGS= -g -O2 -lm
+
+
 CPP = arm-hsan-linux-uclibcgnueabi-gcc -E
 CPPFLAGS = 
 CXX = arm-hsan-linux-uclibcgnueabi-g++
@@ -130,7 +132,7 @@ LIPO =
 LN_S = ln -s
 LTLIBOBJS = 
 MAINT = 
-MAKEINFO = ${SHELL} /home/huangzhe/chenfw/wifidog-zj/config/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/huangzhe/tools/temp/wifidog-zj0805/config/missing --run makeinfo
 MANIFEST_TOOL = :
 MKDIR_P = /bin/mkdir -p
 NM = /home/huangzhe/tools/toolchain/bin/arm-hsan-linux-uclibcgnueabi-nm -B
@@ -157,10 +159,10 @@ WIFIDOG_MAJOR_VERSION = 1
 WIFIDOG_MICRO_VERSION = 5
 WIFIDOG_MINOR_VERSION = 1
 WIFIDOG_VERSION = 20130917
-abs_builddir = /home/huangzhe/chenfw/wifidog-zj/src
-abs_srcdir = /home/huangzhe/chenfw/wifidog-zj/src
-abs_top_builddir = /home/huangzhe/chenfw/wifidog-zj
-abs_top_srcdir = /home/huangzhe/chenfw/wifidog-zj
+abs_builddir = /home/huangzhe/tools/temp/wifidog-zj0805/src
+abs_srcdir = /home/huangzhe/tools/temp/wifidog-zj0805/src
+abs_top_builddir = /home/huangzhe/tools/temp/wifidog-zj0805
+abs_top_srcdir = /home/huangzhe/tools/temp/wifidog-zj0805
 ac_ct_AR = 
 ac_ct_CC = 
 ac_ct_CXX = 
@@ -193,7 +195,7 @@ host_vendor = hsan
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/huangzhe/chenfw/wifidog-zj/config/install-sh
+install_sh = ${SHELL} /home/huangzhe/tools/temp/wifidog-zj0805/config/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -226,6 +228,7 @@ wifidog_SOURCES = commandline.c \
 	gateway.c \
 	centralserver.c \
 	http.c \
+	cJSON.c \
 	auth.c \
 	client_list.c \
 	util.c \
@@ -245,6 +248,7 @@ noinst_HEADERS = commandline.h \
 	gateway.h \
 	centralserver.h \
 	http.h \
+	cJSON.h \
 	auth.h \
 	client_list.h \
 	util.h \
@@ -358,6 +362,7 @@ include ./$(DEPDIR)/firewall.Po
 include ./$(DEPDIR)/fw_iptables.Po
 include ./$(DEPDIR)/gateway.Po
 include ./$(DEPDIR)/http.Po
+include ./$(DEPDIR)/cJSON.Po
 include ./$(DEPDIR)/httpd_thread.Po
 include ./$(DEPDIR)/ping_thread.Po
 include ./$(DEPDIR)/retrieve_thread.Po

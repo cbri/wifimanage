@@ -8,10 +8,11 @@ bin_PROGRAMS = wifidog \
 AM_CPPFLAGS = \
 	-I${top_srcdir}/libhttpd/ \
 	-DSYSCONFDIR='"$(sysconfdir)"' 
-wifidog_LDADD = $(top_builddir)/libhttpd/libhttpd.la
+wifidog_LDADD = $(top_builddir)/libhttpd/libhttpd.la -lm
 
 wifidog_SOURCES = commandline.c \
 	conf.c \
+	cJSON.c \
 	debug.c \
 	fw_iptables.c \
 	firewall.c \
@@ -31,6 +32,7 @@ wifidog_SOURCES = commandline.c \
 noinst_HEADERS = commandline.h \
 	common.h \
 	conf.h \
+	cJSON.h \
 	debug.h \
 	fw_iptables.h \
 	firewall.h \

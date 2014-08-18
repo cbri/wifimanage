@@ -82,6 +82,7 @@ typedef enum {
 	oAuthServer,
 	oPortalServer,
 	oPlatServer,
+	oSubServer,
 	oServHostname,
 	oServSSLAvailable,
 	oServSSLPort,
@@ -125,6 +126,7 @@ static const struct {
 	{ "authserver",         	oAuthServer },
 	{ "portalserver",         	oPortalServer },
 	{ "platformserver",         	oPlatServer },
+	{ "submissionserver",         	oSubServer },
 	{ "httpdmaxconn",       	oHTTPDMaxConn },
 	{ "httpdname",          	oHTTPDName },
 	{ "httpdrealm",			oHTTPDRealm },
@@ -182,11 +184,13 @@ config_init(void)
 	config.external_interface = NULL;
 	config.gw_id = safe_strdup(DEFAULT_GATEWAYID);
 	config.gw_interface = NULL;
+	config.gw_mac = NULL;
 	config.gw_address = NULL;
 	config.gw_port = DEFAULT_GATEWAYPORT;
 	config.auth_servers = NULL;
 	config.portal_servers = NULL;
 	config.plat_servers = NULL;
+	config.sub_servers = NULL;
 	config.httpdname = NULL;
 	config.httpdrealm = DEFAULT_HTTPDNAME;
 	config.httpdusername = NULL;
@@ -438,6 +442,31 @@ parse_server(FILE *file, const char *filename, int *linenum,int type)
 			}
 			debug(LOG_DEBUG, "Platform server added");
 			break;
+		case 4:
+                        h_addr = wd_gethostbyname(new->serv_hostname);
+                        if(h_addr){
+                                ip = safe_strdup(inet_ntoa(*h_addr));
+
+                                if (!new->last_ip || strcmp(new->last_ip, ip) != 0) {
+                                        if (new->last_ip) free(new->last_ip);
+                                        new->last_ip = ip;
+
+                                }
+                                else {
+                                        free(ip);
+                                }
+                                free(h_addr);
+
+                        }
+                        if (config.sub_servers == NULL) {
+                                config.sub_servers = new;
+                        } else {
+                                for (tmp = config.sub_servers; tmp->next != NULL;
+                                                tmp = tmp->next);
+                                tmp->next = new;
+                        }
+                        debug(LOG_DEBUG, "Submission server added");
+                        break;
 		default:
 			debug(LOG_ERR, "Bad option on line %d "
 				"in %s.", *linenum,
@@ -794,6 +823,10 @@ config_read(const char *filename)
 					parse_server(fd, filename,
 							&linenum,3);
 					break;
+				case oSubServer:
+                                        parse_server(fd, filename,
+                                                        &linenum,4);
+                                        break;
 				case oFirewallRuleSet:
 					parse_firewall_ruleset(p1, fd, filename, &linenum);
 					break;
@@ -976,6 +1009,17 @@ get_plat_server(void)
 
         /* This is as good as atomic */
         return config.plat_servers;
+}
+
+/**
+ * This function returns the current (first submission_server)
+ */
+t_serv *
+get_sub_server(void)
+{
+
+        /* This is as good as atomic */
+        return config.sub_servers;
 }
 /**
  * This function marks the current auth_server, if it matches the argument,

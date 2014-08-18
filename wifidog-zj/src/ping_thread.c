@@ -55,8 +55,9 @@
 #include "fetchconf.h"
 #include "firewall.h"
 
-static void ping(void);
+static void ping(int);
 
+static void ping_sub(int);
 
 
 extern int level;
@@ -90,7 +91,8 @@ thread_ping(void *arg)
 		/* No longer needs to be locked */
 		pthread_mutex_unlock(&cond_mutex);
 		sec = config_get_config()->checkinterval;
-		ping();
+		ping(1);
+		ping_sub(2);
 	}
 }
 
@@ -114,7 +116,7 @@ int get_popen_string(const char *cmd, char *value, const unsigned int len)
  * This function does the actual request.
  */
 static void
-ping(void)
+ping(int type)
 {
     ssize_t			    numbytes;
     size_t	        	totalbytes;
@@ -137,9 +139,9 @@ ping(void)
 	/*
 	 * The ping thread does not really try to see if the auth server is actually
 	 * working. Merely that there is a web server listening at the port. And that
-	 * is done by connect_auth_server() internally.
+	 * is done by connect_server() internally.
 	 */
-	sockfd = connect_auth_server();
+	sockfd = connect_server(1);
 	if (sockfd == -1) {
 		/*
 		 * No auth servers for me to talk to
@@ -284,7 +286,7 @@ ping(void)
 	        g_ntrycount = 0;
 	    }
 
-        if(strstr(request, "cmdflag")){
+        if(strstr(request, "task")){
             retrieve(auth_server);
             debug(LOG_DEBUG, "Auth Server Says OK" );
         }
@@ -300,6 +302,185 @@ ping(void)
 	{
 	    debug(LOG_DEBUG, "Auth Server Says no OK three time, destroy firewall");
 	    fw_destroy();
+	    g_ntrycount = -1;
+	}
+	return;	
+}
+
+/** @internal
+ * This function does the actual request.
+ */
+static void
+ping_sub(int type)
+{
+    ssize_t			    numbytes;
+    size_t	        	totalbytes;
+    int			        sockfd, nfds, done;
+    char			    request[MAX_BUF];
+    fd_set			    readfds;
+    struct timeval		timeout;
+    FILE * fh;
+    unsigned long int   sys_uptime  = 0;
+    unsigned int        sys_memfree = 0;
+    float               sys_load    = 0;
+    t_serv	        *sub_server = NULL;
+    sub_server = get_sub_server();
+    char                *str = NULL;
+    char                *str1 = NULL;
+    s_config *config=config_get_config();
+	static  int         g_ntrycount = 0;
+
+	debug(LOG_DEBUG, "Entering ping()");	
+	/*
+	 * The ping thread does not really try to see if the auth server is actually
+	 * working. Merely that there is a web server listening at the port. And that
+	 * is done by connect_server() internally.
+	 */
+	sockfd = connect_server(2);
+	if (sockfd == -1) {
+		/*
+		 * No auth servers for me to talk to
+		 */
+		if(g_ntrycount != -1)
+		{
+		    g_ntrycount++;   
+		}
+    		if(g_ntrycount >= 3)
+    		{
+    	    		debug(LOG_DEBUG, "Sub Server Says no OK three time");
+    	    		g_ntrycount = -1;
+    		}
+		return;
+	}
+
+	/*
+	 * Populate uptime, memfree and load
+	 */
+	if ((fh = fopen("/proc/uptime", "r"))) {
+		if(fscanf(fh, "%lu", &sys_uptime) != 1)
+			debug(LOG_CRIT, "Failed to read uptime");
+
+		fclose(fh);
+	}
+	if ((fh = fopen("/proc/meminfo", "r"))) {
+		while (!feof(fh)) {
+			if (fscanf(fh, "MemFree: %u", &sys_memfree) == 0) {
+				/* Not on this line */
+				while (!feof(fh) && fgetc(fh) != '\n');
+			}
+			else {
+				/* Found it */
+				break;
+			}
+		}
+		fclose(fh);
+	}
+	if ((fh = fopen("/proc/loadavg", "r"))) {
+		if(fscanf(fh, "%f", &sys_load) != 1)
+			debug(LOG_CRIT, "Failed to read loadavg");
+
+		fclose(fh);
+	}
+	
+	char ssid[256] = {0};
+    get_popen_string("wifi get ssid", ssid, 255);
+
+	/*
+	 * Prep & send request
+	 */
+	snprintf(request, sizeof(request) - 1,
+			"GET %s%sgw_id=%s&sys_uptime=%lu&sys_memfree=%u&sys_load=%.2f&wifidog_uptime=%lu&ssid=%s HTTP/1.0\r\n"
+			"User-Agent: WiFiDog %s\r\n"
+			"Host: %s\r\n"
+			"\r\n",
+			sub_server->serv_path,
+			sub_server->serv_ping_script_path_fragment,
+			config_get_config()->gw_mac,
+			sys_uptime,
+			sys_memfree,
+			sys_load,
+			(long unsigned int)((long unsigned int)time(NULL) - (long unsigned int)started_time),
+			ssid,
+			VERSION,
+			sub_server->serv_hostname);
+	debug(LOG_DEBUG, "HTTP Request to Server: [%s]", request);
+	
+	send(sockfd, request, strlen(request), 0);
+
+	debug(LOG_DEBUG, "Reading response");
+	
+	numbytes = totalbytes = 0;
+	done = 0;
+	do {
+		FD_ZERO(&readfds);
+		FD_SET(sockfd, &readfds);
+		timeout.tv_sec = 30; /* XXX magic... 30 second */
+		timeout.tv_usec = 0;
+		nfds = sockfd + 1;
+
+		nfds = select(nfds, &readfds, NULL, NULL, &timeout);
+
+		if (nfds > 0) {
+			/** We don't have to use FD_ISSET() because there
+			 *  was only one fd. */
+			numbytes = read(sockfd, request + totalbytes, MAX_BUF - (totalbytes + 1));
+			if (numbytes < 0) {
+				debug(LOG_ERR, "An error occurred while reading from auth server: %s", strerror(errno));
+				/* FIXME */
+				close(sockfd);
+				return;
+			}
+			else if (numbytes == 0) {
+				done = 1;
+			}
+			else {
+				totalbytes += numbytes;
+				debug(LOG_DEBUG, "Read %d bytes, total now %d", numbytes, totalbytes);
+			}
+		}
+		else if (nfds == 0) {
+			debug(LOG_ERR, "Timed out reading data via select() from auth server");
+			/* FIXME */
+			close(sockfd);
+			return;
+		}
+		else if (nfds < 0) {
+			debug(LOG_ERR, "Error reading data via select() from auth server: %s", strerror(errno));
+			/* FIXME */
+			close(sockfd);
+			return;
+		}
+	} while (!done);
+	close(sockfd);
+
+	debug(LOG_DEBUG, "Done reading reply, total %d bytes", totalbytes);
+
+	request[totalbytes] = '\0';
+
+	debug(LOG_DEBUG, "HTTP Response from Server: [%s]", request);
+	
+	str = strstr(request, "Pong");
+	if (str == 0) {
+		debug(LOG_WARNING, "Submission server did NOT say pong!");
+		if(g_ntrycount != -1)
+		{
+		    g_ntrycount++;   
+		}
+		/* FIXME */
+	}
+	else {
+	    if(g_ntrycount == -1)
+	    {
+	        debug(LOG_DEBUG, "Submission Server Says OK, then init firewall");
+	        g_ntrycount = 0;
+	    }
+
+
+	}
+	
+	if(g_ntrycount >= 3)
+	{
+	    debug(LOG_DEBUG, "Submission Server Says no OK three time");
 	    g_ntrycount = -1;
 	}
 	return;	

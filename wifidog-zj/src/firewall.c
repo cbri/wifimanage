@@ -290,6 +290,9 @@ fw_sync_with_authserver(void)
         if (config->auth_servers != NULL) {
             auth_server_request(&authresponse, REQUEST_TYPE_COUNTERS, ip, mac, token, incoming, outgoing);
         }
+        if (config->sub_servers != NULL) {
+            sub_server_request( REQUEST_TYPE_COUNTERS, ip, mac, token, incoming, outgoing);
+        }
 	    LOCK_CLIENT_LIST();
 
         if (!(p1 = client_list_find(ip, mac))) {
@@ -311,6 +314,11 @@ fw_sync_with_authserver(void)
                 if (config->auth_servers != NULL) {
 					UNLOCK_CLIENT_LIST();
 					auth_server_request(&authresponse, REQUEST_TYPE_LOGOUT, ip, mac, token, 0, 0);
+					LOCK_CLIENT_LIST();
+                }
+                if (config->sub_servers != NULL) {
+					UNLOCK_CLIENT_LIST();
+					sub_server_request(REQUEST_TYPE_LOGOUT, ip, mac, token, 0, 0);
 					LOCK_CLIENT_LIST();
                 }
             } else {

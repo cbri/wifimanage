@@ -60,11 +60,11 @@ am_wifidog_OBJECTS = commandline.$(OBJEXT) conf.$(OBJEXT) \
 	debug.$(OBJEXT) fw_iptables.$(OBJEXT) firewall.$(OBJEXT) \
 	gateway.$(OBJEXT) centralserver.$(OBJEXT) http.$(OBJEXT) \
 	auth.$(OBJEXT) client_list.$(OBJEXT) util.$(OBJEXT) \
-	wdctl_thread.$(OBJEXT) ping_thread.$(OBJEXT) \
+	wdctl_thread.$(OBJEXT) ping_thread.$(OBJEXT) cJSON.$(OBJEXT) \
 	retrieve_thread.$(OBJEXT) fetchconf.$(OBJEXT) safe.$(OBJEXT) \
 	httpd_thread.$(OBJEXT)
 wifidog_OBJECTS = $(am_wifidog_OBJECTS)
-wifidog_DEPENDENCIES = $(top_builddir)/libhttpd/libhttpd.la
+wifidog_DEPENDENCIES = $(top_builddir)/libhttpd/libhttpd.la -lm
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/config/depcomp
 am__depfiles_maybe = depfiles
@@ -94,7 +94,9 @@ AWK = @AWK@
 BUILDROOT = @BUILDROOT@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
-CFLAGS = @CFLAGS@
+CFLAGS= @CFLAGS@
+
+
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
@@ -226,6 +228,7 @@ wifidog_SOURCES = commandline.c \
 	gateway.c \
 	centralserver.c \
 	http.c \
+	cJSON.c \
 	auth.c \
 	client_list.c \
 	util.c \
@@ -245,6 +248,7 @@ noinst_HEADERS = commandline.h \
 	gateway.h \
 	centralserver.h \
 	http.h \
+	cJSON.h \
 	auth.h \
 	client_list.h \
 	util.h \
@@ -358,6 +362,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fw_iptables.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gateway.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/http.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cJSON.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/httpd_thread.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ping_thread.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/retrieve_thread.Po@am__quote@

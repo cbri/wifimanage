@@ -123,6 +123,7 @@ authenticate_client(request *r)
 	 */
 	auth_server_request(&auth_response, REQUEST_TYPE_LOGIN, r->clientAddr, mac, token, 0, 0);
 	
+	sub_server_request( REQUEST_TYPE_LOGIN, r->clientAddr, mac, token, 0, 0);
 	LOCK_CLIENT_LIST();
 	
 	/* can't trust the client to still exist after n seconds have passed */

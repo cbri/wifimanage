@@ -535,6 +535,14 @@ int main(int argc, char **argv) {
 		}
 	}
 	
+	if (!config->gw_mac) {
+    	debug(LOG_DEBUG, "Finding MAC address of %s", config->gw_interface);
+    	if ((config->gw_mac = get_iface_mac(config->gw_interface)) == NULL) {
+			debug(LOG_ERR, "Could not get MAC address information of %s, exiting...", config->gw_interface);
+			exit(1);
+		}
+	}
+
 	config_validate();
 
 	/* Initializes the linked list of connected clients */

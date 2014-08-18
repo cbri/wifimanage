@@ -306,6 +306,12 @@ http_callback_auth(httpd *webserver, request *r)
 					http_send_redirect_to_auth(r, urlFragment, "Redirect to logout message");
 					free(urlFragment);
 			    }
+			    if (config->sub_servers != NULL) {
+                                        UNLOCK_CLIENT_LIST();
+                                        sub_server_request(REQUEST_TYPE_LOGOUT, ip, mac, token->value,
+                                                                            incoming, outgoing);
+                                        LOCK_CLIENT_LIST();
+			    }
 			    free(ip);
  			} 
  			else {

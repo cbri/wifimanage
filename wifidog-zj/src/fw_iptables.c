@@ -282,6 +282,29 @@ iptables_fw_set_platservers(void)
 
 }
 
+        void
+iptables_fw_clear_subservers(void)
+{
+        iptables_do_command("-t filter -F " TABLE_WIFIDOG_PLATSERVERS);
+        iptables_do_command("-t nat -F " TABLE_WIFIDOG_PLATSERVERS);
+}
+
+        void
+iptables_fw_set_subservers(void)
+{
+        const s_config *config;
+        t_serv *sub_server;
+
+        config = config_get_config();
+
+        for (sub_server = config->sub_servers; sub_server != NULL; sub_server = sub_server->next) {
+                if (sub_server->last_ip && strcmp(sub_server->last_ip, "0.0.0.0") != 0) {
+                        iptables_do_command("-t filter -A " TABLE_WIFIDOG_SUBSERVERS " -d %s -j ACCEPT", sub_server->last_ip);
+                        iptables_do_command("-t nat -A " TABLE_WIFIDOG_SUBSERVERS " -d %s -j ACCEPT", sub_server->last_ip);
+                }
+        }
+
+}
 /** Initialize the firewall rules
 */
 	int
@@ -342,6 +365,7 @@ iptables_fw_init(void)
 	iptables_do_command("-t nat -N " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t nat -N " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t nat -N " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t nat -N " TABLE_WIFIDOG_SUBSERVERS);
 
 	/* Assign links and rules to these new chains */
 	iptables_do_command("-t nat -A PREROUTING -i %s -j " TABLE_WIFIDOG_OUTGOING, config->gw_interface);
@@ -364,6 +388,7 @@ iptables_fw_init(void)
 	iptables_do_command("-t nat -A " TABLE_WIFIDOG_UNKNOWN " -j " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t nat -A " TABLE_WIFIDOG_UNKNOWN " -j " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t nat -A " TABLE_WIFIDOG_UNKNOWN " -j " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t nat -A " TABLE_WIFIDOG_UNKNOWN " -j " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_do_command("-t nat -A " TABLE_WIFIDOG_UNKNOWN " -j " TABLE_WIFIDOG_GLOBAL);
 	iptables_do_command("-t nat -A " TABLE_WIFIDOG_UNKNOWN " -p tcp --dport 80 -j REDIRECT --to-ports %d", gw_port);
 
@@ -379,6 +404,7 @@ iptables_fw_init(void)
 	iptables_do_command("-t filter -N " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t filter -N " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t filter -N " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t filter -N " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_do_command("-t filter -N " TABLE_WIFIDOG_LOCKED);
 	iptables_do_command("-t filter -N " TABLE_WIFIDOG_GLOBAL);
 	iptables_do_command("-t filter -N " TABLE_WIFIDOG_VALIDATE);
@@ -406,9 +432,11 @@ iptables_fw_init(void)
 	iptables_do_command("-t filter -A " TABLE_WIFIDOG_WIFI_TO_INTERNET " -j " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t filter -A " TABLE_WIFIDOG_WIFI_TO_INTERNET " -j " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t filter -A " TABLE_WIFIDOG_WIFI_TO_INTERNET " -j " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t filter -A " TABLE_WIFIDOG_WIFI_TO_INTERNET " -j " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_fw_set_authservers();
 	iptables_fw_set_portalservers();
 	iptables_fw_set_platservers();
+	iptables_fw_set_subservers();
 
 	iptables_do_command("-t filter -A " TABLE_WIFIDOG_WIFI_TO_INTERNET " -m mark --mark 0x%u/0xfffffffc -j " TABLE_WIFIDOG_LOCKED, FW_MARK_LOCKED);
 	iptables_load_ruleset("filter", "locked-users", TABLE_WIFIDOG_LOCKED);
@@ -468,6 +496,7 @@ iptables_fw_destroy(void)
 	iptables_do_command("-t nat -F " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t nat -F " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t nat -F " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t nat -F " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_do_command("-t nat -F " TABLE_WIFIDOG_OUTGOING);
 	iptables_do_command("-t nat -F " TABLE_WIFIDOG_WIFI_TO_ROUTER);
 	iptables_do_command("-t nat -F " TABLE_WIFIDOG_WIFI_TO_INTERNET);
@@ -476,6 +505,7 @@ iptables_fw_destroy(void)
 	iptables_do_command("-t nat -X " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t nat -X " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t nat -X " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t nat -X " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_do_command("-t nat -X " TABLE_WIFIDOG_OUTGOING);
 	iptables_do_command("-t nat -X " TABLE_WIFIDOG_WIFI_TO_ROUTER);
 	iptables_do_command("-t nat -X " TABLE_WIFIDOG_WIFI_TO_INTERNET);
@@ -493,6 +523,7 @@ iptables_fw_destroy(void)
 	iptables_do_command("-t filter -F " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t filter -F " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t filter -F " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t filter -F " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_do_command("-t filter -F " TABLE_WIFIDOG_LOCKED);
 	iptables_do_command("-t filter -F " TABLE_WIFIDOG_GLOBAL);
 	iptables_do_command("-t filter -F " TABLE_WIFIDOG_VALIDATE);
@@ -502,6 +533,7 @@ iptables_fw_destroy(void)
 	iptables_do_command("-t filter -X " TABLE_WIFIDOG_AUTHSERVERS);
 	iptables_do_command("-t filter -X " TABLE_WIFIDOG_PORTALSERVERS);
 	iptables_do_command("-t filter -X " TABLE_WIFIDOG_PLATSERVERS);
+	iptables_do_command("-t filter -X " TABLE_WIFIDOG_SUBSERVERS);
 	iptables_do_command("-t filter -X " TABLE_WIFIDOG_LOCKED);
 	iptables_do_command("-t filter -X " TABLE_WIFIDOG_GLOBAL);
 	iptables_do_command("-t filter -X " TABLE_WIFIDOG_VALIDATE);

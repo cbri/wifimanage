@@ -438,7 +438,7 @@ fetchconf()
 	auth_server = get_auth_server();
 	
 	
-	sockfd = connect_auth_server();
+	sockfd = connect_server(1);
 	if (sockfd == -1||level ==1) {
 	
 		return;

@@ -38,6 +38,7 @@
 #define TABLE_WIFIDOG_AUTHSERVERS "$ID$_AuthServers"
 #define TABLE_WIFIDOG_PORTALSERVERS "$ID$_portalServers"
 #define TABLE_WIFIDOG_PLATSERVERS "$ID$_platServers"
+#define TABLE_WIFIDOG_SUBSERVERS "$ID$_subServers"
 #define TABLE_WIFIDOG_GLOBAL  "$ID$_Global"
 #define TABLE_WIFIDOG_VALIDATE  "$ID$_Validate"
 #define TABLE_WIFIDOG_KNOWN     "$ID$_Known"
@@ -72,6 +73,12 @@ void iptables_fw_set_platservers(void);
 
 /** @brief Clears the platservers table */
 void iptables_fw_clear_platservers(void);
+
+/** @brief Initializes the subservers table */
+void iptables_fw_set_subservers(void);
+
+/** @brief Clears the subservers table */
+void iptables_fw_clear_subservers(void);
 
 /** @brief Destroy the firewall */
 int iptables_fw_destroy(void);
