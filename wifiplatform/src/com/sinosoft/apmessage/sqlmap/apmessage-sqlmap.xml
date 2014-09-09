@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="apmessage">
+	<typeAlias alias="ApMessage" type="com.sinosoft.apmessage.bean.ApMessage"/>
+		<select id="searchApbyid" resultClass="ApMessage"  parameterClass="map">  
+	select 
+aadneauthip.*
+,authip.ipaddr
+from
+(
+	select
+	aadneauth.*
+	,authmode.auth_type
+	from
+	(
+		select  
+		aadne.*
+		,c.merchant
+		from
+		(
+			select 
+			aad.*, 	
+			ane.hardware_ver,
+			ane.software_ver,
+			ane.gwip
+			
+			from
+			(
+				SELECT
+					a.id,
+					a.NAME,
+					a.mac,
+					a.remote_addr,
+					a.sys_memfree,
+					a.update_time,
+					a.last_seen,
+					a.redirect_url,
+					a.portal_url,
+					a.sys_upload,
+					a.created_at,
+					a.updated_at,
+					a.configflag,
+					a.cmdline,
+					a.time_limit,
+					a.lat,
+					a.developer,
+					a.cmdflag,
+					a.long,
+					a.sys_uptime,
+					a.ssid,
+							ad.province,
+							ad.city,
+							ad.district,
+							ad.detail
+			FROM
+				access_nodes a
+				LEFT JOIN addresses ad
+				ON a.id = ad.access_node_id
+				<dynamic prepend="where">
+				<isNotEmpty property="id">
+				a.id = #id#
+				</isNotEmpty>
+				</dynamic>
+			) aad 
+			LEFT JOIN access_nodes_exp ane
+			ON  aad.id = ane.access_node_id
+		) aadne
+		LEFT JOIN contacts c
+		on aadne.id = c.access_node_id
+	) aadneauth
+	left join auths authmode
+	on aadneauth.id = authmode.access_node_id
+	
+) aadneauthip
+LEFT JOIN cloudwifi_manage.authservers authip
+on aadneauthip.mac = authip.node_mac
+order by aadneauthip.created_at desc
+;
+     </select>
+     		<select id="findMerchantByid" resultClass="Hashmap"  parameterClass="map">  
+			SELECT 
+			 c.merchant,
+			 c.name as mname,
+			 c.phonenum,
+			 c.email,
+			 c.telephonenum,
+			 c.weixin
+			FROM contacts c
+			where c.access_node_id=#id#
+     </select>
+	 <select id="findCodeByid" resultClass="Hashmap"  parameterClass="java.lang.Long">  
+			SELECT 
+			code
+			FROM cloudwifi_manage.user_district_rel 
+			where userid=#userid#
+     </select>
+      <select id="searchbyCode" resultClass="ApMessage" parameterClass="map">  
+			select 
+aadneip.*
+,auth.ipaddr
+from
+(
+	select  
+	aadne.*,
+	 c.merchant,
+	 c.name as mname,
+	 c.phonenum,
+	 c.email,
+	 c.telephonenum,
+	 c.weixin
+	from
+	(
+		select aad.*, 	
+		ane.hardware_ver,
+			ane.software_ver,
+			ane.gwip,
+			 ane.premodel_ip
+
+		from
+		(
+			SELECT
+				a.id,
+				a.NAME,
+				a.mac,
+				a.remote_addr,
+				a.sys_memfree,
+				a.update_time,
+				a.last_seen,
+				a.redirect_url,
+				a.portal_url,
+				a.sys_upload,
+				a.created_at,
+				a.updated_at,
+				a.configflag,
+				a.cmdline,
+				a.ssid,
+				a.time_limit,
+				a.lat,
+				a.developer,
+				a.cmdflag,
+				a.long as long1,
+				a.sys_uptime as uptime,
+						ad.province,
+						ad.city,
+						ad.district,
+						ad.detail
+		FROM
+			access_nodes a
+			LEFT JOIN addresses ad
+			ON a.id = ad.access_node_id
+			
+			<dynamic prepend="where">
+					(ad.province=#pcode#
+					<isNotEmpty property="cityCodes">
+						AND ad.city IN
+						<iterate open="(" close=")" conjunction="," property="cityCodes">    
+				              #cityCodes[]# 
+				        </iterate>
+					</isNotEmpty>
+					<isNotEmpty property="districtCodes">
+						AND ad.district IN
+						<iterate open="(" close=")" conjunction="," property="districtCodes">    
+				              #districtCodes[]# 
+				        </iterate>
+					</isNotEmpty>)
+				<isNotEmpty property="mac">
+					and a.mac=#mac#
+				</isNotEmpty>
+			</dynamic>
+		) aad 
+		LEFT JOIN access_nodes_exp ane
+		ON  aad.id = ane.access_node_id
+	) aadne
+	LEFT JOIN contacts c
+	on aadne.id = c.access_node_id
+) aadneip
+LEFT JOIN cloudwifi_manage.authservers auth
+on aadneip.mac = auth.node_mac
+	order by aadneip.last_seen desc 
+	<isNotEmpty property="pagenum">
+		LIMIT #pagenum#,#pagesize#
+	</isNotEmpty>
+     </select>
+     <select id="highranksearch" resultClass="ApMessage" parameterClass="map">  
+				select 
+				aadneip.*
+				,auth.ipaddr
+				from
+				(
+					select  
+					aadne.*,
+					 c.merchant,
+					 c.name as mname,
+					 c.phonenum,
+					 c.email,
+					 c.telephonenum,
+					 c.weixin
+					from
+					(
+						select aad.*, 	
+						ane.hardware_ver,
+							ane.software_ver,
+							ane.gwip,
+							 ane.premodel_ip
+							
+						from
+						(
+							SELECT
+								a.id,
+								a.NAME,
+								a.mac,
+								a.remote_addr,
+								a.sys_memfree,
+								a.update_time,
+								a.last_seen,
+								a.redirect_url,
+								a.portal_url,
+								a.sys_upload,
+								a.created_at,
+								a.updated_at,
+								a.configflag,
+								a.cmdline,
+								a.time_limit,
+								a.lat,
+								a.ssid,
+								a.developer,
+								a.cmdflag,
+								a.long as long1,
+								a.sys_uptime as uptime,
+										ad.province,
+										ad.city,
+										ad.district,
+										ad.detail
+						FROM
+							access_nodes a
+							LEFT JOIN addresses ad
+							ON a.id = ad.access_node_id
+						<dynamic prepend="where">
+							<isNotEmpty prepend="and" property="province_code">
+								ad.province = #province_code#
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="city_code">
+								ad.city = #city_code#
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="district_code">
+								ad.district = #district_code#
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="id">
+								a.id =#id#
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="name">
+								a.name like '%$name$%'
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="mac">
+								a.mac like '%$mac$%'
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="starttime">
+								<![CDATA[ 
+								 UNIX_TIMESTAMP(a.created_at)>=UNIX_TIMESTAMP(#starttime#)
+								 ]]> 
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="endtime">
+								<![CDATA[ 
+								 UNIX_TIMESTAMP(a.created_at)<=UNIX_TIMESTAMP(#endtime#)
+								 ]]> 
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="online">
+								<![CDATA[ 
+								(UNIX_TIMESTAMP(#online#)-UNIX_TIMESTAMP(a.last_seen))<70
+								 ]]> 
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="outline">
+								<![CDATA[ 
+								(UNIX_TIMESTAMP(#outline#)-UNIX_TIMESTAMP(a.last_seen))>=70
+								 ]]> 
+							</isNotEmpty>
+							</dynamic>
+						) aad 
+						LEFT JOIN access_nodes_exp ane
+						ON  aad.id = ane.access_node_id
+						<dynamic prepend="where">
+						<isNotEmpty prepend="and" property="software_ver">
+								ane.software_ver like '%$software_ver$%'
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="hardware_ver">
+								ane.hardware_ver like '%$hardware_ver$%'
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="gwip">
+								ane.gwip like '%$gwip$%'
+							</isNotEmpty>
+							<isNotEmpty prepend="and" property="ssid">
+								ane.ssid like '%$ssid$%'
+							</isNotEmpty>
+						
+							</dynamic>
+					) aadne
+					LEFT JOIN contacts c
+					on aadne.id = c.access_node_id
+						<dynamic prepend="where">
+							<isNotEmpty prepend="and" property="merchant">
+								c.merchant like '%$merchant$%'
+							</isNotEmpty>
+						</dynamic>
+				) aadneip
+				LEFT JOIN cloudwifi_manage.authservers auth
+				on aadneip.mac = auth.node_mac
+					<dynamic prepend="where">
+							<isNotEmpty prepend="and" property="ipaddr">
+								auth.ipaddr like '%$ipaddr$%'
+							</isNotEmpty>
+						</dynamic>
+				
+				order by aadneip.last_seen desc
+				<isNotEmpty property="pagenum">
+					LIMIT #pagenum#,#pagesize#
+	</isNotEmpty>
+     </select>
+     <select id="init" resultClass="hashmap" parameterClass="map">  
+			SELECT 
+			code,
+			name
+			FROM cloudwifi_manage.user_district_rel 
+			<dynamic prepend="where">
+				<isNotNull prepend="and" >
+					userid =#userid#
+				</isNotNull>
+				<isNotNull prepend="and" >
+					level =#level#
+				</isNotNull>
+			</dynamic>
+			order by code
+     </select>
+     <select id="initProvince" resultClass="hashmap" parameterClass="map">  
+			SELECT 
+			code,
+			name
+			FROM cloudwifi_manage.addr_province
+			where code in
+			 <iterate open="(" close=")" conjunction="," property="codeList">    
+		                	#codeList[]# 
+		      </iterate>
+			order by code
+     </select>
+     <select id="findCitybycode" resultClass="hashmap" parameterClass="map">  
+			SELECT 
+			code,
+			name
+			FROM cloudwifi_manage.addr_city 
+			where province_code in 
+						 <iterate open="(" close=")" conjunction="," property="codelist">    
+		                	#codelist[]# 
+		            	</iterate>
+			order by code
+     </select>
+     <select id="findDistrictByCode" resultClass="hashmap" parameterClass="map">  
+			SELECT 
+			code,
+			name
+			FROM cloudwifi_manage.addr_district
+			where city_code in
+			 <iterate open="(" close=")" conjunction="," property="codelist">    
+		                	#codelist[]# 
+		            	</iterate>
+			order by code
+     </select>
+	 
+	  <select id="queryById" resultClass="hashmap" parameterClass="java.lang.String">  
+			select merchant_name from merchant_info where id=#id#
+     </select>
+	 <!--查询日志表信息-->
+	 <select id="queryprotocol_set_log" resultClass="hashmap" parameterClass="map">  
+			select * from $tablename$ where 1=1 
+		<dynamic>
+			<isNotEmpty prepend="and" property="userid">
+				userid=#userid# 
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">
+				id=#id# 
+			</isNotEmpty>
+		</dynamic> 
+		<dynamic>
+			<isNotEmpty prepend="and" property="mac">
+				mac like '%$mac$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="code">
+				code like '$code$%'
+			</isNotEmpty>
+		</dynamic>
+     </select>
+	 <select id="queryportal_set_log" resultClass="hashmap" parameterClass="map">  
+			select * from $tablename$ where 1=1
+		<dynamic>
+			<isNotEmpty prepend="and" property="userid">
+				userid=#userid# 
+			</isNotEmpty>
+		</dynamic> 
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">
+				id=#id# 
+			</isNotEmpty>
+		</dynamic> 
+		<dynamic>
+			<isNotEmpty prepend="and" property="mac">
+				mac like '%$mac$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="code">
+				code like '$code$%'
+			</isNotEmpty>
+		</dynamic>
+     </select>
+	 <select id="queryinternet_limit_log" resultClass="hashmap" parameterClass="map">  
+			select * from $tablename$ where 1=1 
+		<dynamic>
+			<isNotEmpty prepend="and" property="userid">
+				userid=#userid# 
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">
+				id=#id# 
+			</isNotEmpty>
+		</dynamic> 
+		<dynamic>
+			<isNotEmpty prepend="and" property="mac">
+				mac like '%$mac$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="code">
+				code like '$code$%'
+			</isNotEmpty>
+		</dynamic>
+     </select>
+	 <select id="queryupgrade_ctrl_log" resultClass="hashmap" parameterClass="map" >  
+			select * from $tablename$ where 1=1 
+		<dynamic>
+			<isNotEmpty prepend="and" property="userid">
+				userid=#userid# 
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="id">
+				id=#id# 
+			</isNotEmpty>
+		</dynamic> 
+		<dynamic>
+			<isNotEmpty prepend="and" property="mac">
+				mac like '%$mac$%'
+			</isNotEmpty>
+		</dynamic>
+		<dynamic>
+			<isNotEmpty prepend="and" property="code">
+				code like '$code$%'
+			</isNotEmpty>
+		</dynamic>
+     </select>
+	 <!--协议设置日志插入，Protocol_set_log数据插入 mysql该表设置了主键ID自增长-->
+	 <insert id="insertProtocol_set_log" parameterClass="map">
+		insert into protocol_set_log(authenticate,heartbeat,apid,visitor_num,mac,offline_judge,
+		set_result,runtime,userid,set_time,execute_time,code,merchant_name,authinterval)
+		 values(#authenticate#,#heartbeat#,#apid#,#visitor_num#,#mac#,#offline_judge#,
+		 #set_result#,#runtime#,#userid#,#set_time#,#execute_time#,#code#,#merchant_name#,#authinterval#);
+	</insert>
+	
+	<!--上网限制日志插入，insertInternet_limit_log数据插入 mysql该表设置了主键ID自增长-->
+	 <insert id="insertInternet_limit_log" parameterClass="map">
+		insert into internet_limit_log(whitelist_ip,set_time,execute_time,set_result,
+		apid,mac,runtime,userid,flag,code,merchant_name)
+		 values(#whitelist_ip#,#set_time#,#execute_time#,#set_result#,
+		 #apid#,#mac#,#runtime#,#userid#,#type#,#code#,#merchant_name#);
+	</insert>
+	
+	<!--远程升级日志插入，upgrade_ctrl_log数据插入 mysql该表设置了主键ID自增长-->
+	 <insert id="insertUpgrade_ctrl_log" parameterClass="map">
+		insert into upgrade_ctrl_log(taskname,set_time,execute_time,set_result,
+									apid,mac,runtime,userid,cmd_flag,code,merchant_name)
+		 					 values(#taskname#,#set_time#,#execute_time#,#set_result#,
+		 							#apid#,#mac#,#runtime#,#userid#,#cmd_flag#,#code#,#merchant_name#);
+	</insert>
+	
+	<!--portal日志插入，portal_set_log数据插入 mysql该表设置了主键ID自增长-->
+	 <insert id="insertPortal_set_log" parameterClass="map">
+		insert into portal_set_log(portalid,portalname,redirect_url,portal_url,set_time,execute_time,set_result,
+									apid,mac,runtime,userid,code,merchant_name)
+		 					 values(#portalid#,#portalname#,#redirect_url#,#portal_url#,#set_time#,#execute_time#,#set_result#,
+		 							#apid#,#mac#,#runtime#,#userid#,#code#,#merchant_name#);
+	</insert>
+	
+	<!-- 重新执行修改协议设置日志 -->
+	<update id="updateProtocol_set_log" parameterClass="map">
+		update protocol_set_log set
+		authenticate=#authenticate#,
+		offline_judge=#offline_judge#,
+		heartbeat=#heartbeat#,
+		visitor_num=#visitor_num#,
+		set_time=#set_time#,
+		execute_time=#execute_time#,
+		set_result=#set_result#,
+		runtime=runtime+1
+		where id=#taskid#
+	</update>
+	
+	<!-- 重新执行修改白名单日志 -->
+	<update id="updateInternet_limit_log" parameterClass="map">
+		update internet_limit_log set
+		whitelist_ip=#whitelist_ip#,
+		set_time=#set_time#,
+		execute_time=#execute_time#,
+		set_result=#set_result#,
+		runtime=runtime+1
+		where id=#taskid#
+	</update>
+	
+	<!-- 重新执行修改portal日志 -->
+	<update id="updatePortal_set_log" parameterClass="map">
+		update portal_set_log set
+		portalname=#portalname#,
+		set_time=#set_time#,
+		execute_time=#execute_time#,
+		set_result=#set_result#,
+		runtime=runtime+1
+		where id=#taskid#
+	</update>
+	
+	<!-- 重新执行远程控制日志 -->
+	<update id="updateUpgrade" parameterClass="map">
+		update upgrade_ctrl_log set
+		cmd_flag=#cmd_flag#,
+		set_time=#set_time#,
+		execute_time=#execute_time#,
+		set_result=#set_result#,
+		runtime=runtime+1
+		where id=#taskid#
+	</update>
+	
+	<!--协议设置查询confs回显-->
+	 <select id="setProtocolShow" resultClass="hashmap" parameterClass="map">  
+			select * from confs where access_node_id=#apid#
+     </select>
+	 
+	 <!--白名单设置查询public_ips回显-->
+	 <select id="whitelistShow" resultClass="hashmap" parameterClass="map">  
+			select 
+				access_node_id,
+				group_concat($str$ separator ';') as publicip
+				 from $table$ where access_node_id =#apid#  GROUP BY access_node_id
+     </select>
+	 
+	 <!--portal回显-->
+	 <select id="portalShow" resultClass="hashmap" parameterClass="map">  
+			select * from portal_set_log where apid=#apid#
+     </select>
+	 
+	 <!--当前认证页面和当前欢迎页面为空的情况下，显示当前登录用户管辖区域内的Portal名称-->
+	  <select id="portal_TF" resultClass="hashmap" parameterClass="map">  
+			select pi.id,pi.portal_name,pi.redirect_url,pi.portal_url 
+					from cloudwifi_manage.user_district_rel udr, portal_info pi 
+					where udr.userid=#userid#
+					and pi.state='1'
+					and (udr.code = pi.provice_code
+					or udr.code = pi.city_code
+					or udr.code = pi.district_code)
+					GROUP BY pi.id
+     </select>
+	 
+	 
+	 <!--远程升级控制插入，upgrade_ctrl数据插入 mysql该表设置了主键ID自增长-->
+	 <insert id="insertUpgrade_ctrl" parameterClass="map">
+		insert into upgrade_ctrl(taskname,set_time,execute_time,apid,runtime,userid,code,merchant_name)
+		 					 values(#taskname#,#set_time#,#execute_time#,#apid#,#runtime#,#userid#,#code#,#merchant_name#);
+	</insert>
+	
+	
+	 <!--portal控制插入，portal_set数据插入 mysql该表设置了主键ID自增长-->
+	 <insert id="insertPortal_set" parameterClass="map">
+		insert into portal_set(portalid,apid,set_time,execute_time,runtime,userid,code,merchant_name)
+		 					 values(#portalid#,#apid#,#set_time#,#execute_time#,#runtime#,#userid#,#code#,#merchant_name#);
+	</insert>
+	<!-- 查询流量信息 -->
+	<select id="queryFlowMessage" parameterClass="map" resultClass="java.util.HashMap">
+		SELECT 
+			SUM(incoming) AS incoming,
+			SUM(outgoing) AS outgoing
+		  FROM
+		  	connections
+		 WHERE
+			access_mac=#mac#
+			AND
+			expired_on > now()
+	</select>
+	 
+	 <!--根据apid查询在区域code-->
+	 <select id="ApMessageDaoImpl!queryApAddress" parameterClass="map" resultClass="string">
+		select district from addresses where access_node_id=#apid#
+	</select>
+	
+	
+	<!--根据apid查询商户名称-->
+	 <select id="ApMessageDaoImpl!queryApMerchant" parameterClass="map" resultClass="string">
+		select merchant from contacts where access_node_id=#apid#
+	</select>
+	
+</sqlMap>

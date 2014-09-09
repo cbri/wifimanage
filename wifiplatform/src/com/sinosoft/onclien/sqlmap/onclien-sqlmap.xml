@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="onclien">
+	<typeAlias alias="Connections" type="com.sinosoft.onclien.bean.Connections"/>
+	<typeAlias alias="Addresses" type="com.sinosoft.onclien.bean.Addresses"/>
+	<select id="findcusByid" resultClass="Hashmap"  parameterClass="map">  
+			SELECT 
+			 c.merchant,
+			 c.name as mname,
+			 c.phonenum as phone,
+			 c.email,
+			 c.telephonenum,
+			 c.weixin
+			FROM contacts c
+			where c.access_node_id in(
+		select       s.access_node_id
+		from (SELECT   c.id,
+		   			   c.token,
+		   			   c.ipaddr,
+		   			   c.access_mac,
+		   			   c.used_on,
+		   			   c.expired_on,
+				       c.mac,
+				       c.incoming,
+				       c.outgoing,
+				       c.created_at,
+				       c.updated_at,
+				       c.access_node_id,
+				       c.device,c.portal_url,c.phonenum,
+				       ad.province,ad.city,ad.district
+		 	   FROM    connections c left join addresses ad on c.access_node_id = ad.access_node_id) s 
+		 left join contacts f on s.access_node_id = f.access_node_id
+         <dynamic prepend="where">
+        	<![CDATA[ s.used_on <= now() ]]>  and s.expired_on > now()
+	   		<isNotNull prepend="and" property="mac">
+	   			s.access_mac like "%$mac$%"
+	   		</isNotNull>
+	   		<isNotEmpty prepend="and" property="pcode">
+	   			s.province=#pcode#
+	   		</isNotEmpty>
+	   		<isNotEmpty prepend="and" property="id">
+	   			s.id=#id#
+	   		</isNotEmpty>
+		</dynamic>
+			)
+     </select>
+	
+    <select id="getConnections" resultClass="Connections" parameterClass="map">  
+   		select s.id,
+   			   s.used_on,
+   			   s.expired_on,
+		       s.mac,
+		       s.incoming,
+		       s.outgoing,
+		       s.created_at,
+		       s.updated_at,
+		       s.access_node_id,
+		       s.device,
+		       s.portal_url,
+		       s.province,
+		       s.city,
+		       s.access_mac,
+		       s.district,
+		       f.merchant,
+		       f.name AS mname,
+		       f.phonenum as phone,
+		       f.email,
+		       f.telephonenum,
+		       f.weixin,
+		       f.id as fid
+		from (SELECT   c.id,
+		   			   c.token,
+		   			   c.ipaddr,
+		   			   c.access_mac,
+		   			   c.used_on,
+		   			   c.expired_on,
+				       c.mac,
+				       c.incoming,
+				       c.outgoing,
+				       c.created_at,
+				       c.updated_at,
+				       c.access_node_id,
+				       c.device,c.portal_url,c.phonenum,
+				       ad.province,ad.city,ad.district
+		 	   FROM    connections c left join addresses ad on c.access_node_id = ad.access_node_id) s 
+		 left join contacts f on s.access_node_id = f.access_node_id
+         <dynamic prepend="where">
+        	<![CDATA[ s.used_on <= now() ]]>  and s.expired_on > now()
+	   		<isNotNull prepend="and" property="mac">
+	   			s.access_mac like "%$mac$%"
+	   		</isNotNull>
+	   		<isNotEmpty prepend="and" property="pcode">
+	   			s.province=#pcode#
+	   		</isNotEmpty>
+		</dynamic>
+		order by s.used_on DESC
+    </select>
+   <select id="queryApCusCount" resultClass="hashmap" parameterClass="map">  
+   		select * from ap_customer_count where 1=1 and to_days(now())-to_days(date)=1
+        <dynamic>
+	   		<isNotEmpty prepend="and" property="province">
+	   			province=#province#
+	   		</isNotEmpty>
+	   		<isNotEmpty prepend="and" property="city">
+	   			city=#city#
+	   		</isNotEmpty>
+			<isNotEmpty prepend="and" property="district">
+	   			district=#district#
+	   		</isNotEmpty>
+			<isNotEmpty prepend="and" property="timeInterval">
+	   			time_interval=#timeInterval#
+	   		</isNotEmpty>
+			<isNotEmpty property="rank">
+	   			order by online_num desc limit #rank#
+	   		</isNotEmpty>
+		</dynamic>
+    </select>
+	<!--and to_days(now())-to_days(date)=1-->
+	<select id="queryApCusCountByMac" resultClass="hashmap" parameterClass="string">  
+   		select * from ap_customer_count where ap_mac=#mac# and to_days(now())-to_days(date)=1
+    </select>
+</sqlMap>

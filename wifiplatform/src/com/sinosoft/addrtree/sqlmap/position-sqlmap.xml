@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="position">
+	<typeAlias alias="Position" type="com.sinosoft.addrtree.bean.Position" />
+	<!-- 根据根据编码获取区域树节点的信息 -->
+	<select id="getAddrTree" parameterClass="hashmap" resultClass="Position">
+		select
+		code as id,
+		parent_code as pid,
+		name,
+		level as levels
+		from cloudwifi_manage.addr_tree
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="code">
+				code=#code#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="parent_code">
+				parent_code=#parent_code#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="name">
+				name=#name#
+			</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 根据用户ID获取用户的区域 -->
+	<select id="getPositionByUserid" parameterClass="string"
+		resultClass="Position">
+		select
+		code as id,
+		name,
+		parent_code as pid
+		from cloudwifi_manage.addr_tree
+		where
+		parent_code in
+		(select u.code from user_district_rel u
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and">
+				u.userid=#userid#
+			</isNotEmpty>
+			)
+		</dynamic>
+	</select>
+	<!-- 获取省份内容 -->
+	<select id="getProvince" parameterClass="map"
+		resultClass="Position">
+		select
+		code as id,
+		name
+		from cloudwifi_manage.addr_province
+		<isNotEmpty prepend="where" property="codes">
+			code IN
+			<iterate open="(" close=")" property="codes" conjunction=",">
+				#codes[]#
+			</iterate>
+		</isNotEmpty>
+		ORDER BY CODE ASC
+	</select>
+
+</sqlMap>

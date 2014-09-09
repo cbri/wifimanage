@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="upGradePlan">
+	<!-- 升级计划实体类 -->
+	<typeAlias alias="UpgradePlan" type="com.sinosoft.rommanage.bean.UpgradePlan"/>
+	<typeAlias alias="UpgradePlanApRel" type="com.sinosoft.rommanage.bean.UpgradePlanApRel"/>
+	<typeAlias alias="ApMessage" type="com.sinosoft.apmessage.bean.ApMessage"/>
+	<!-- 插入升级计划表 -->
+	<insert id="upGradePlan.insertUpGradePlan" parameterClass="map">
+		INSERT INTO 
+			upgrade_plan(plan_name,
+						 execute_time,
+						 create_time,
+						 userid)
+				  values(
+				  			#plan_name#,
+				  			#execute_time#,
+				  			#create_time#,
+				  			#userid#
+				  		)
+		<selectKey resultClass="int" keyProperty="id" >
+    	 	  SELECT @@IDENTITY as id
+		</selectKey>
+	</insert>
+	<!-- 插入升级计划与AP的关系表 -->
+	<insert id="upGradePlan.insertUpGradePlanApRel" parameterClass="map">
+		INSERT INTO 
+			upgrade_plan_ap_rel(id,
+								apid,
+								mac,
+								code,
+								apname,
+								contacts,
+								execute_result)
+				  values(
+				  			#id#,
+				  			#apid#,
+				  			#mac#,
+				  			#code#,
+				  			#apname#,
+				  			#contacts#,
+				  			#execute_result#
+				  		)
+	</insert>
+	<!-- 删除升级计划表数据 -->
+	<delete id="upGradePlan.deleteUpGradePlan" parameterClass="map">
+		DELETE FROM upgrade_plan
+		<dynamic prepend="where">
+			<isNotEmpty property="id" prepend="and">
+				id=#id#
+			</isNotEmpty>
+			<isNotEmpty property="ids" prepend="and">
+				id IN
+				<iterate open="(" close=")"  property="ids"  conjunction=",">
+					#ids[]# 
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	<!-- 删除升级计划与AP的关系表数据 -->
+	<delete id="upGradePlan.deleteUpGradePlanApRel" parameterClass="map">
+		DELETE FROM upgrade_plan_ap_rel
+		<dynamic prepend="where">
+			<isNotEmpty property="id" prepend="and">
+				id=#id#
+			</isNotEmpty>
+			<isNotEmpty property="apid" prepend="and">
+				apid=#apid#
+			</isNotEmpty>
+			<isNotEmpty property="mac" prepend="and">
+				mac=#mac#
+			</isNotEmpty>
+			<isNotEmpty property="ids" prepend="and">
+				id IN
+				<iterate open="(" close=")"  property="ids">
+					#ids[]# 
+				</iterate>
+			</isNotEmpty>
+		</dynamic>
+	</delete>
+	<!-- 更新编辑的计划 -->
+	<update id="upGradePlan.saveEditUpGradePlan" parameterClass="map">
+			UPDATE upgrade_plan
+			   SET id = #id#
+			   <dynamic prepend=",">
+			   		<isNotEmpty property="plan_name" prepend=",">
+			   			plan_name=#plan_name#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="execute_time" prepend=",">
+			   			execute_time=#execute_time#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="real_time" prepend=",">
+			   			real_time=#real_time#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="isexecute" prepend=",">
+			   			isexecute=#isexecute#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="check_state" prepend=",">
+			   			check_state=#check_state#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="check_time" prepend=",">
+			   			check_time=#check_time#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="updated_at" prepend=",">
+			   			updated_at=#updated_at#
+			   		</isNotEmpty>
+			   </dynamic>
+			   WHERE id=#id#
+	</update>
+	<!-- 更新编辑AP关系内容 -->
+	<update id="upGradePlan.updateEditUpGradePlanApRel" parameterClass="map">
+			UPDATE upgrade_plan_ap_rel
+			   SET id = #id#
+			   <dynamic prepend=",">
+			   		<isNotEmpty property="isexecute" prepend=",">
+			   			isexecute=#isexecute#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="issuccess" prepend=",">
+			   			issuccess=#issuccess#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="execute_result" prepend=",">
+			   			execute_result=#execute_result#
+			   		</isNotEmpty>
+			   </dynamic>
+			   <dynamic prepend="WHERE">
+			   		<isNotEmpty property="id" prepend="AND">
+			   			id=#id#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="mac" prepend="AND">
+			   			mac=#mac#
+			   		</isNotEmpty>
+			   		<isNotEmpty property="apid" prepend="AND">
+			   			apid=#apid#
+			   		</isNotEmpty>
+			   </dynamic>
+	</update>
+	<!-- 查询升级计划与AP的关系表 -->
+	<select id="upGradePlan.queryUpGradePlanApRel" parameterClass="map" resultClass="UpgradePlanApRel">
+			SELECT id,
+				   mac,
+				   apid,
+				   name,
+				   isexecute,
+				   issuccess,
+				   code,
+				   apname,
+				   contacts,
+				   execute_result
+			 FROM  upgrade_plan_ap_rel
+			 <dynamic prepend="where">
+			 		<isNotEmpty property="id" prepend="and">
+			 			id=#id#
+			 		</isNotEmpty>
+			 		<isNotEmpty property="mac" prepend="and">
+			 			mac='%$mac$%'
+			 		</isNotEmpty>
+			 		<isNotEmpty property="isexecute" prepend="and">
+			 			isexecute=#isexecute#
+			 		</isNotEmpty>
+			 		<isNotEmpty property="issuccess" prepend="and">
+			 			issuccess=#issuccess#
+			 		</isNotEmpty>
+			 		<isNotEmpty property="ids" prepend="and">
+			 			id in 
+			 			<iterate open="(" close=")" conjunction="," property="ids">
+			 				#ids[]#
+			 			</iterate>
+			 		</isNotEmpty>
+			 </dynamic>
+	</select>
+	<select id="upGradePlan.queryApMessage" parameterClass="map" resultClass="ApMessage">
+		SELECT 
+			a.id,
+			a.name,
+			a.mac,
+			a.province,
+			a.city,
+			a.district,
+			a.portal_url,
+			a.cmdflag,
+			a.cmdline
+		FROM 
+		(
+			SELECT
+				an.id,
+				an.name,
+				an.mac,
+				an.portal_url,
+				an.cmdflag,
+				an.cmdline,
+				ad.province,
+				ad.city,
+				ad.district
+			FROM  access_nodes an LEFT JOIN addresses ad ON an.id = ad.access_node_id
+		) a LEFT JOIN access_nodes_exp  ane
+		ON a.id=ane.access_node_id
+		<dynamic prepend="where">
+			<isNotEmpty prepend="and" property="id">
+					a.id=#id#
+			</isNotEmpty>
+			<isNotEmpty prepend="and" property="province">
+	     			a.province=#province#
+     		</isNotEmpty>
+     		<isNotEmpty prepend="and" property="city">
+     			a.city=#city#
+     		</isNotEmpty>
+     		<isNotEmpty prepend="and" property="district">
+     			a.district=#district#
+     		</isNotEmpty>
+     		<isNotNull  prepend="and" property="mac">
+     			a.mac like '%$mac$%'
+     		</isNotNull>
+		</dynamic>
+	</select>
+	<!-- 查询和自己的计划、父用户的与自己有个的计划 -->
+	<select id="upgrade!!queryUnAdminUpgrade" parameterClass="map" resultClass="UpgradePlan">
+			SELECT
+				A.id,
+				A.plan_name,
+				date_format(A.execute_time,'%Y-%m-%d %H:%i:%s') as execute_time,
+				date_format(A.real_time,'%Y-%m-%d %H:%i:%s') as real_time,
+				date_format(A.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+				A.pre_upgrade_ver,
+				A.version_id,
+				A.userid,
+				A.isexecute,
+				A.check_state,
+				A.check_time,
+				A.updated_at,
+				B.name as create_user
+			FROM
+				upgrade_plan A
+				LEFT JOIN 
+				login_user B
+			  ON 
+			  	A.userid = B.id
+			WHERE
+				A.id IN (
+					SELECT
+						id
+					FROM
+						upgrade_plan_ap_rel
+					<dynamic prepend="WHERE">
+						<isNotEmpty property="userid">
+								code IN(
+									SELECT
+										CODE
+									FROM
+										(
+											SELECT
+												CODE
+											FROM
+												user_district_rel
+											WHERE
+												userid = #userid#
+										) a
+									UNION
+										(
+											SELECT
+												CODE
+											FROM
+												addr_tree ac
+											WHERE
+												ac.parent_code IN (
+													SELECT
+														CODE AS parent_code
+													FROM
+														user_district_rel
+													WHERE
+														userid = #userid#
+												)
+										)
+									UNION
+										(
+											SELECT
+												CODE
+											FROM
+												addr_tree AT
+											WHERE
+												AT .parent_code IN (
+													SELECT
+														CODE AS parent_code
+													FROM
+														addr_tree ac
+													WHERE
+														ac.parent_code IN (
+															SELECT
+																CODE AS parent_code
+															FROM
+																user_district_rel
+															WHERE
+																userid = #userid#
+														)
+												)
+										)
+								)
+						</isNotEmpty>
+					</dynamic>
+						
+				)
+				<isNotEmpty property="plan_name" prepend="and">
+		 			A.plan_name like '%$plan_name$%'
+		 		</isNotEmpty>
+		 		<isNotEmpty property="start_time" prepend="and">
+		 			A.execute_time >= #start_time#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="end_time" prepend="and">
+		 			<![CDATA[ A.execute_time <= #end_time#]]>
+		 		</isNotEmpty>
+		   ORDER BY A.execute_time DESC
+		   <isNotEmpty property="pageNum">
+		   		LIMIT #pageNum#,#pageSize#
+		   </isNotEmpty>
+	</select>
+	
+	<!-- 查询和自己的计划、父用户的与自己有个的计划 -->
+	<select id="upgrade!!queryAdminUpgrade" parameterClass="map" resultClass="UpgradePlan">
+			SELECT
+				A.id,
+				A.plan_name,
+				date_format(A.execute_time,'%Y-%m-%d %H:%i:%s') as execute_time,
+				date_format(A.real_time,'%Y-%m-%d %H:%i:%s') as real_time,
+				date_format(A.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+				A.pre_upgrade_ver,
+				A.version_id,
+				A.userid,
+				A.isexecute,
+				A.check_state,
+				A.check_time,
+				A.updated_at,
+				B.name as create_user
+			FROM
+				upgrade_plan A
+				LEFT JOIN 
+				login_user B
+			  ON 
+			  	A.userid = B.id
+			WHERE
+				A.id IN (
+					SELECT
+						id
+					FROM
+						upgrade_plan_ap_rel
+					<dynamic prepend="WHERE">
+						<isNotEmpty property="userid">
+								code IN(
+									  	SELECT
+											CODE
+										FROM
+											user_district_rel
+										WHERE
+											userid = #userid#
+								)
+						</isNotEmpty>
+					</dynamic>
+						
+				)
+				<isNotEmpty property="plan_name" prepend="and">
+		 			A.plan_name like '%$plan_name$%'
+		 		</isNotEmpty>
+		 		<isNotEmpty property="start_time" prepend="and">
+		 			A.execute_time >= #start_time#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="end_time" prepend="and">
+		 			<![CDATA[ A.execute_time <= #end_time#]]>
+		 		</isNotEmpty>
+		   ORDER BY A.execute_time DESC
+		   <isNotEmpty property="pageNum">
+		   		LIMIT #pageNum#,#pageSize#
+		   </isNotEmpty>
+	</select>
+	<!-- 查询子用户的计划 -->
+	<select id="upgrade!!querySubUpgrade" parameterClass="map" resultClass="UpgradePlan">
+		SELECT
+			A.id,
+			A.plan_name,
+			date_format(A.execute_time,'%Y-%m-%d %H:%i:%s') as execute_time,
+			date_format(A.real_time,'%Y-%m-%d %H:%i:%s') as real_time,
+			date_format(A.create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+			A.pre_upgrade_ver,
+			A.version_id,
+			A.userid,
+			A.isexecute,
+			A.check_state,
+			A.check_time,
+			A.updated_at,
+			B.name as create_user
+		FROM
+			upgrade_plan A 
+			LEFT JOIN 
+			login_user B
+		  ON 
+		  	A.userid = B.id
+		WHERE
+			A.id IN(
+				SELECT
+					id
+				FROM
+					upgrade_plan_ap_rel
+				WHERE
+					code IN(
+						SELECT
+							CODE
+						FROM
+							user_district_rel
+						WHERE
+							userid 
+								IN
+								(
+									SELECT id FROM login_user WHERE parent_userid = #userid#
+								)
+					)
+			)
+		ORDER BY A.execute_time DESC
+		<isNotEmpty property="plan_name" prepend="and">
+		 			A.plan_name like '%$plan_name$%'
+		 		</isNotEmpty>
+	</select>
+	<!-- 查询AP的商户信息 -->
+	<select id="upgrade!!queryApContacts" parameterClass="map" resultClass="java.util.HashMap">
+			SELECT 
+				an.id,
+				co.merchant,
+				co.merchant as name,
+				co.phonenum,
+				co.email,
+				co.telephonenum,
+				co.weixin,
+				co.created_at,
+				co.updated_at,
+				an.name as apname
+			FROM access_nodes an LEFT JOIN contacts co 
+			  ON an.id = co.access_node_id
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and" property="apid">
+					an.id=#apid#
+				</isNotEmpty>
+			</dynamic>
+	</select>
+	<select id="upGradePlan.queryUpGradePlan" parameterClass="map" resultClass="UpgradePlan">
+		SELECT  id,
+				plan_name,
+				date_format(execute_time,'%Y-%m-%d %H:%i:%s') as execute_time,
+				date_format(real_time,'%Y-%m-%d %H:%i:%s') as real_time,
+				date_format(create_time,'%Y-%m-%d %H:%i:%s') as create_time,
+				pre_upgrade_ver,
+				version_id,
+				userid,
+				isexecute,
+				check_state,
+				check_time,
+				updated_at
+		 FROM   upgrade_plan
+		 <dynamic prepend="where">
+		 		<isNotEmpty property="id" prepend="and">
+		 			id=#id#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="plan_name" prepend="and">
+		 			plan_name like '%$plan_name$%'
+		 		</isNotEmpty>
+		 		<isNotEmpty property="execute_time" prepend="and">
+		 			execute_time like '%$execute_time$%'
+		 		</isNotEmpty>
+		 		<isNotEmpty property="execute_time_l" prepend="and">
+		 			execute_time >= #execute_time_l#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="real_time" prepend="and">
+		 			real_time like '%$real_time$%'
+		 		</isNotEmpty>
+		 		<isNotEmpty property="userid" prepend="and">
+		 			userid=#userid#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="isexecute" prepend="and">
+		 			isexecute=#isexecute#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="check_state" prepend="and">
+		 			check_state=#check_state#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="check_time" prepend="and">
+		 			check_time like '%$check_time$%'
+		 		</isNotEmpty>
+		 </dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xsi:schemaLocation=" 
+		http://www.springframework.org/schema/aop 
+			classpath:/org/springframework/aop/config/spring-aop-3.0.xsd 
+        http://www.springframework.org/schema/beans
+        	classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/context 
+        	classpath:/org/springframework/context/config/spring-context-3.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        	classpath:/org/springframework/web/servlet/config/spring-mvc-3.0.xsd 
+        http://www.springframework.org/schema/tx 
+        	classpath:/org/springframework/transaction/config/spring-tx-3.0.xsd 
+	">
+
+	<!-- 外部property文件的获取, 可以配置多个资源，支持通配符 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location" value="/WEB-INF/conf/jdbc.properties">
+			<!--
+				<list> <value>/WEB-INF/conf/jdbc.properties</value> </list>
+			-->
+		</property>
+	</bean>
+
+	<!-- 数据源, 支持数据连接池的数据源配置方式-->
+	<!--
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close"> <property name="driverClassName"
+		value="com.mysql.jdbc.Driver" /> <property name="url"
+		value="jdbc:mysql://localhost:3306/test" /> <property name="username"
+		value="root" /> <property name="password" value="830214" /> <property
+		name="initialSize" value="5" /> <property name="maxActive" value="10"
+		/> <property name="maxIdle" value="10" /> <property name="maxWait"
+		value="-1" /> </bean>
+	-->
+	<!--
+		<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close"> <property name="driverClassName"
+		value="oracle.jdbc.driver.OracleDriver" /> <property name="url"
+		value="jdbc:oracle:thin:@192.168.80.2:1521:appsdb" /> <property
+		name="username" value="appdata"/> <property name="password"
+		value="appdata" /> <property name="initialSize" value="5" /> <property
+		name="maxActive" value="10" /> <property name="maxIdle" value="10" />
+		<property name="maxWait" value="-1" /> </bean>
+	-->
+<bean id="dataSource0" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+	</bean>
+	
+	<bean id="dataSource_beijing" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url_beijing}" />
+		<property name="username" value="${jdbc.username_beijing}" />
+		<property name="password" value="${jdbc.password_beijing}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+	</bean>
+	
+	<bean id="dataSource_hebei" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url_hebei}" />
+		<property name="username" value="${jdbc.username_hebei}" />
+		<property name="password" value="${jdbc.password_hebei}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+	</bean>
+	
+	<bean id="dataSource_jiangsu" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url_jiangsu}" />
+		<property name="username" value="${jdbc.username_jiangsu}" />
+		<property name="password" value="${jdbc.password_jiangsu}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+	</bean>
+	
+	<bean id="dataSource_zhejiang" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url_zhejiang}" />
+		<property name="username" value="${jdbc.username_zhejiang}" />
+		<property name="password" value="${jdbc.password_zhejiang}" />
+		<property name="initialSize" value="${jdbc.initialSize}" />
+		<property name="maxActive" value="${jdbc.maxActive}" />
+		<property name="maxIdle" value="${jdbc.maxIdle}" />
+		<property name="maxWait" value="${jdbc.maxWait}" />
+	</bean>
+	
+	
+	
+	<bean id="dataSource" class="com.sinosoft.dataSource.DynamicDataSource">      
+         <property name="targetDataSources">   
+          <map key-type="java.lang.String">      
+                 <entry key="dataSource0" value-ref="dataSource0"/>  
+                 <entry key="dataSource_beijing" value-ref="dataSource_beijing"/>   
+				 <entry key="dataSource_hebei" value-ref="dataSource_hebei"/> 
+				 <entry key="dataSource_jiangsu" value-ref="dataSource_jiangsu"/> 
+				 <entry key="dataSource_zhejiang" value-ref="dataSource_zhejiang"/> 
+          </map>     
+          </property> 
+          <property name="defaultTargetDataSource" ref="dataSource0"/>      
+     </bean>
+
+	<!-- 集成ibatis -->
+	<bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation">
+			<!--  
+			<value>classpath:sqlMapConfig.xml</value>
+			-->
+			<value>WEB-INF/conf/sqlMapConfig.xml</value>
+		</property>
+	</bean>
+
+	<!-- 事务管理 -->
+	<!--
+		使用方式：在需要进行事务管理的方法上添加@Transactional(rollbackFor = Exception.class)
+	-->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 启动spring事务注解-->
+	<tx:annotation-driven transaction-manager="transactionManager"
+		proxy-target-class="true" />
+
+	<!--  AOP设置  -->
+	<!--
+		<aop:config> <aop:pointcut expression="execution(*
+		com.sinosoft.*.dao.*.*(..))" id="target"/> <aop:before
+		method="methodTrace" pointcut-ref="target"/> <aop:around
+		method="timeCost" pointcut-ref="target"/> </aop:config>
+		<aop:aspectj-autoproxy /> <tx:advice id="txAdvice"
+		transaction-manager="transactionManager"> <tx:attributes> <tx:method
+		name="select*" read-only="true" propagation="REQUIRED" /> <tx:method
+		name="find*" read-only="true" propagation="REQUIRED" /> <tx:method
+		name="save*" propagation="REQUIRED" isolation="REPEATABLE_READ" />
+		<tx:method name="update*" propagation="REQUIRED"
+		isolation="REPEATABLE_READ" /> <tx:method name="add*"
+		propagation="REQUIRED" isolation="REPEATABLE_READ" /> <tx:method
+		name="delete*" propagation="REQUIRED" isolation="REPEATABLE_READ" />
+		</tx:attributes> </tx:advice>
+	-->
+	<!-- 线程执行器配置，用于任务注册 -->
+	<bean id="executor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+	<property name="corePoolSize" value="10" />
+	<property name="maxPoolSize" value="100" />
+	<property name="queueCapacity" value="500" />
+	</bean>
+	<!-- 用来查询MAC对应IP的Dao -->
+	<bean id="commonDaoImpl" class="com.sinosoft.util.CommonDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="delayExcutedao" class="com.sinosoft.apmessage.dao.impl.DelayExecuteDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="countQuartzDao" class="com.sinosoft.count.dao.impl.CountQuartzDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	
+	<bean id="addrTreeDao" class="com.sinosoft.addrtree.dao.impl.AddrTreeDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<bean id="upgradeDao" class="com.sinosoft.rommanage.dao.impl.UpgradeDaoImpl">
+		<property name="sqlMapClient" ref="sqlMapClient"></property>
+	</bean>
+	<!-- 创建 jobs其中的方式之一 -->
+	<bean id="quartz" class="com.sinosoft.apmessage.quartz.DelayExecuteQuartz">
+		<property name="delayExcutedao" ref="delayExcutedao"></property>
+		<property name="commonDao" ref="commonDaoImpl"></property>
+	</bean>
+	<!-- 创建 统计调度类 -->
+	<bean id="apCustomerQuartz" class="com.sinosoft.count.quartz.ApCustomerQuartz">
+		<property name="countQuartzDao" ref="countQuartzDao"></property>
+	</bean>
+	<bean id="countQuartz" class="com.sinosoft.count.quartz.CountQuartz">
+		<property name="countQuartzDao" ref="countQuartzDao"></property>
+	</bean>
+	<bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		 <property name="targetObject" ref="quartz" />
+		 <property name="targetMethod" value="executeInternal" />
+	</bean>
+	<bean id="upgrade_plan" class="com.sinosoft.rommanage.task.UpgradePlanTask">
+		<property name="upgradeDao" ref="upgradeDao"></property>
+		<property name="commonDaoImpl" ref="commonDaoImpl"></property>
+	</bean>
+	
+	<bean id="countJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		 <property name="targetObject" ref="countQuartz" />
+		 <property name="targetMethod" value="executeInternal" />
+	</bean>
+	
+	<bean id="apCustomerDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		 <property name="targetObject" ref="apCustomerQuartz" />
+		 <property name="targetMethod" value="executeInternal" />
+	</bean>
+	<!-- 远程延迟调用(每分钟) -->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="jobDetail" />
+		<property name="cronExpression" value="0 * * * * ? 2014" />
+	</bean>
+	<!-- 每日统计(每日一次) -->
+	<bean id="countCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="countJobDetail" />
+		<property name="cronExpression" value="0 0 1 * * ? 2014" />
+	</bean>
+	<!-- 每日在线客户统计(半小时一次) -->
+	<bean id="apCustomerCronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="apCustomerDetail" />
+		<property name="cronExpression" value="0 0,30 * * * ? 2014" />
+	</bean>
+	<bean id="upgradeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		 <property name="targetObject" ref="upgrade_plan" />
+		 <property name="targetMethod" value="task" />
+	</bean>
+	<!-- 升级计划每分钟执行 -->
+	<bean id="upgradeTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="upgradeJobDetail" />
+		<property name="cronExpression" value="0/60 * * ? * * *" />
+	</bean>
+
+	<!-- 设置调度 -->
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+		<list>
+		<!--  
+		<ref bean="cronTrigger" />
+		<ref bean="upgradeTrigger" />
+		<ref bean="countCronTrigger" />
+		<ref bean="apCustomerCronTrigger" />-->
+		</list>
+		</property>
+		<property name="taskExecutor" ref="executor" />
+	</bean>
+</beans> 

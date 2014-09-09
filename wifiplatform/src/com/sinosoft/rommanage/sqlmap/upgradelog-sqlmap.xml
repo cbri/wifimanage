@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="rommanage">
+	 <select id="queryAllLog" resultClass="Hashmap" parameterClass="map">
+			SELECT 
+			upl.id,upl.planid,upl.pre_upgrade_ver,
+			upl.version_id,upl.version_name,upl.success_time,upl.fail_time,upl.fail_reason,
+			up.plan_name as planname,
+			date_format(upl.real_time,'%Y-%c-%d %h:%i:%s') as real_time
+			FROM upgrade_plan_log upl 
+				 LEFT JOIN 
+				 upgrade_plan up
+			ON upl.planid=up.id
+			<isNotEmpty property="userid" prepend="where">
+   				up.userid=#userid#
+   			</isNotEmpty>
+			ORDER BY upl.real_time DESC
+		   <isNotEmpty property="pageNum">
+		   		LIMIT #pageNum#,#pageSize#
+		   </isNotEmpty>
+     </select>
+      <select id="queryLogByName" resultClass="Hashmap" parameterClass="map">
+			SELECT 
+			upl.id,upl.planid,upl.pre_upgrade_ver,upl.version_id,
+			upl.version_name,upl.success_time,upl.fail_time,upl.fail_reason,
+			up.plan_name as planname,
+			date_format(upl.real_time,'%Y-%c-%d %h:%i:%s') as realtime
+			FROM 
+				upgrade_plan_log upl 
+			LEFT JOIN 
+				upgrade_plan up
+			ON   
+				up.id = upl.planid
+			<dynamic prepend="where">
+				<isNotEmpty prepend="and">
+					up.plan_name like '%$planname$%'
+				</isNotEmpty>
+				<isNotEmpty property="start_time" prepend="and">
+		 			upl.real_time >= #start_time#
+		 		</isNotEmpty>
+		 		<isNotEmpty property="end_time" prepend="and">
+		 			<![CDATA[ upl.real_time <= #end_time#]]>
+		 		</isNotEmpty>
+		 		<isNotEmpty property="userid" prepend="and">
+		   				up.userid=#userid#
+		   		</isNotEmpty>
+			</dynamic>
+			ORDER BY upl.real_time DESC
+		   <isNotEmpty property="pageNum">
+		   		LIMIT #pageNum#,#pageSize#
+		   </isNotEmpty>
+     </select>
+     <select id="highQueryLog" resultClass="Hashmap" parameterClass="map">
+			SELECT 
+			upl.id,upl.planid,upl.pre_upgrade_ver,upl.version_id,
+			upl.version_name,upl.success_time,upl.fail_time,upl.fail_reason,
+			up.plan_name as planname,
+			date_format(upl.real_time,'%Y-%c-%d %h:%i:%s') as realtime
+			FROM upgrade_plan_log upl,upgrade_plan up
+			<dynamic prepend="where">
+			<isNotEmpty prepend="and">
+				up.plan_name like '%$planname$%'
+			</isNotEmpty>
+				<isNotEmpty prepend="and">
+				up.id = upl.planid
+			</isNotEmpty>
+			</dynamic>
+     </select>
+     <!-- 保存升级日志 -->
+     <insert id="upgradeLog.saveUpgradePlanLog" parameterClass="map">
+		INSERT INTO 
+			upgrade_plan_log(planid,
+						 real_time,
+						 success_time,
+						 fail_time,
+						 fail_reason)
+				  values(
+				  			#planid#,
+				  			#real_time#,
+				  			#success_time#,
+				  			#fail_time#,
+				  			#fail_reason#
+				  		)
+	</insert>
+     <update id="upGradePlan.updateUpgradePlanLog" parameterClass="map">
+     	UPDATE upgrade_plan_log
+			   SET planid = #id#
+			   <dynamic prepend=",">
+			   		<isNotEmpty property="success" prepend=",">
+			   			fail_time=(fail_time-#success#)
+			   		</isNotEmpty>
+			   		<isNotEmpty property="success" prepend=",">
+			   			success_time=(success_time+#success#)
+			   		</isNotEmpty>
+			   		<isNotEmpty property="real_time" prepend=",">
+			   			real_time=#real_time#
+			   		</isNotEmpty>
+			   </dynamic>
+			   WHERE planid=#id#
+     </update>
+</sqlMap>

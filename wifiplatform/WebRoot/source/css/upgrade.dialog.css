@@ -1,0 +1,90 @@
+body {
+    margin:0;
+    padding:0;
+    font-family:'微软雅黑';
+}
+a {
+    text-decoration:none;
+}
+.wrap {
+    width:765px;
+    height:366px;
+    border:1px solid #c8d9ed;
+    background:#ecf8f2;
+    margin:0 auto;
+}
+.top {
+    height:40px;
+    line-height:36px;
+    width:100%;
+}
+.top p span {
+    color:#424442;
+}
+.left {
+    width:194px;
+    float:left;
+    height:314px;
+}
+.rr_left {
+    width:276px;
+    float:left;
+    height:314px;
+}
+.rr_right {
+    width:275px;
+    float:right;
+    height:314px;
+}
+.search {
+    width:96%;
+    height:20px;
+    line-height:20px;
+    border:1px solid #d2d9e1;
+    margin:4px auto;
+    position:relative;
+}
+.APzhi {
+    width:96%;
+    height:20px;
+    line-height:20px;
+    margin:4px auto;
+    background:#aee6ee;
+    text-align:center;
+    font-size:14px;
+    color:#1fbbe5
+}
+.search input {
+   background: none;
+    position: absolute;
+    left: -2px;
+    top: -1px;
+    border: none;
+    height: 20px;
+    width:204px
+}
+.search span {
+    display:block;
+    color:#fff;
+    text-align:center;
+    line-height:20px;
+    height:20px;
+    width:48px;
+    background:#1fbbe5;
+    float:right;
+    cursor:pointer;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+    margin:0 auto;
+}
+tr {
+    height:20px;
+    color:#282827;
+    font-size:14px;
+}
+td {
+    border:1px solid #adcbe6;
+    /**background:#deebf0;*/
+}

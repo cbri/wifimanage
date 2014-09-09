@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	
+	<!-- ibatis2 映射文件配置 -->
+   <sqlMap resource="com/sinosoft/system/sqlmap/system-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/apmessage/sqlmap/apmessage-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/apmessage/sqlmap/delayexecute-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/addrtree/sqlmap/position-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/account/sqlmap/account-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/util/sqlmap/common-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/account/sqlmap/growth_total-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/rommanage/sqlmap/upgradelog-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/rommanage/sqlmap/upGradePlan-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/count/sqlmap/countquartz-sqlmap.xml"/>
+   
+    <sqlMap resource="com/sinosoft/onclien/sqlmap/onclien-sqlmap.xml"/>
+   <sqlMap resource="com/sinosoft/count/sqlmap/count-sqlmap.xml"/>
+   
+   <!-- -->
+	
+	
+</sqlMapConfig>

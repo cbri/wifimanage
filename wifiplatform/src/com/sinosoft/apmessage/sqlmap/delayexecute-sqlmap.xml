@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="delayexecute">
+    <!--查询代办任务-->
+    <select id="queryUnExecuteTask" resultClass="hashmap" parameterClass="string">
+        <![CDATA[select * from $type$ where execute_time < now() and runtime<4]]>
+    </select>
+	<!--执行次数+1-->
+    <update id="updateDelayExecute" parameterClass="map">
+        update $type$ set runtime=#runtime#
+    </update>
+	<!--删除任务-->
+    <delete id="deleteDelayExecute" parameterClass="map">
+        delete from $type$ where id=#id#
+    </delete>
+	<!--查询portal信息-->
+    <select id="queryPortalInfo" resultClass="hashmap" parameterClass="map">
+        select portal_name,redirect_url,portal_url from portal_info where id=#portalid#
+    </select>
+	<!--查询ap信息-->
+    <select id="queryAp" resultClass="hashmap" parameterClass="map">
+        select mac from yunwifi_production_beijing.access_nodes where id=#apid#
+    </select>
+</sqlMap>

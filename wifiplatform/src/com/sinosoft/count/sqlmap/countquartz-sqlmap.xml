@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="countquartz">
+	<typeAlias alias="Count" type="com.sinosoft.count.bean.Count"/>
+
+    <!--查询所有省份-->
+    <select id="queryProvince" resultClass="hashmap">
+        <![CDATA[select * from addr_province ]]>
+    </select>
+    <!--查询区域对应的多个apid-->
+    <select id="queryApid" resultClass="string" parameterClass="string">
+        <![CDATA[select access_node_id from addresses where district=#district# ]]>
+    </select>
+    <!--查询ap-->
+    <select id="queryApInformation" resultClass="hashmap" parameterClass="string">
+        <![CDATA[select * from access_nodes where id=#apid# ]]>
+    </select>
+    <!--查询省份所有AP-->
+    <select id="queryProvinceAp" resultClass="hashmap" >
+        <![CDATA[select * from access_nodes ]]>
+    </select>
+    <!--查询ap在线-->
+    <select id="queryApOnline" resultClass="integer" parameterClass="string">
+        <![CDATA[select count(*) from access_nodes a,addresses b where a.last_seen-now()>-70 and b.district=#district# and a.id=b.access_node_id]]>
+    </select>
+    <!--查询ap地址-->
+    <select id="queryApAddress" resultClass="hashmap" parameterClass="integer">
+        <![CDATA[select province,city,district,detail from addresses where access_node_id=#id#]]>
+    </select>
+     <!--查询ap商户-->
+    <select id="queryApMerchant" resultClass="hashmap" parameterClass="integer">
+        <![CDATA[select merchant from contacts where access_node_id=#id#]]>
+    </select>
+    <!--查询ap客户在线-->
+    <select id="queryApCustomerOnline" resultClass="integer" parameterClass="string">
+        <![CDATA[select count(*) from connections where now() between used_on and expired_on and access_mac=#mac#]]>
+    </select>
+    <!--查询connections-->
+    <select id="queryConnections" resultClass="hashmap" parameterClass="string">
+        <![CDATA[select COALESCE(sum(incoming),0)/1024/1024 as incoming,COALESCE(sum(outgoing),0)/1024/1024 as outgoing,count(distinct(mac)) as customer_num from connections where access_mac=#mac#]]>
+    </select>
+    <!--查询统计原始记录-->
+    <select id="queryLastCount" resultClass="Count" parameterClass="string">
+        <![CDATA[select * from growth_total where code=#district#]]>
+    </select>
+    <!--查询用户最高级区域-->
+    <select id="findTopCodeByid" resultClass="string" parameterClass="long">
+        <![CDATA[ select code from user_district_rel where level=(select max(level) from user_district_rel where userid=#id#) and userid=#id#;]]>
+    </select>
+    <!--查询全国各省统计-->
+    <select id="queryAllProvinceCount" resultClass="hashmap" parameterClass="string">
+        <![CDATA[ select * from growth_total where level=0 order by code]]>
+    </select>
+    <!--查询区域统计-->
+    <select id="queryCountByCode" resultClass="hashmap" parameterClass="string">
+        <![CDATA[ select * from growth_total where code=#code# order by code]]>
+    </select>
+    <!--查询区域统计子集-->
+    <select id="queryCountSubset" resultClass="hashmap" parameterClass="string">
+        <![CDATA[ select * from growth_total where parent_code=#code# order by code]]>
+    </select>
+    <!--查询全国各省统计环形图-->
+    <select id="queryAllCount" resultClass="hashmap" parameterClass="string">
+        <![CDATA[ select sum(ap_total) as ap_total,sum(online_num) as online_num,
+        sum(inconming_total) as incoming,sum(outgoing_total) as outgoing
+         from growth_total where level=0;]]>
+    </select>
+    <!--查询区域统计环形图-->
+    <select id="queryCount" resultClass="hashmap" parameterClass="string">
+        <![CDATA[ select ap_total as ap_total,online_num as online_num,
+        inconming_total as incoming,outgoing_total as outgoing
+         from growth_total where code=#code#]]>
+    </select>
+    <!--  
+    <select id="getProvince" resultClass="hashmap" parameterClass="string">
+        <![CDATA[ select * from addr_province]]>
+    </select>
+    
+    <insert id="insertGr" parameterClass="map">
+    	insert into growth_total(code,name,level)
+		 values(#code#,#name#,0);
+    </insert>-->	
+    <!--插入统计记录-->
+    <insert id="insertCount" parameterClass="Count">
+    	insert into growth_total(code,parent_code,name,level,ap_total,online_num,online_rate,
+    	inconming_total,outgoing_total,customer_num)
+		 values(#code#,#parent_code#,#name#,#level#,#ap_total#,#online_num#,
+		 #online_rate#,#inconming_total#,#outgoing_total#,#customer_num#);
+    </insert>
+    <!--插入日增长记录-->
+    <insert id="insertGrowthDay" parameterClass="Count">
+    	insert into growth_speed_d(stat_date,year_num,month_num,day_num,code,parent_code,name,
+    	level,ap_total,inconming_total,outgoing_total,customer_num)
+		 values(#date#,#yearNum#,#monthNum#,#day#,#code#,#parent_code#,
+		 #name#,#level#,#ap_total#,#inconming_total#,#outgoing_total#,#customer_num#);
+    </insert>
+    <!--插入ap在线客户统计-->
+    <insert id="insertApCustomerCount" parameterClass="map">
+    	insert into ap_customer_count(apid,province,city,district,online_num,time_interval,ap_mac,
+    	merchant_name,detail,date)
+		 values(#apid#,#province#,#city#,#district#,#online_num#,#timeinterval#,
+		 #apmac#,#merchant#,#detail#,#date#);
+    </insert>
+    
+    <!-- 更新统计表 -->
+    <update id="updateCount" parameterClass="Count">
+    	update growth_total set
+        <dynamic>
+            <isNotEmpty property="ap_total">
+                ap_total=#ap_total#,
+            </isNotEmpty>
+        </dynamic>
+         <dynamic>
+            <isNotEmpty property="online_num">
+                online_num=#online_num#,
+            </isNotEmpty>
+        </dynamic> <dynamic>
+            <isNotEmpty property="online_rate">
+                online_rate=#online_rate#,
+            </isNotEmpty>
+        </dynamic>
+        <dynamic>
+            <isNotEmpty property="inconming_total">
+                inconming_total=#inconming_total#,
+            </isNotEmpty>
+        </dynamic>
+         <dynamic>
+            <isNotEmpty property="outgoing_total">
+                outgoing_total=#outgoing_total#,
+            </isNotEmpty>
+        </dynamic> <dynamic>
+            <isNotEmpty property="customer_num">
+                customer_num=#customer_num#
+            </isNotEmpty>
+        </dynamic>
+       	where code=#code#
+    </update>
+    
+    <delete id="deleteApCustomerCount">
+     	<![CDATA[ delete from ap_customer_count where to_days(now())-to_days(date)>=2]]>
+    </delete>
+</sqlMap>
