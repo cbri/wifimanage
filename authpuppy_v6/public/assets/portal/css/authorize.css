@@ -1,0 +1,30 @@
+/** PORTAL SITE AUTHORIZE CSS **/
+
+/** PUBLIC **/
+.siteModules {min-height:42px;}
+.AuthInputLine {padding:5px 10px;overflow:hidden;text-align:left;}
+.AuthInputText {border:1px solid #ddd;background:#fff;height:36px;font:16px/36px "ARIAL";color:#333;width:55%;border-radius:4px;text-indent:8px;padding:0px;height:35px;}
+.AuthMobileSMS {background: #4D82E3;border: 1px solid #4D82E3;border-radius: 4px;color: #FFFFFF;height: 35px;margin-left: 10px;width: 100px;cursor:pointer;_cursor:hand;}
+.AuthSubmitID {background: #F1751A;border: 1px solid #F1751A;border-radius: 4px;color: #FFFFFF;height: 36px;width: 55%;cursor:pointer;_cursor:hand;}
+.AuthSubmitID:hover {background:#f1931a;border:1px solid #f1931a;}
+
+
+.AuthModuleMobile {}
+
+.disabled {background:#ccc;color:#fff;border:1px solid #ccc;}
+
+
+
+.auth-type-components {overflow:hidden;}
+.auth-type-components .auth-type-list-item {overflow:hidden;width:100%;margin:0px;padding:0px;display:none;}
+.auth-type-components .auth-type-list-item ul {overflow:hidden;width:100%;margin:0px;padding:0px;list-style-type:none;}
+.auth-type-components .auth-type-list-item ul li {overflow:hidden;width:50%;padding:20px 0 10px 0;text-align:center;float:left;}
+.auth-type-components .auth-type-list-item ul li a {width:140px;height:100px;text-decoration:none;display:inline-block;}
+.auth-type-components .auth-type-list-item ul li a.mobile {background:url(../img/auth-mobile.png);}
+.auth-type-components .auth-type-list-item ul li a.wechat {background:url(../img/auth-wechat.png);}
+.auth-type-components .auth-component-button {overflow:hidden;padding:30px 0;display:none;text-align:center;}
+.auth-type-components .auth-component-button button {border-radius:2px;width:80%;height:42px;background:#fa5e11;color:#fff;cursor:pointer;_cursor:hand;border:0px;}
+.auth-type-components .auth-component-button button:hover {background:#fd722e;}
+.auth-type-components .auth-type-components-view {overflow:hidden;display:none;position:relative;width:100%;padding:30px 0;padding:20px 0 10px 0;}
+.auth-type-components .auth-type-components-view a.close {width:40px;height:30px;display:block;z-index:100;position:absolute;top:0px;right:0px;text-decoration:none;background:url(../img/auth-close.png);display:none;}
+.auth-type-components .auth-type-components-view .auth-type-body {width:100%;overflow:hidden;display:none;}
