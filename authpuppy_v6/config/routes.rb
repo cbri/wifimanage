@@ -21,6 +21,7 @@ Authpuppy::Application.routes.draw do
   get "wifiauth" => "wifidog#auth"
   get "auth" => "wifidog#auth"
   get "api10/auth" => "wifidog#auth_zj"
+  post "api10/upload" => "wifidog#upload"
   post "auth/login" => "wifidog#login"
   get "wifilogin" => "user#login"
   get "post/:aunnum" => "wifidog#authupdate"
@@ -59,5 +60,6 @@ Authpuppy::Application.routes.draw do
   post "ip_add" => "firewall#ip_add"
   get  "ip_del/:id" => "firewall#ip_del", :as => "ipdel"
   get "indexconn" => "guest#index"
+  post "sign_out" =>"user#sign_out", :as => "killline"
 
 end

@@ -89,10 +89,6 @@ class Connection < ActiveRecord::Base
         if connection.expired? or connection.used_on?
           logger.info "Tried to login with used or expired token: #{params[:token]}"
         else
-          conns = Connection.where("used_on is not null and (expired_on is null or expired_on > NOW() ) and mac =?",params[:mac])
-          conns.each do |conn|
-               conn.expire!
-          end
           connection.update_attributes({
             :mac => params[:mac],
             :ipaddr => params[:ip],
@@ -179,6 +175,15 @@ class Connection < ActiveRecord::Base
     if connection.nil? or !connection.expire!
       false
     else  
+      connection
+    end
+  end
+
+  def self.sign_out(params)
+    connection = self.find_by_token(params[:client_id]);
+    if connection.nil? or !connection.expire!
+      false
+    else
       connection
     end
   end

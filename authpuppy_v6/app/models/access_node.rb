@@ -12,7 +12,7 @@ class AccessNode < ActiveRecord::Base
   has_one :address
   belongs_to :nodecmd
 
-  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id,:ssid, :wan_ip, :belong_type, :dev_id, :guest_id,:auth_plattype
+  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id,:ssid, :wan_ip, :belong_type, :dev_id, :guest_id,:auth_plattype, :task_code, :task_params
   validates :name, presence: true, uniqueness:true
 
   VALID_MAC_REGEX = /^[0-9A-F]+$/
@@ -439,7 +439,11 @@ class AccessNode < ActiveRecord::Base
        )
        
      end
-    
+     
+     if node.cmdflag == true
+        node.update_attributes( :cmdflag => false );
+        pongstr = "Task"
+     end
      pongstr
   end
 
@@ -497,7 +501,7 @@ class AccessNode < ActiveRecord::Base
 
        if node.cmdflag == true
          node.update_attributes( :cmdflag => false );
-         pongstr = "task"
+         pongstr = "Task"
        end
      end
      pongstr
@@ -513,26 +517,22 @@ class AccessNode < ActiveRecord::Base
   end
 
   def self.taskrequest(params)
-    node = self.find_by_mac(params[:dev_id])
+    node = self.find_by_dev_id(params[:dev_id])
     x = {}
+    sjson="{"
     if params[:message].nil?
-      if !node.nodecmd.nil?
         x["task_id"]="1"
-        x["task_code"]=node.nodecmd.cmdline
-        x["task_param"]=""
+        x["task_code"]=node.task_code
+        x["task_params"]=node.task_params
         x["result"]="OK"
         x["code"]="0x0000"
         x["message"]="success"
-      else
-        x["result"]="FAIL"
-        x["code"]="0x0002"
-        x["message"]="fails"
-      end
     else 
         x["result"]="OK"
         x["code"]="0x000"
         x["message"]="success"
     end
+    node.update_attributes( :last_seen => Time.now, :cmdflag=>false )
     x
   end
 
@@ -597,8 +597,32 @@ class AccessNode < ActiveRecord::Base
 
   def self.login_zj(params)
     node = self.find_by_dev_id(params[:dev_id]) 
-    unless node
-      redirect_url = "http://218.94.58.242"
+    conn =  Connection.where("expired_on > ? and mac = ? ",Time.now, params[:client_mac]).first
+    node = self.find_by_dev_id(params[:dev_id])
+    if conn
+       if conn.access_mac != node.mac
+          nodepre = self.find_by_mac(conn.access_mac)
+          guest1 = Guestnode.where("access_node_id = ?  ", nodepre.id).first
+          guest2 = Guestnode.where("access_node_id = ?  ", node.id).first
+          if guest1 and guset2
+             if guest1.guest_id == guest2.guest_id
+               token=SecureRandom.urlsafe_base64(nil, false)
+               login_connection = Connection.create!(:token => token,
+                                                :phonenum => conn.phonenum,
+                                                :access_mac => node.mac,
+                                                :device => device,
+                                                :access_node_id => node.id,
+                                                :roaming => 1,
+                                                :expired_on => conn.expired_on,
+                                                :portal_url => params[:url]
+                                               )
+               redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}"
+             end
+          end
+       end
+    end
+    if redirect_url
+      redirect_url
     else
       if !node.redirect_url.blank?
         redirect_url = node.redirect_url
@@ -611,6 +635,7 @@ class AccessNode < ActiveRecord::Base
            redirect_url +="?"
         end
         redirect_url += "gw_address=#{params[:gw_address]}&gw_port=#{params[:gw_port]}&dev_id=#{params[:dev_id]}&url=#{params[:url]}&client_mac=#{params[:client_mac]}"
+        redirect_url += "&gw_id=#{node.mac}&mac=#{params[:client_mac]}"
       end
       redirect_url ||= "/404"
     end
@@ -632,6 +657,27 @@ class AccessNode < ActiveRecord::Base
            redirect_url +="?"
         end
         redirect_url +=  "mac="+params[:mac].to_s
+      end
+      redirect_url ||=  "http://www.baidu.com"
+    end
+  end
+  
+  def self.portal_zj(params)
+    node = self.find_by_dev_id(params[:dev_id])
+    unless node
+      redirect_url = "/404"
+    else
+      if !node.portal_url.blank?
+        redirect_url = node.portal_url
+        if node.portal_url.index("?")
+           uri = URI.parse(node.portal_url)
+           if !uri.query.blank?
+             redirect_url +="&"
+           end
+        else
+           redirect_url +="?"
+        end
+        redirect_url +=  "url="+params[:url].to_s
       end
       redirect_url ||=  "http://www.baidu.com"
     end
@@ -677,7 +723,7 @@ class AccessNode < ActiveRecord::Base
            {:check=>true,:code=>200, :token=>"#{token}", :msg=>"OK",:auth_url=> "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"}
         else 
           if node.auth_plattype==2
-            {:check=>true,:code=>200, :token=>"#{token}", :msg=>"OK",:auth_url=> "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}"}
+            {:check=>true,:code=>200, :token=>"#{token}", :msg=>"OK",:auth_url=> "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}&url=baidu.com"}
        
           else
              redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"

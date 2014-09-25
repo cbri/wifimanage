@@ -9,8 +9,27 @@ class WifidogController < ApplicationController
   end
 
   def back_task(code)
-    respond_to do |format|
-      format.json {render :json => {:task => {:task_code=>code["task_code"], :task_id=>code["task_id"],:task_param =>code["task_param"] },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+    if code["task_code"]=="3000"
+      respond_to do |format|
+       format.json {render :json => {:task => {:task_code=>code["task_code"], :task_id=>code["task_id"],:task_params =>{ :file =>code["task_params"]} },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+       str = "{\"result\":\"#{code["result"]}\","
+       str += "\"code\":\"#{code["code"]}\","
+       str += "\"message\":\"#{code["message"]}\","
+       str += "\"task\":{\"task_code\":\"#{code["task_code"]}\",\"task_id\":\"#{code["task_id"]}\",\"task_params\":{\"file\":\"#{code["task_params"]}\"}}"
+       str +="}"
+       format.html {render text: str}
+      end
+    else
+     respond_to do |format|
+       format.json {render :json => {:task => {:task_code=>code["task_code"], :task_id=>code["task_id"],:task_params =>{} },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+     
+       str = "{\"result\":\"#{code["result"]}\","
+       str += "\"code\":\"#{code["code"]}\","
+       str += "\"message\":\"#{code["message"]}\","
+       str += "\"task\":{\"task_code\":\"#{code["task_code"]}\",\"task_id\":\"#{code["task_id"]}\",\"task_params\":{}}"
+       str +="}"
+       format.html {render text: str}
+     end
     end
   end
 
@@ -84,6 +103,17 @@ class WifidogController < ApplicationController
     end
     respond_to do |format|
       format.json {render :json => {:result =>"OK",:token => token}}
+    end
+  end
+  def upload
+    if params[:dev_id]
+      if params[:compression].include?
+          self.transaction do
+            params[].each do item
+            
+            end
+          end
+      end
     end
   end
 end
