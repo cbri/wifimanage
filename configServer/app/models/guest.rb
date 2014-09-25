@@ -1,6 +1,6 @@
 class Guest < ActiveRecord::Base
   has_secure_password
-  attr_accessible :name, :password, :password_confirmation, :token
+  attr_accessible :name, :password, :password_confirmation, :token ,:address_id, :contact_id
   before_create { generate_token(:token) }
 
   validates :name, :presence => true, :uniqueness => {:case_sensitive => false}

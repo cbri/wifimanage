@@ -64,9 +64,72 @@ class Connection < ActiveRecord::Base
     self.update_attribute("used_on", Time.now)
   end
 
-  def self.authupdate(params) 
+  def self.authupdate(params)
     auth = 0
+    device="unknown"
     if !connection = self.find_by_token(params[:token])
+      logger.info "Invalid token: #{params[:token]}"
+      node = AccessNode.find_by_mac(params[:gw_id])
+      if node
+        login_connection = Connection.create!(:token => params[:token],
+                                            :access_mac => params[:gw_id],
+                                            :access_node_id => node.id,
+                                            :expired_on => Time.now+30.minutes,
+                                            :mac => params[:mac],                                  
+                                            :ipaddr => params[:ip],             
+                                            :incoming => params[:incoming],                        
+                                            :outgoing => params[:outgoing],     
+                                            :device => device,     
+                                            :used_on => Time.now
+                                            )
+      end
+    else 
+      case params[:stage]
+      when 'login'
+        if connection.expired? or connection.used_on?
+          logger.info "Tried to login with used or expired token: #{params[:token]}"
+        else
+          connection.update_attributes({
+            :mac => params[:mac],
+            :ipaddr => params[:ip],
+            :incoming => params[:incoming],
+            :outgoing => params[:outgoing],
+            :device => device,     
+            :used_on => Time.now
+          })                        
+          auth = 1
+        end
+      when 'counters'
+        if !connection.expired?
+          auth = 1
+        end
+        connection.update_attributes({
+            :mac => params[:mac],
+            :ipaddr => params[:ip],
+            :incoming => params[:incoming],
+            :device => device,     
+            :outgoing => params[:outgoing]
+        })                        
+      when 'logout'
+        logger.info "Logging out: #{params[:token]}"
+        connection.expire!
+      else          
+        logger.info "Invalid stage: #{params[:stage]}"
+      end    
+    end
+    "Auth: #{auth}"
+  end
+
+  def self.authupdate_zj(params)
+    auth = 0
+    device="unknown"
+    connection = self.find_by_token(params[:token])
+    if connection.nil?
+       logger.info params[:token]
+       logger.info "11111111"
+       connection = self.find_by_token(params[:token])
+    end
+    if connection.nil?
       logger.info "Invalid token: #{params[:token]}"
     else 
       case params[:stage]
@@ -79,10 +142,10 @@ class Connection < ActiveRecord::Base
                conn.expire!
           end
           connection.update_attributes({
-            :mac => params[:mac],
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
             :outgoing => params[:outgoing],
+            :device => device,     
             :used_on => Time.now
           })                        
           auth = 1
@@ -90,13 +153,13 @@ class Connection < ActiveRecord::Base
       when 'counters'
         if !connection.expired?
           auth = 1
-          connection.update_attributes({
-            :mac => params[:mac],
+        end
+        connection.update_attributes({
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
+            :device => device,     
             :outgoing => params[:outgoing]
-          })                        
-          end
+        })                        
       when 'logout'
         logger.info "Logging out: #{params[:token]}"
         connection.expire!
@@ -112,6 +175,15 @@ class Connection < ActiveRecord::Base
     if connection.nil? or !connection.expire!
       false
     else  
+      connection
+    end
+  end
+
+  def self.sign_out(params)
+    connection = self.find_by_token(params[:client_id]);
+    if connection.nil? or !connection.expire!
+      false
+    else
       connection
     end
   end

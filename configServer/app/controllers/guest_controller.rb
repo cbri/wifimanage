@@ -27,7 +27,6 @@ class GuestController < ApplicationController
     end
   end
 
-
   def self.define_component(name)
     define_method(name) {
       check = AccessNode.send name, params

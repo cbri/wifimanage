@@ -1,3 +1,5 @@
+require 'net/http'
+require 'json'
 class AccessNode < ActiveRecord::Base
   default_scope order('updated_at DESC')
   has_many :connections
@@ -10,7 +12,7 @@ class AccessNode < ActiveRecord::Base
   has_one :address
   belongs_to :nodecmd
 
-  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id,:ssid
+  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id,:ssid, :wan_ip, :belong_type, :dev_id, :guest_id,:auth_plattype, :task_code, :task_params
   validates :name, presence: true, uniqueness:true
 
   VALID_MAC_REGEX = /^[0-9A-F]+$/
@@ -49,6 +51,7 @@ class AccessNode < ActiveRecord::Base
   end
 
   def self.find_by_mac(mac)
+    #AccessNode.where(:name => sanitize_mac_address(mac)).first
     self.find(:first, :conditions => ["mac = ?", sanitize_mac_address(mac)])
   end
 
@@ -327,26 +330,178 @@ class AccessNode < ActiveRecord::Base
   end
 
 
-   def self.ping(params)
+   def self.ping(params,request)
      node = self.find_by_mac(params[:gw_id])
      pongstr = "Pong"
+     if node.nil?
+        node = self.create!(mac:params[:gw_id],belong_type:1)
+        Auth.create!(auth_type:"radius",auth_device:false,access_node_id:node.id)
+        Conf.create!(access_node_id:node.id)
+     end
      if node
+       wan_ip =  request.headers["action_dispatch.remote_ip"].to_s()
+       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip)
+           city=""
+           detail=""
+           province=""
+           district=""
+	   params = {}
+	   params["ip"] = wan_ip
+           uri = URI.parse("http://ip.taobao.com/service/getIpInfo.php")
+           res = Net::HTTP.post_form(uri, params)
+
+           h = JSON.parse res.body
+           ss= h["data"]["region_id"]
+           province=ss.encode("utf-8")
+           ss= h["data"]["city_id"]
+           city=ss.encode("utf-8")
+           ss= h["data"]["county_id"]
+           district=ss.encode("utf-8")
+           logger.info city
+           ad = Address.where(:access_node_id => node.id).first
+	   if ad.nil?
+              Address.create!(access_node_id:node.id,city:city,detail:detail,province:province,district:district)
+           else
+              ad.update_attributes(
+                 :city => city,
+                 :province => province,
+                 :district => district
+              )
+           end
+       end
+          
        node.update_attributes(
          :sys_uptime => params[:sys_uptime],
          :sys_upload => params[:sys_load],
          :sys_memfree => params[:sys_memfree],
          :update_time => params[:wifidog_uptime],
-         #:remote_addr => request.remote_addr,
+         :remote_addr => request.remote_addr,
+         :wan_ip => wan_ip,
          :ssid => params[:ssid],
          :last_seen => Time.now
        )
-
+       
        if node.cmdflag == true
          node.update_attributes( :cmdflag => false );
          pongstr += ":cmdflag"
        elsif node.configflag == true
          node.update_attributes( :configflag => false );
          pongstr += ":configflag"
+       end
+     end
+     pongstr
+  end
+
+  def self.ping_zj(params,request)
+     node = self.find_by_dev_id(params[:dev_id])
+     pongstr = "Pong"
+     if node
+       wan_ip =  request.headers["action_dispatch.remote_ip"].to_s()
+       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip)
+           city=""
+           detail=""
+           province=""
+           district=""
+	   params = {}
+	   params["ip"] = wan_ip
+           uri = URI.parse("http://ip.taobao.com/service/getIpInfo.php")
+           res = Net::HTTP.post_form(uri, params)
+
+           h = JSON.parse res.body
+           ss= h["data"]["region_id"]
+           province=ss.encode("utf-8")
+           ss= h["data"]["city_id"]
+           city=ss.encode("utf-8")
+           ss= h["data"]["county_id"]
+           district=ss.encode("utf-8")
+           logger.info city
+           ad = Address.where(:access_node_id => node.id).first
+	   if ad.nil?
+              Address.create!(access_node_id:node.id,city:city,detail:detail,province:province,district:district)
+           else
+              ad.update_attributes(
+                 :city => city,
+                 :province => province,
+                 :district => district
+              )
+           end
+       end
+          
+       node.update_attributes(
+         :sys_uptime => params[:sys_uptime],
+         :sys_upload => params[:sys_load],
+         :sys_memfree => params[:sys_memfree],
+         :update_time => params[:uptime],
+         :remote_addr => request.remote_addr,
+         :wan_ip => wan_ip,
+         :ssid => params[:ssid],
+         :last_seen => Time.now
+       )
+       
+     end
+     
+     if node.cmdflag == true
+        node.update_attributes( :cmdflag => false );
+        pongstr = "Task"
+     end
+     pongstr
+  end
+
+  def self.ping_task(params,request)
+     node = self.find_by_mac(params[:gw_id])
+     if node.nil?
+        node = self.create!(mac:params[:gw_id],name:params[:gw_id],belong_type:1)
+        Auth.create!(auth_type:"radius",auth_device:false,access_node_id:node.id)
+        Conf.create!(access_node_id:node.id)
+     end
+     pongstr = "Pong"
+     if node
+       wan_ip =  request.headers["action_dispatch.remote_ip"].to_s()
+       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip)
+           city=""
+           detail=""
+           province=""
+           district=""
+           params = {}
+           params["ip"] = wan_ip
+           uri = URI.parse("http://ip.taobao.com/service/getIpInfo.php")
+           res = Net::HTTP.post_form(uri, params)
+
+           h = JSON.parse res.body
+           ss= h["data"]["region_id"]
+           province=ss.encode("utf-8")
+           ss= h["data"]["city_id"]
+           city=ss.encode("utf-8")
+           ss= h["data"]["county_id"]
+           district=ss.encode("utf-8")
+           logger.info city
+           ad = Address.where(:access_node_id => node.id).first
+           if ad.nil?
+              Address.create!(access_node_id:node.id,city:city,detail:detail,province:province,district:district)
+           else
+              ad.update_attributes(
+                 :city => city,
+                 :province => province,
+                 :district => district
+              )
+           end
+           node.update_attributes(:belong_type => 1)
+       end
+
+       node.update_attributes(
+         :sys_uptime => params[:sys_uptime],
+         :sys_upload => params[:sys_load],
+         :sys_memfree => params[:sys_memfree],
+         :update_time => params[:wifidog_uptime],
+         :remote_addr => request.remote_addr,
+         :wan_ip => wan_ip,
+         :ssid => params[:ssid],
+         :last_seen => Time.now
+       )
+
+       if node.cmdflag == true
+         node.update_attributes( :cmdflag => false );
+         pongstr = "Task"
        end
      end
      pongstr
@@ -359,6 +514,26 @@ class AccessNode < ActiveRecord::Base
       str="Cmd:"+node.nodecmd.cmdline
     end
     str
+  end
+
+  def self.taskrequest(params)
+    node = self.find_by_dev_id(params[:dev_id])
+    x = {}
+    sjson="{"
+    if params[:message].nil?
+        x["task_id"]="1"
+        x["task_code"]=node.task_code
+        x["task_params"]=node.task_params
+        x["result"]="OK"
+        x["code"]="0x0000"
+        x["message"]="success"
+    else 
+        x["result"]="OK"
+        x["code"]="0x000"
+        x["message"]="success"
+    end
+    node.update_attributes( :last_seen => Time.now, :cmdflag=>false )
+    x
   end
 
   def self.setconfigflag(params)
@@ -405,7 +580,62 @@ class AccessNode < ActiveRecord::Base
       redirect_url = "http://218.94.58.242"
     else
       if !node.redirect_url.blank?
-        redirect_url = node.redirect_url+"&gw_address=#{params[:gw_address]}&gw_port=#{params[:gw_port]}&gw_id=#{params[:gw_id]}&public_ip=124.127.116.181&mac=#{params[:mac]}"
+        redirect_url = node.redirect_url
+        if node.redirect_url.index("?")
+           uri = URI.parse(node.redirect_url)
+           if !uri.query.blank?
+             redirect_url +="&" 
+           end
+        else
+           redirect_url +="?"
+        end
+        redirect_url += "gw_address=#{params[:gw_address]}&gw_port=#{params[:gw_port]}&gw_id=#{params[:gw_id]}&url=#{params[:url]}&mac=#{params[:mac]}"
+      end
+      redirect_url ||= "/404"
+    end
+  end
+
+  def self.login_zj(params)
+    node = self.find_by_dev_id(params[:dev_id]) 
+    conn =  Connection.where("expired_on > ? and mac = ? ",Time.now, params[:client_mac]).first
+    node = self.find_by_dev_id(params[:dev_id])
+    if conn
+       if conn.access_mac != node.mac
+          nodepre = self.find_by_mac(conn.access_mac)
+          guest1 = Guestnode.where("access_node_id = ?  ", nodepre.id).first
+          guest2 = Guestnode.where("access_node_id = ?  ", node.id).first
+          if guest1 and guset2
+             if guest1.guest_id == guest2.guest_id
+               token=SecureRandom.urlsafe_base64(nil, false)
+               login_connection = Connection.create!(:token => token,
+                                                :phonenum => conn.phonenum,
+                                                :access_mac => node.mac,
+                                                :device => device,
+                                                :access_node_id => node.id,
+                                                :roaming => 1,
+                                                :expired_on => conn.expired_on,
+                                                :portal_url => params[:url]
+                                               )
+               redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}"
+             end
+          end
+       end
+    end
+    if redirect_url
+      redirect_url
+    else
+      if !node.redirect_url.blank?
+        redirect_url = node.redirect_url
+        if node.redirect_url.index("?")
+           uri = URI.parse(node.redirect_url)
+           if !uri.query.blank?
+             redirect_url +="&" 
+           end
+        else
+           redirect_url +="?"
+        end
+        redirect_url += "gw_address=#{params[:gw_address]}&gw_port=#{params[:gw_port]}&dev_id=#{params[:dev_id]}&url=#{params[:url]}&client_mac=#{params[:client_mac]}"
+        redirect_url += "&gw_id=#{node.mac}&mac=#{params[:client_mac]}"
       end
       redirect_url ||= "/404"
     end
@@ -417,7 +647,37 @@ class AccessNode < ActiveRecord::Base
       redirect_url = "/404"
     else
       if !node.portal_url.blank?
-        redirect_url =  node.portal_url+"&mac="+params[:mac].to_s
+        redirect_url = node.portal_url
+        if node.portal_url.index("?")
+           uri = URI.parse(node.portal_url)
+           if !uri.query.blank?
+             redirect_url +="&"
+           end
+        else
+           redirect_url +="?"
+        end
+        redirect_url +=  "mac="+params[:mac].to_s
+      end
+      redirect_url ||=  "http://www.baidu.com"
+    end
+  end
+  
+  def self.portal_zj(params)
+    node = self.find_by_dev_id(params[:dev_id])
+    unless node
+      redirect_url = "/404"
+    else
+      if !node.portal_url.blank?
+        redirect_url = node.portal_url
+        if node.portal_url.index("?")
+           uri = URI.parse(node.portal_url)
+           if !uri.query.blank?
+             redirect_url +="&"
+           end
+        else
+           redirect_url +="?"
+        end
+        redirect_url +=  "url="+params[:url].to_s
       end
       redirect_url ||=  "http://www.baidu.com"
     end
@@ -459,7 +719,16 @@ class AccessNode < ActiveRecord::Base
                                                )
           end
         end
-        redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"
+        if node.auth_plattype==1
+           {:check=>true,:code=>200, :token=>"#{token}", :msg=>"OK",:auth_url=> "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"}
+        else 
+          if node.auth_plattype==2
+            {:check=>true,:code=>200, :token=>"#{token}", :msg=>"OK",:auth_url=> "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}&url=baidu.com"}
+       
+          else
+             redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"
+          end
+        end
       end
     end
   end

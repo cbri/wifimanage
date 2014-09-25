@@ -3,9 +3,25 @@ class AccessNodesController < ApplicationController
   before_filter :check_admin
   
   def index
-    @access_nodes = AccessNode.paginate(page: params[:page]);
+    current_admin ||= Admin.find_by_token(cookies[:token]) if cookies[:token]
+    if current_admin
+      @access_nodes = AccessNode.paginate(page: params[:page]);
+    end 
+    
+    current_guest ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
+    if current_guest
+      logger.info current_guest.id
+      @access_nodes = AccessNode.where(:guest_id =>current_guest.id).paginate(page: params[:page]);
+    end
+    if params[:mac]
+       @access_nodes = AccessNode.where("mac like ?","%#{params[:mac]}%").paginate(page: params[:page]);
+    end 
   end
-
+  
+  def searchbymac
+     @access_nodes = AccessNode.where("mac like %?",params[:mac]).paginate(page: params[:page]);
+     redirect_to :action => "index" ,:mac =>params[:mac]
+  end
   def new
     @access_node = AccessNode.new
   end
@@ -124,6 +140,8 @@ class AccessNodesController < ApplicationController
     @access.update_attributes(:nodecmd_id=>params[:nodecmd_id],:cmdflag =>true )
     flash[:notice] = "远程操作成功！"
     redirect_to access_nodes_url;
+  end
+  def register
   end
   
 end

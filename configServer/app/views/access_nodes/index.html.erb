@@ -1,6 +1,12 @@
 <div class="container">
 <h1>WiFi节点列表</h1>
-
+<div>
+  <%= form_tag "/searchbymac" do %>
+          
+          mac: <%= text_field_tag(:mac, params[:mac] )%>
+   <%= submit_tag "搜索", :class => "btn btn-large btn-primary" %> 
+  <% end %>
+</div> 
 <ul class="users">
   <%= will_paginate @access_nodes %>
   <% @access_nodes.each do |access| %>

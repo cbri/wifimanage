@@ -34,6 +34,7 @@ class ApplicationController < ActionController::Base
 
   def current_admin
     @current_admin ||= Admin.find_by_token(cookies[:token]) if cookies[:token]
+    @current_admin ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
   end
 
   helper_method :current_admin
