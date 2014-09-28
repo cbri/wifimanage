@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap>
+	   <select id="selectHighcharts_d" resultClass="hashmap" parameterClass="map">  
+			select * from growth_speed_d 
+			where  year_num = #year_num#
+			and    month_num = #month_num#
+			<dynamic >
+					and code in 
+				<iterate open="(" close=")" conjunction="," property="code">    
+		                	#code[]# 
+		        </iterate>
+					order by CAST(day_num AS SIGNED )
+			</dynamic>
+     </select>
+	 
+	  <select id="selectHighcharts_m" resultClass="hashmap" parameterClass="map">  
+			select * from growth_speed_m
+			where  year_num = #year_num#
+			<dynamic >
+					and code in 
+				<iterate open="(" close=")" conjunction="," property="code">    
+		                	#code[]# 
+		        </iterate>
+					order by CAST(month_num AS SIGNED )
+			</dynamic>
+     </select>
+	 
+	  <select id="selectHighcharts2_d" resultClass="hashmap" parameterClass="map">  
+			select * from growth_speed_d 
+			<dynamic >
+					where code in 
+				<iterate open="(" close=")" conjunction="," property="code">    
+		                	#code[]# 
+		        </iterate>
+				and  stat_date in 
+				<iterate open="(" close=")" conjunction="," property="stat_date">    
+		                	#stat_date[]# 
+		        </iterate>
+					order by  CAST(month_num AS SIGNED),CAST(day_num AS SIGNED )
+			</dynamic>
+     </select>
+	 
+	  <select id="selectHighcharts2_m" resultClass="hashmap" parameterClass="map">  
+			select * from growth_speed_m
+			<dynamic >
+					where code in 
+				<iterate open="(" close=")" conjunction="," property="code">    
+		                	#code[]# 
+		        </iterate>
+					and stat_date in 
+				<iterate open="(" close=")" conjunction="," property="stat_date">    
+		                	#stat_date[]# 
+		        </iterate>
+					order by  CAST(month_num AS SIGNED)
+			</dynamic>
+     </select>
+	 
+</sqlMap>

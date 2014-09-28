@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="app">
+	<typeAlias alias="Router" type="com.sinosoft.app.bean.Router"/>
+	<typeAlias alias="Plugins" type="com.sinosoft.app.bean.Plugins"/>
+	
+	<!-- 查询用户 -->
+	<select id="getRouter" resultClass="Router" parameterClass="map">  
+       select id,mac,software,
+       		  created_at,updated_at,factory,last_seen,
+       		  renew from cloudwifi_manage.routers
+       
+    </select>
+   <select id="getPlugin" resultClass="Plugins" parameterClass="map">  
+       select id,name,
+       		  created_at,updated_at,imagename,ishot,
+       		  category,installcmd,removecmd,opkg,renewcmd from cloudwifi_manage.plugins
+       
+    </select>
+    <select id="getPluginByRouter" resultClass="Plugins" parameterClass="map">  
+       select a.id,a.name,
+       		  a.created_at,a.updated_at,a.imagename,ishot,
+       		  a.category,a.installcmd,a.removecmd,a.opkg,a.renewcmd from cloudwifi_manage.plugins a,cloudwifi_manage.plugins_routers b
+       <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="id">
+               a.id=b.plugin_id  
+           </isNotEmpty>
+            <isNotEmpty prepend="and" property="id">
+               b.router_id=#id#  
+           </isNotEmpty>
+       </dynamic>
+    </select>
+   
+   
+   
+</sqlMap>

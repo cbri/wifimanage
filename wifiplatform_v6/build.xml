@@ -1,0 +1,74 @@
+<?xml version="1.0" ?>
+<project name="hp" default="war">
+	<property name="src" value="src" />
+	<property name="WebContent" value="WebRoot" />
+	<property name="dist" value="target" />
+	<property name="warDest" value="wardest" />
+	<property name="classDest" value="class" />
+	<property name="source-encoding" value="UTF-8" />
+	<property name="warName" value="wifiplatform.war" />
+
+	<!--编译java源文件所需的jar文件 -->
+	<path id="build-classpath">
+		<fileset dir="WebRoot\WEB-INF\lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!--清理 -->
+	<target name="clean">
+		<delete dir="${dist}" />
+	</target>
+
+	<!-- 初始化，建立相关的文件夹 -->
+	<target name="init">
+		<mkdir dir="${dist}" />
+		<mkdir dir="${dist}/${warDest}" />
+		<mkdir dir="${dist}/${classDest}" />
+	</target>
+
+	<!-- 编译java源文件并拷贝到相应的文件夹 -->
+	<target name="build" depends="init">
+		<javac srcdir="${src}" destdir="${dist}/${classDest}" target="1.7"
+			classpathref="build-classpath" encoding="${source-encoding}" debug="true"
+			debuglevel="source,lines,vars">
+		</javac>
+	</target>
+
+	<!--拷贝webcontent文件到相应的文件夹 -->
+	<target name="copy">
+		<copy todir="${dist}/${warDest}">
+			<fileset dir="${WebContent}">
+				
+			</fileset>
+		</copy>
+		<copy todir="${dist}/${classDest}">
+			<fileset dir="${src}">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<!--拷贝部署用的配置文件 
+		<delete file="${dist}/${warDest}/WEB-INF/config/log4j.properties" />
+		<move file="${dist}/${warDest}/WEB-INF/config/log4j.build.properties"
+			tofile="${dist}/${warDest}/WEB-INF/config/log4j.properties" />
+		<delete file="${dist}/${warDest}/WEB-INF/web.xml" />
+		<move file="${dist}/${warDest}/WEB-INF/web.build.xml" tofile="${dist}/${warDest}/WEB-INF/web.xml" />
+		<delete file="${dist}/${warDest}/META-INF/context.xml" />
+		<move file="${dist}/${warDest}/META-INF/context.build.xml"
+			tofile="${dist}/${warDest}/META-INF/context.xml" />
+			-->
+	</target>
+
+	<!--打包 -->
+	<target name="war" depends="build,copy">
+		<war destfile="${dist}/${warName}" webxml="${WebContent}/WEB-INF/web.xml">
+			<fileset dir="${dist}/${warDest}" />
+			<!-- <lib dir="${WebContent}/WEB-INF/lib"/> -->
+			<classes dir="${dist}/${classDest}"></classes>
+		</war>
+		<delete dir="${dist}/${warDest}"></delete>
+		<delete dir="${dist}/${classDest}"></delete>
+	</target>
+
+</project>

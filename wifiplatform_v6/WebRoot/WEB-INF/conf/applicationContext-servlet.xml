@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring" 
+	xsi:schemaLocation=" 
+		http://www.springframework.org/schema/aop 
+			classpath:/org/springframework/aop/config/spring-aop-3.0.xsd 
+        http://www.springframework.org/schema/beans
+        	classpath:/org/springframework/beans/factory/xml/spring-beans-3.0.xsd 
+        http://www.springframework.org/schema/context 
+        	classpath:/org/springframework/context/config/spring-context-3.0.xsd 
+        http://www.springframework.org/schema/mvc 
+        	classpath:/org/springframework/web/servlet/config/spring-mvc-3.0.xsd 
+        http://www.springframework.org/schema/tx 
+        	classpath:/org/springframework/transaction/config/spring-tx-3.0.xsd 
+	">
+	
+	<!-- 注解探测器,bean注入和依赖 -->
+	<context:component-scan base-package="com.sinosoft"/>
+	
+	
+	<!-- 配置静态资源，不被DispatcherServlet处理，3.04新增功能，需要重新设置spring-mvc-3.0.xsd -->
+	<mvc:resources mapping="/source/**" location="/source/" />
+	<!--  annotation默认的方法映射适配器 -->
+	<bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"></bean>
+	<bean id="handlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<ref bean="jsonRequestMappingConvert" />
+		</property>
+	</bean>
+	
+	<!-- 为了处理返回的JSON数据的编码，默认是ISO-88859-1的，这里把它设置为UTF-8, 解决有乱码 -->
+	<bean id="jsonRequestMappingConvert" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+				<value>application/json;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 视图配置 
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> 
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value=""/> 
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	--> 
+	<!-- 文件上传定义 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:defaultEncoding="utf-8">  
+		<property name="maxUploadSize">  
+			<value>104857600</value>  
+		</property>  
+		<property name="maxInMemorySize">  
+			<value>4096</value>  
+		</property>  
+	</bean>
+</beans> 

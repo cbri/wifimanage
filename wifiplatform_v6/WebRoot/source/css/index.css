@@ -1,0 +1,167 @@
+body {
+    font-family:'微软雅黑';
+    padding:0;
+    margin:0;
+}
+.wrap {
+    width:100%;
+    height:100%;
+    margin:0 auto;
+}
+a {
+    text-decoration:none;
+}
+a:hover {
+    text-decoration:underline;
+}
+.title {
+    width:100%;
+    height:70px;
+    line-height:70px;
+    background:#1d354f;
+}
+.tt_img {
+    display:block;
+    float:left;
+    margin:20px 0 0 48px;
+}
+.title ul li img {
+    margin-right:6px;
+    float:left;
+
+}
+.title ul li {
+    float:right;
+    width:100px;
+}
+.title ul li a {
+    color:#fff;
+    font-size:17px;
+}
+.content {
+    width:100%;
+    height:100%;
+}
+
+
+.denglu {
+    position:relative;
+}
+#bg {
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:-1;
+}
+.denglu_border {
+    width:350px;
+    height:388px;
+    background:url(../images/denglu_black.png)  no-repeat;
+    position:fixed;
+    top:140px;
+    left:500px;
+}
+.inpu{
+   width:236px;
+   height:30px;
+   line-height:30px;
+   font-size:18px;
+   position:absolute;
+   background:none;
+   border:none;
+   font-family:'微软雅黑';
+   color:#393939;
+}
+.denglu_inpu p{
+    float:left;
+    position:absolute;
+    left:30px;
+    top:210px;
+}
+.denglu_inpu label {
+    color:#fff;
+    margin-left:10px;
+}
+.denglu_inpu img {
+    position:absolute;
+    bottom:72px;
+    left:23px;
+}
+
+
+/*首页*/
+.main {
+    background:#000;
+    width:100%;
+    height:100%;
+    position:fixed;
+}
+.main_left {
+    width:80%;
+    height:98%;
+    float:left;
+    margin-top:8px;
+    margin-left:4px;
+}
+.main_right {
+    width:19%;
+    height:98%;
+    float:right;
+    background:#687dfe;
+    margin-top:8px;
+    margin-right:4px;
+    position:relative;
+}
+.main_top {
+    width:100%;
+    height:49%;
+    float:left;
+}
+.main_bottom {
+    width:100%;
+    height:50.5%;
+    float:left;
+    margin-top:4px
+}
+.top_left {
+    width:62%;
+    height:100%;
+    line-height:70px;
+    background:#00cfe9;
+    float:left;
+}
+.top_right {
+    width:37.5%;
+    height:100%;
+    background:#cd3736;
+    float:right;
+}
+.bottom_left {
+    width:37.5%;
+    height:100%;
+    background:url(../images/green.png) repeat-x top  center;
+    float:left;
+}
+.bottom_right {
+    width:62%;
+    height:100%;
+    background:url(../images/orange.png) repeat-x center center;
+    float:right;
+}
+.page_table {
+    bottom:80px;
+    margin-left:10px;
+}
+.page_table td{
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    color:#fff;
+}
+
+#g1 {
+    width:400px; height:320px;
+    display: inline-block;
+	margin-top: -70px;
+	border-radius: 8px;
+}

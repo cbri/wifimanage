@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="account">
+	<typeAlias alias="Account" type="com.sinosoft.account.bean.Account"/>
+	<typeAlias alias="AccountDistrictRel" type="com.sinosoft.account.bean.AccountDistrictRel"/>
+	<typeAlias alias="Position" type="com.sinosoft.addrtree.bean.Position"/>
+	<!-- 查询用户 -->
+	<select id="getAccount" resultClass="Account" parameterClass="map">  
+       select id,name,password,
+       		  created_at,updated_at,token,real_name,
+       		  invalid_flag,lock_time,contact,parent_userid,level from cloudwifi_manage.login_user
+       <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="id">
+               id=#id#  
+           </isNotEmpty>
+           <isNotEmpty prepend="and" property="name">
+               name like '%$name$%'  
+           </isNotEmpty>
+           <isNotNull prepend="and" property="password">
+               password=password(#password#)
+           </isNotNull>
+           <isNotEmpty prepend="and" property="parent_userid">
+               parent_userid=#parent_userid#
+           </isNotEmpty>
+       </dynamic>
+    </select>
+    <!-- 查询用户区域关系表 -->
+    <select id="queryAccountDistrictRel" resultClass="AccountDistrictRel" parameterClass="Account">  
+       select userid,code,name,
+              parent_code,level 
+         from cloudwifi_manage.user_district_rel
+       <dynamic prepend="where">
+            <isNotEmpty prepend="and" property="id">
+               userid=#id#  
+           </isNotEmpty>
+		  order by code
+       </dynamic>
+    </select>
+    <!-- 保存用户 -->
+    <insert id="saveAccount" parameterClass="Account">
+    	INSERT INTO 
+    	    login_user(name,
+    	               password,
+    	               created_at,
+    	               updated_at,
+    	               real_name,
+    	               contact,
+    	               parent_userid,
+    	               level)
+    	        values(#name#,
+    	               password(#password#),
+    	               #created_at#,
+    	               #updated_at#,
+    	               #real_name#,
+    	               #contact#,
+    	               #parent_userid#,
+    	               #level#)
+    	 <selectKey resultClass="Account">
+    	 	  SELECT id,name,password,created_at,updated_at,token,real_name,invalid_flag,lock_time,contact,parent_userid from login_user
+		      WHERE id=@@IDENTITY
+		</selectKey>
+    </insert>
+    <!-- 保存用户 区域-->
+    <insert id="saveAccountDistrict" parameterClass="AccountDistrictRel">
+    	INSERT INTO 
+    		user_district_rel(code,
+    						  parent_code,
+    						  level,
+    						  name,
+    						  userid)
+    	               values(#code#,
+    	                      #parent_code#,
+    	                      #level#,
+    	                      #name#,
+    	                      #userid#)
+    </insert>
+    <!-- 更新用户信息 -->
+    <update id="account.updateAccount" parameterClass="hashmap">
+    	 UPDATE cloudwifi_manage.login_user
+    	 SET id=#id# 
+    	 <dynamic>
+    	 	<isNotEmpty prepend="," property="invalid_flag" >
+    	 		invalid_flag = #invalid_flag#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="name">
+    	 		name = #name#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="password">
+    	 		password = password(#password#)
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="real_name">
+    	 		real_name = #real_name#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="created_at">
+    	 		created_at = #created_at#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="updated_at">
+    	 		updated_at = #updated_at#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="lock_time">
+    	 		lock_time = #lock_time#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="contact">
+    	 		contact = #contact#
+    	 	</isNotEmpty>
+    	 	<isNotEmpty prepend="," property="level">
+    	 		level = #level#
+    	 	</isNotEmpty>
+    	 </dynamic>
+    	 WHERE id=#id#
+    </update>
+    <!-- 删除用户区域 -->
+    <delete id="account.deleteAccountDistrict" parameterClass="hashmap">
+    	 DELETE FROM 
+    	 		cloudwifi_manage.user_district_rel 
+    	 		<dynamic prepend="WHERE">
+    	 			<isNotEmpty prepend="AND" property="userid">
+    	 				userid=#userid#
+    	 			</isNotEmpty>
+    	 			<isNotEmpty prepend="AND" property="code">
+    	 				code=#code#
+    	 			</isNotEmpty>
+    	 			<isNotEmpty prepend="AND" property="name">
+    	 				name=#name#
+    	 			</isNotEmpty>
+    	 			<isNotEmpty prepend="AND" property="parent_code">
+    	 				parent_code=#parent_code#
+    	 			</isNotEmpty>
+    	 			<isNotEmpty prepend="AND" property="level">
+    	 				level=#level#
+    	 			</isNotEmpty>
+    	 		</dynamic>
+    </delete>
+</sqlMap>

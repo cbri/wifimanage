@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="growth_total">
+	<typeAlias alias="GrowthTotal" type="com.sinosoft.account.bean.GrowthTotal"/>
+	<select id="growth_total!queryGrowthTotal" parameterClass="map" resultClass="GrowthTotal">
+		SELECT code,
+			   parent_code,
+			   name,
+			   level,
+			   ap_total,
+			   online_num,
+			   online_rate,
+			   inconming_total,
+			   outgoing_total,
+			   customer_num
+		 FROM  cloudwifi_manage.growth_total
+		 <dynamic prepend="where">
+		 		<isNotEmpty prepend="and" property="code">
+		 			code=#code#
+		 		</isNotEmpty>
+		 		<isNotEmpty prepend="and" property="parent_code">
+		 			parent_code=#parent_code#
+		 		</isNotEmpty>
+		 		<isNotEmpty prepend="and" property="name">
+		 			name='#$name$#'
+		 		</isNotEmpty>
+		 		<isNotEmpty prepend="and" property="level">
+		 			level=#level#
+		 		</isNotEmpty>
+		 </dynamic>
+	</select>
+</sqlMap>

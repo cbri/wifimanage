@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="common">
+	<!-- 根据MAC或APID来查询对应的IP -->
+	<select id="commonDaoImpl!queryIpByMac" parameterClass="map" resultClass="string">
+		SELECT ipaddr 
+		  FROM authservers 
+		 WHERE node_mac = #mac#
+	</select>
+	<!-- 根据MAC集合，获取对应的IP -->
+	<select id="commonDaoImpl!queryIpByMacs" parameterClass="java.util.List" resultClass="java.util.HashMap">
+		SELECT ipaddr,node_mac
+		  FROM authservers 
+		 WHERE node_mac IN
+		 	   <iterate open="(" close=")" conjunction=",">
+		 	   		#list[]#
+		 	   </iterate>
+		 	   
+	</select>
+</sqlMap>
