@@ -340,15 +340,15 @@ class AccessNode < ActiveRecord::Base
      end
      if node
        wan_ip =  request.headers["action_dispatch.remote_ip"].to_s()
-       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip)
+       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip) or true
            city=""
            detail=""
            province=""
            district=""
-	   params = {}
-	   params["ip"] = wan_ip
+	   param = {}
+	   param["ip"] = wan_ip
            uri = URI.parse("http://ip.taobao.com/service/getIpInfo.php")
-           res = Net::HTTP.post_form(uri, params)
+           res = Net::HTTP.post_form(uri, param)
 
            h = JSON.parse res.body
            ss= h["data"]["region_id"]
@@ -397,15 +397,15 @@ class AccessNode < ActiveRecord::Base
      pongstr = "Pong"
      if node
        wan_ip =  request.headers["action_dispatch.remote_ip"].to_s()
-       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip)
+       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip) or true
            city=""
            detail=""
            province=""
            district=""
-	   params = {}
-	   params["ip"] = wan_ip
+	   param = {}
+	   param["ip"] = wan_ip
            uri = URI.parse("http://ip.taobao.com/service/getIpInfo.php")
-           res = Net::HTTP.post_form(uri, params)
+           res = Net::HTTP.post_form(uri, param)
 
            h = JSON.parse res.body
            ss= h["data"]["region_id"]
@@ -426,7 +426,6 @@ class AccessNode < ActiveRecord::Base
               )
            end
        end
-          
        node.update_attributes(
          :sys_uptime => params[:sys_uptime],
          :sys_upload => params[:sys_load],
@@ -457,15 +456,15 @@ class AccessNode < ActiveRecord::Base
      pongstr = "Pong"
      if node
        wan_ip =  request.headers["action_dispatch.remote_ip"].to_s()
-       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip)
+       if node.wan_ip.nil? or (wan_ip and wan_ip!= node.wan_ip) or true
            city=""
            detail=""
            province=""
            district=""
-           params = {}
-           params["ip"] = wan_ip
+           param = {}
+           param["ip"] = wan_ip
            uri = URI.parse("http://ip.taobao.com/service/getIpInfo.php")
-           res = Net::HTTP.post_form(uri, params)
+           res = Net::HTTP.post_form(uri, param)
 
            h = JSON.parse res.body
            ss= h["data"]["region_id"]
@@ -576,8 +575,31 @@ class AccessNode < ActiveRecord::Base
 
   def self.login(params)
     node = self.find_by_mac(params[:gw_id]) 
-    unless node
-      redirect_url = "http://218.94.58.242"
+    conn =  Connection.where("expired_on > ? and mac = ? ",Time.now, params[:mac]).first
+    if conn
+       if conn.access_mac != node.mac
+          nodepre = self.find_by_mac(conn.access_mac)
+          guest1 = Guestnode.where("access_node_id = ?  ", nodepre.id).first
+          guest2 = Guestnode.where("access_node_id = ?  ", node.id).first
+          if guest1 and guest2
+             if guest1.guest_id == guest2.guest_id
+               token=SecureRandom.urlsafe_base64(nil, false)
+               login_connection = Connection.create!(:token => token,
+                                                :phonenum => conn.phonenum,
+                                                :access_mac => node.mac,
+                                                :device => "",
+                                                :access_node_id => node.id,
+                                                :roaming => 1,
+                                                :expired_on => conn.expired_on,
+                                                :portal_url => params[:url]
+                                               )
+               redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"
+             end
+          end
+       end
+    end
+    if redirect_url
+      redirect_url
     else
       if !node.redirect_url.blank?
         redirect_url = node.redirect_url
@@ -597,26 +619,34 @@ class AccessNode < ActiveRecord::Base
 
   def self.login_zj(params)
     node = self.find_by_dev_id(params[:dev_id]) 
-    conn =  Connection.where("expired_on > ? and mac = ? ",Time.now, params[:client_mac]).first
+    mac=""
+    if params[:client_mac]
+      mac = params[:client_mac].gsub(/[:-]/, "").upcase
+    end
+    conn =  Connection.where("expired_on > ? and mac = ? ",Time.now, mac).first
     node = self.find_by_dev_id(params[:dev_id])
     if conn
        if conn.access_mac != node.mac
           nodepre = self.find_by_mac(conn.access_mac)
           guest1 = Guestnode.where("access_node_id = ?  ", nodepre.id).first
           guest2 = Guestnode.where("access_node_id = ?  ", node.id).first
-          if guest1 and guset2
+          if guest1 and guest2
+             logger.info guest1.guest_id
+             logger.info guest2.guest_id
+             logger.info "111111111"
              if guest1.guest_id == guest2.guest_id
                token=SecureRandom.urlsafe_base64(nil, false)
                login_connection = Connection.create!(:token => token,
                                                 :phonenum => conn.phonenum,
                                                 :access_mac => node.mac,
-                                                :device => device,
+                                                :device => "",
                                                 :access_node_id => node.id,
                                                 :roaming => 1,
                                                 :expired_on => conn.expired_on,
                                                 :portal_url => params[:url]
                                                )
-               redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}"
+               redirect_url ||= "http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}&url=baidu.com"
+               logger.info redirect_url
              end
           end
        end
@@ -643,8 +673,10 @@ class AccessNode < ActiveRecord::Base
 
   def self.portal(params)
     node = self.find_by_mac(params[:gw_id])
-    unless node
-      redirect_url = "/404"
+    conn =  Connection.where("expired_on > ? and mac = ? ",Time.now, params[:mac]).first
+    
+    if conn and conn.roaming == 1
+      redirect_url = conn.portal_url
     else
       if !node.portal_url.blank?
         redirect_url = node.portal_url

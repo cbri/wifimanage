@@ -94,7 +94,6 @@ class Connection < ActiveRecord::Base
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
             :outgoing => params[:outgoing],
-            :device => device,     
             :used_on => Time.now
           })                        
           auth = 1
@@ -107,7 +106,6 @@ class Connection < ActiveRecord::Base
             :mac => params[:mac],
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
-            :device => device,     
             :outgoing => params[:outgoing]
         })                        
       when 'logout'
@@ -123,10 +121,13 @@ class Connection < ActiveRecord::Base
   def self.authupdate_zj(params)
     auth = 0
     device="unknown"
+    mac = ""
+    if params[:mac]
+      mac = params[:mac].gsub(/[:-]/, "").upcase
+    end
     connection = self.find_by_token(params[:token])
     if connection.nil?
        logger.info params[:token]
-       logger.info "11111111"
        connection = self.find_by_token(params[:token])
     end
     if connection.nil?
@@ -145,7 +146,6 @@ class Connection < ActiveRecord::Base
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
             :outgoing => params[:outgoing],
-            :device => device,     
             :used_on => Time.now
           })                        
           auth = 1
@@ -157,7 +157,6 @@ class Connection < ActiveRecord::Base
         connection.update_attributes({
             :ipaddr => params[:ip],
             :incoming => params[:incoming],
-            :device => device,     
             :outgoing => params[:outgoing]
         })                        
       when 'logout'

@@ -85,9 +85,14 @@ class WifidogController < ApplicationController
   end
 
   def login
+    device = request.user_agent.downcase
     token=SecureRandom.urlsafe_base64(nil, false)
     logger.info token
     node = AccessNode.find_by_dev_id(params[:dev_id])
+    mac = ""
+    if params[:mac]
+      mac = params[:mac].gsub(/[:-]/, "").upcase
+    end
     if node
         logger.info token
         time = Time.now+30.minutes
@@ -98,7 +103,8 @@ class WifidogController < ApplicationController
                                             :access_mac => node.mac,
                                             :access_node_id => node.id,
                                             :expired_on => time,
-                                            :mac => params[:mac],                                  
+                                            :mac => mac,     
+                                            :device=> device                             
                                             )
     end
     respond_to do |format|

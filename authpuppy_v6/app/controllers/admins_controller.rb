@@ -252,12 +252,33 @@ class AdminsController < ApplicationController
          if guest
            if guest && guest.address_id
               tempad = Address.where(:id => guest.address_id).first
-              Address.create!(access_node_id:node.id,city:tempad.city,detail:tempad.detail,province:tempad.province,district:tempad.district)
+              ad = Address.where(:access_node_id => node.id).first
+              if ad.nil?
+                 Address.create!(access_node_id:node.id,city:tempad.city,detail:tempad.detail,province:tempad.province,district:tempad.district)
+              else
+                 ad.update_attributes(
+                  :city => tempad.city,
+                  :province => tempad.province,
+                  :district => tempad.district,
+                  :detail => tempad.detail
+                 )
+              end
            end
            if guest && guest.contact_id
               tempcon = Contact.where(:id => guest.contact_id).first
-              Contact.create!(access_node_id:node.id,merchant:tempcon.merchant,name:tempcon.name,phonenum:tempcon.phonenum,telephonenum:tempcon.telephonenum,email:tempcon.email,weixin:tempcon.weixin,node_mac:mac)
-            
+              contact = Contact.where(:access_node_id => node.id).first
+              if contact.nil?
+                Contact.create!(access_node_id:node.id,merchant:tempcon.merchant,name:tempcon.name,phonenum:tempcon.phonenum,telephonenum:tempcon.telephonenum,email:tempcon.email,weixin:tempcon.weixin,node_mac:mac)
+              else
+                contact.update_attributes(
+                 :merchant => tempcon.merchant,
+                 :name => tempcon.name,
+                 :phonenum => tempcon.phonenum,
+                 :telephonenum => tempcon.telephonenum,
+                 :email => tempcon.email,
+                 :weixin => tempcon.weixin
+                )
+              end
            end
            group = Guestnode.where(:guest_id => guest.id,:access_node_id=>node.id).first
            if group.nil?

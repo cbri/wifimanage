@@ -5,17 +5,24 @@ class AccessNodesController < ApplicationController
   def index
     current_admin ||= Admin.find_by_token(cookies[:token]) if cookies[:token]
     if current_admin
-      @access_nodes = AccessNode.paginate(page: params[:page]);
+      if params[:mac]
+        mac = params[:mac].gsub(/[:-]/, "").upcase
+        @access_nodes = AccessNode.where("mac like ?","%#{mac}%").paginate(page: params[:page]);
+      else
+        @access_nodes = AccessNode.paginate(page: params[:page]);
+      end
     end 
     
     current_guest ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
     if current_guest
       logger.info current_guest.id
-      @access_nodes = AccessNode.where(:guest_id =>current_guest.id).paginate(page: params[:page]);
+      if params[:mac]
+        mac = params[:mac].gsub(/[:-]/, "").upcase
+        @access_nodes = AccessNode.where("mac like ? and guest_id = ?","%#{mac}%",current_guest.id).paginate(page: params[:page]);
+      else
+        @access_nodes = AccessNode.where(:guest_id =>current_guest.id).paginate(page: params[:page]);
+      end 
     end
-    if params[:mac]
-       @access_nodes = AccessNode.where("mac like ?","%#{params[:mac]}%").paginate(page: params[:page]);
-    end 
   end
   
   def searchbymac
