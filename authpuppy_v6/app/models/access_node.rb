@@ -369,15 +369,34 @@ class AccessNode < ActiveRecord::Base
               )
            end
        end
-          
+       sys_uptime  = node.sys_uptime
+       if params[:sys_uptime]
+         sys_uptime=params[:sys_uptime]
+       end
+       sys_upload = node.sys_upload
+       if params[:sys_upload]
+         sys_upload = params[:sys_upload]
+       end
+       sys_memfree  = node.sys_memfree
+       if params[:sys_memfree]
+         sys_memfree=params[:sys_memfree]
+       end
+       update_time  = node.update_time
+       if params[:wifidog_uptime]
+         update_time=params[:wifidog_uptime]
+       end
+       ssid  = node.ssid
+       if params[:ssid]
+         ssid=params[:ssid]
+       end
        node.update_attributes(
-         :sys_uptime => params[:sys_uptime],
-         :sys_upload => params[:sys_load],
-         :sys_memfree => params[:sys_memfree],
-         :update_time => params[:wifidog_uptime],
+         :sys_uptime => sys_uptime,
+         :sys_upload => sys_upload,
+         :sys_memfree => sys_memfree,
+         :update_time => update_time,
          :remote_addr => request.remote_addr,
          :wan_ip => wan_ip,
-         :ssid => params[:ssid],
+         :ssid => ssid,
          :last_seen => Time.now
        )
        
@@ -486,21 +505,41 @@ class AccessNode < ActiveRecord::Base
            end
            node.update_attributes(:belong_type => 1)
        end
+       sys_uptime  = node.sys_uptime
+       if params[:sys_uptime]
+         sys_uptime=params[:sys_uptime]
+       end
+       sys_upload = node.sys_upload
+       if params[:sys_upload]
+         sys_upload = params[:sys_upload]
+       end
+       sys_memfree  = node.sys_memfree
+       if params[:sys_memfree]
+         sys_memfree=params[:sys_memfree]
+       end
+       update_time  = node.update_time
+       if params[:wifidog_uptime]
+         update_time=params[:wifidog_uptime]
+       end
+       ssid  = node.ssid
+       if params[:ssid]
+         ssid=params[:ssid]
+       end
 
        node.update_attributes(
-         :sys_uptime => params[:sys_uptime],
-         :sys_upload => params[:sys_load],
-         :sys_memfree => params[:sys_memfree],
-         :update_time => params[:wifidog_uptime],
+         :sys_uptime => sys_uptime,
+         :sys_upload => sys_upload,
+         :sys_memfree => sys_memfree,
+         :update_time => update_time,
          :remote_addr => request.remote_addr,
          :wan_ip => wan_ip,
-         :ssid => params[:ssid],
+         :ssid => ssid,
          :last_seen => Time.now
        )
 
        if node.cmdflag == true
-         node.update_attributes( :cmdflag => false );
-         pongstr = "Task"
+         #node.update_attributes( :cmdflag => false );
+         #pongstr = "Task"
        end
      end
      pongstr

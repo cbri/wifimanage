@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  log_value: MyString
+  dev_id: MyString
+
+two:
+  log_value: MyString
+  dev_id: MyString

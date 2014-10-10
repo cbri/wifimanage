@@ -12,7 +12,8 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: authpuppy_development
+  host: 172.18.0.254
+  database: yunwifi_production
   pool: 5
   username: root
   password: ctbri@2014
@@ -38,6 +39,18 @@ production:
   database: yunwifi_production
   pool: 5
   host: 172.18.0.254
+  username: root
+  password: ctbri@2014
+  socket: /var/run/mysqld/mysqld.sock
+
+
+logs_datbase:
+  adapter: mysql2
+  encoding: utf8
+  reconnect: false
+  database: yunwifi_production
+  pool: 5
+  host: 42.123.76.20
   username: root
   password: ctbri@2014
   socket: /var/run/mysqld/mysqld.sock

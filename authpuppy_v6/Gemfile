@@ -7,7 +7,7 @@ gem 'bootstrap-sass', '2.0.4'
 
 gem 'mysql2'
 gem 'httparty'
-
+gem 'unicorn'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -29,7 +29,6 @@ gem 'bcrypt-ruby', '~> 3.0.0'
 # To use Jbuilder templates for JSON
 #gem 'jbuilder', :require=>false
 # Use unicorn as the app server
-gem 'unicorn'
 
 # Deploy with Capistrano
 # gem 'capistrano'
@@ -39,6 +38,6 @@ gem 'unicorn'
 gem 'rabl'
 # Also add either `oj` or `yajl-ruby` as the JSON parser
 gem 'oj'
-
-gem 'therubyracer'
+gem 'rufus-scheduler'
 gem 'execjs'
+gem 'therubyracer'

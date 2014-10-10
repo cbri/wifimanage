@@ -1,0 +1,95 @@
+have_macro: checking for SIZEOF_OFF_T in ruby.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include   -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main() {return 0;}
+/* end */
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include   -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: /*top*/
+5: #ifndef SIZEOF_OFF_T
+6: # error
+7: >>>>>> SIZEOF_OFF_T undefined <<<<<<
+8: #endif
+/* end */
+
+--------------------
+
+have_macro: checking for SIZEOF_SIZE_T in ruby.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include   -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: /*top*/
+5: #ifndef SIZEOF_SIZE_T
+6: # error
+7: >>>>>> SIZEOF_SIZE_T undefined <<<<<<
+8: #endif
+/* end */
+
+--------------------
+
+have_macro: checking for SIZEOF_LONG in ruby.h... -------------------- yes
+
+"gcc -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include   -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration   -c conftest.c"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: /*top*/
+5: #ifndef SIZEOF_LONG
+6: # error
+7: >>>>>> SIZEOF_LONG undefined <<<<<<
+8: #endif
+/* end */
+
+--------------------
+
+have_func: checking for rb_str_set_len() in ruby.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include   -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:7:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <ruby.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))rb_str_set_len; return 0; }
+/* end */
+
+--------------------
+
+have_func: checking for gmtime_r() in time.h... -------------------- yes
+
+"gcc -o conftest -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/i686-linux -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1/ruby/backward -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include/ruby-1.9.1 -I. -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include  -D_FILE_OFFSET_BITS=64 -I/home/huangzhe/.rbenv/versions/1.9.3-p392/include   -O3 -ggdb -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wimplicit-function-declaration conftest.c  -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -Wl,-R/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L. -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib  -rdynamic -Wl,-export-dynamic     -Wl,-R -Wl,/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -L/home/huangzhe/.rbenv/versions/1.9.3-p392/lib -lruby-static  -lpthread -lrt -ldl -lcrypt -lm   -lc"
+conftest.c: In function ‘t’:
+conftest.c:7:28: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <time.h>
+4: 
+5: /*top*/
+6: int main() {return 0;}
+7: int t() { void ((*volatile p)()); p = (void ((*)()))gmtime_r; return 0; }
+/* end */
+
+--------------------
+

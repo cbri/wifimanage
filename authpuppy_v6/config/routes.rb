@@ -1,4 +1,17 @@
 Authpuppy::Application.routes.draw do
+  resources :logs
+
+
+  get "logs/index"
+
+  get "logs/open"
+
+  get "logs/debit"
+
+  get "logs/credit"
+
+  get "logs/close"
+
   root to: "admins#login"
   post "create_login_session" => "admins#create_login_session"
   delete "logout" => "admins#logout", :as => "logout"
@@ -61,5 +74,7 @@ Authpuppy::Application.routes.draw do
   get  "ip_del/:id" => "firewall#ip_del", :as => "ipdel"
   get "indexconn" => "guest#index"
   post "sign_out" =>"user#sign_out", :as => "killline"
+  post "upgrade" =>"access_nodes#upgrade"
+  post "modifyssid" =>"access_nodes#modifyssid"
 
 end

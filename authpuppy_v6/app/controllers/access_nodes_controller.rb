@@ -47,6 +47,46 @@ class AccessNodesController < ApplicationController
     @access = AccessNode.find(params[:id])
     @auth =@access.auth ||= Auth.first
   end
+  
+  def upgrade
+    if params[:id].nil? or params[:url].nil?
+      redirect_to "/404"
+      return;
+    end
+
+    @access = AccessNode.find(params[:id])
+    if @access.nil?
+      redirect_to "/404"
+      return;
+    end
+
+    @access.update_attributes(:task_code=>"3000", :task_params=>params[:url],:cmdflag =>true )
+    flash[:notice] = "正在升级设备"
+    respond_to do |format|
+        format.html { render :text=>"Success Set Long and Lat" }
+        format.js { render :layout=>false }
+    end
+  end
+  
+  def modifyssid
+    if params[:id].nil? or params[:ssid].nil?
+      redirect_to "/404"
+      return;
+    end
+
+    @access = AccessNode.find(params[:id])
+    if @access.nil?
+      redirect_to "/404"
+      return;
+    end
+
+    @access.update_attributes(:task_code=>"2003", :task_params=>params[:ssid],:cmdflag =>true )
+    flash[:notice] = "ssid"
+    respond_to do |format|
+        format.html { render :text=>"Success Set Long and Lat" }
+        format.js { render :layout=>false }
+    end
+  end
 
   def query_lat_long
     if params[:id].nil? 
