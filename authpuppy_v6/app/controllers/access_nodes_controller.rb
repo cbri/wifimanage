@@ -3,22 +3,24 @@ class AccessNodesController < ApplicationController
   before_filter :check_admin
   
   def index
-    current_admin ||= Admin.find_by_token(cookies[:token]) if cookies[:token]
-    if current_admin
+    current_admin ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
+    current_guest ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
+    if current_guest and current_guest.name=="admin"
       if params[:mac]
         mac = params[:mac].gsub(/[:-]/, "").upcase
-        @access_nodes = AccessNode.where("mac like ?","%#{mac}%").paginate(page: params[:page]);
+        name= params[:name]
+        @access_nodes = AccessNode.where("mac like ? and name like ?","%#{mac}%","%#{name}%").paginate(page: params[:page]);
       else
         @access_nodes = AccessNode.paginate(page: params[:page]);
       end
     end 
     
-    current_guest ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
-    if current_guest
+    if current_guest and current_guest.name!="admin"
       logger.info current_guest.id
       if params[:mac]
         mac = params[:mac].gsub(/[:-]/, "").upcase
-        @access_nodes = AccessNode.where("mac like ? and guest_id = ?","%#{mac}%",current_guest.id).paginate(page: params[:page]);
+        name= params[:name]
+        @access_nodes = AccessNode.where("mac like ? and name like ? and guest_id = ?","%#{mac}%","%#{name}%",current_guest.id).paginate(page: params[:page]);
       else
         @access_nodes = AccessNode.where(:guest_id =>current_guest.id).paginate(page: params[:page]);
       end 
@@ -26,9 +28,40 @@ class AccessNodesController < ApplicationController
   end
   
   def searchbymac
-     @access_nodes = AccessNode.where("mac like %?",params[:mac]).paginate(page: params[:page]);
-     redirect_to :action => "index" ,:mac =>params[:mac]
+     @access_nodes = AccessNode.where("mac like %? and name like %?",params[:mac], params[:name]).paginate(page: params[:page]);
+     redirect_to :action => "index" ,:mac =>params[:mac],:name=>params[:name]
+     #redirect_to :action => "index" ,:mac =>params[:mac]
   end
+  
+  def saveTemplate
+    if params[:macs].nil?
+      respond_to do |format|
+        format.html { render :text=>"Success Set Long and Lat" }
+        format.json {render :json => {:code=>"300",:message=>"mac is empty"}}
+      end
+    end
+    macs = params[:macs].split(':')
+    macs.each do |mac|
+        node =  AccessNode.find_by_mac(mac)
+        if params[:redirect] and params[:redirect] !=''
+          node.update_attributes!(:redirect_url =>params[:redirect] )
+        end
+        if params[:portal] and params[:portal]!=''
+          node.update_attributes!(:portal_url =>params[:portal] )
+        end
+        if params[:duration] and params[:duration]!=''
+          node.update_attributes!(:time_limit =>params[:duration].to_i )
+        end
+        if params[:auth_plattype] and params[:auth_plattype]!=''
+          node.update_attributes!(:auth_plattype =>params[:auth_plattype].to_i )
+        end
+    end
+    respond_to do |format|
+        format.html { render :text=>"Success Set Long and Lat" }
+        format.json {render :json => {:code=>"200" }}
+    end
+  end
+  
   def new
     @access_node = AccessNode.new
   end
@@ -46,6 +79,31 @@ class AccessNodesController < ApplicationController
   def edit
     @access = AccessNode.find(params[:id])
     @auth =@access.auth ||= Auth.first
+  end
+
+  def template
+    current_admin ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
+    current_guest ||= Guest.find_by_token(cookies[:token]) if cookies[:token]
+    if current_guest and current_guest.name=="admin"
+      if params[:mac]
+        mac = params[:mac].gsub(/[:-]/, "").upcase
+        name= params[:name]
+        @access_nodes = AccessNode.where("mac like ? and name like ?","%#{mac}%","%#{name}%").paginate(page: params[:page]);
+      else
+        @access_nodes = AccessNode.paginate(page: params[:page]);
+      end
+    end 
+    
+    if current_guest and current_guest.name!="admin"
+      logger.info current_guest.id
+      if params[:mac]
+        mac = params[:mac].gsub(/[:-]/, "").upcase
+        name= params[:name]
+        @access_nodes = AccessNode.where("mac like ? and name like ? and guest_id = ?","%#{mac}%","%#{name}%",current_guest.id).paginate(page: params[:page]);
+      else
+        @access_nodes = AccessNode.where(:guest_id =>current_guest.id).paginate(page: params[:page]);
+      end 
+    end
   end
   
   def upgrade
@@ -149,6 +207,7 @@ class AccessNodesController < ApplicationController
     @macs = @access.trusted_macs
     @blackmac = @access.black_macs
     @publicips = @access.public_ips
+    @blackips = @access.black_ips
   end
 
 
@@ -184,7 +243,14 @@ class AccessNodesController < ApplicationController
 
   def setconfig
     @access = AccessNode.find(params[:id])
-    @access.update_attributes(:nodecmd_id=>params[:nodecmd_id],:cmdflag =>true )
+    nodecmd =Nodecmd.find(params[:nodecmd_id])
+    taskcode=0
+    if nodecmd
+       if nodecmd.task_code
+         taskcode=nodecmd.task_code
+       end
+    end   
+    @access.update_attributes(:nodecmd_id=>params[:nodecmd_id],:task_code =>taskcode,:cmdflag =>true )
     flash[:notice] = "远程操作成功！"
     redirect_to access_nodes_url;
   end

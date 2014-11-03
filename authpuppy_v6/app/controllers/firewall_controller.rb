@@ -87,6 +87,71 @@ class FirewallController < ApplicationController
      end
     end
   end
+  
+  def ipb_add
+    if params[:id].nil? and params[:ip].nil?
+      redirect_to "/404"
+      return;
+    end
+
+    @access = AccessNode.find(params[:id])
+    if @access.nil?
+      redirect_to "/404"
+      return;
+    end
+
+    begin
+        @ip = BlackIp.create!(publicip:params[:ip],access_node_id:params[:id]);
+    rescue Exception => e
+        @err = "添加失败,请检查IP地址格式"
+    end
+
+    if !@err.nil?
+      respond_to do |format|  
+        format.html { render :text=>"Success to create mac address" }
+        format.js { render :action=>"addipfail", :layout=>false }
+      end
+   else 
+     @access.update_attributes( :configflag => true );
+     pips = PublicIp.where(" access_node_id= ? ", params[:id] )
+     task_params = "{ \"whitelist\":["
+     first =1
+     pips.each do |pip|
+       if first == 1
+         task_params += "\"#{pip.publicip}\"" 
+         first=0
+       else
+         task_params += ","
+         task_params += "\"#{pip.publicip}\"" 
+         
+       end
+     end 
+     task_params +="],"
+
+     bips = BlackIp.where(" access_node_id= ? ", params[:id] )
+     task_params += "\"blacklist\":["
+     first =1
+     bips.each do |pip|
+       if first == 1
+         task_params += "\"#{pip.publicip}\"" 
+         first=0
+       else
+         task_params += ","
+         task_params += "\"#{pip.publicip}\"" 
+         
+       end
+     end 
+     task_params +="]"
+     task_params +="}"
+        
+     @access.update_attributes(:task_code=>"10000", :task_params=>task_params,:cmdflag =>true )
+     #@access.clean_all_conn 
+     respond_to do |format|  
+       format.html { render :text=>"Success to create mac address" }
+       format.js { render :layout=>false }
+     end
+    end
+  end
 
   def ip_add
     if params[:id].nil? and params[:ip].nil?
@@ -117,7 +182,24 @@ class FirewallController < ApplicationController
       end
    else 
      @access.update_attributes( :configflag => true );
-     @access.clean_all_conn 
+     pips = PublicIp.where(" access_node_id= ? ", params[:id] )
+     params = "{ \"whitelist\":["
+     first =1
+     pips.each do |pip|
+       if first == 1
+         params += "\"#{pip.publicip}\"" 
+         first=0
+       else
+         params += ","
+         params += "\"#{pip.publicip}\"" 
+         
+       end
+     end 
+     params +="]"
+     params +="}"
+        
+     @access.update_attributes(:task_code=>"10000", :task_params=>params,:cmdflag =>true )
+     #@access.clean_all_conn 
      respond_to do |format|  
        format.html { render :text=>"Success to create mac address" }
        format.js { render :layout=>false }
@@ -138,7 +220,21 @@ class FirewallController < ApplicationController
       format.js { render :layout=>false }
     end
   end
+  
+  def ipb_del
+    if params[:id].nil?
+      redirect_to "/404"
+      return;
+    end
 
+    BlackIp.find(params[:id]).delete
+    @ip = params[:id]
+    respond_to do |format|  
+      format.html { render :text=>"Fail to create mac address" }
+      format.js { render :layout=>false }
+    end
+  end
+ 
   def ip_del
     if params[:id].nil?
       redirect_to "/404"

@@ -20,15 +20,38 @@ class WifidogController < ApplicationController
        format.html {render text: str}
       end
     elsif code["task_code"]=="2003"
+      params = code["task_params"]
+      ssid=""
+      hostname=""
+      if params.include? "ssid:"
+         ssid=params.gsub(/ssid:/,"")
+      elsif params.include? "hostname:"
+         hostname = params.gsub(/hostname:/,"")
+      else
+         ssid=params
+      end
       respond_to do |format|
-       format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>{ :ssid =>code["task_params"]},:hostname=>"" },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+       format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>{ :ssid =>ssid,:hostname=>hostname }},:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
        str = "{\"result\":\"#{code["result"]}\","
        str += "\"code\":\"#{code["code"]}\","
        str += "\"message\":\"#{code["message"]}\","
-       str += "\"task\":{\"task_code\":#{code["task_code"]},\"task_id\":\"#{code["task_id"]}\",\"task_params\":{\"ssid\":\"#{code["task_params"]}\",\"hostname\":\"\"}}"
+       str += "\"task\":{\"task_code\":#{code["task_code"]},\"task_id\":\"#{code["task_id"]}\",\"task_params\":{\"ssid\":\"#{ssid}\",\"hostname\":\"#{hostname}\"}}"
        str +="}"
        format.html {render text: str}
       end
+    elsif code["task_code"]=="10000"
+      params = code["task_params"]
+      respond_to do |format|
+       pjson = JSON.parse params
+       format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>pjson },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+
+       str = "{\"result\":\"#{code["result"]}\","
+       str += "\"code\":\"#{code["code"]}\","
+       str += "\"message\":\"#{code["message"]}\","
+       str += "\"task\":{\"task_code\":#{code["task_code"]},\"task_id\":\"#{code["task_id"]}\",\"task_params\":#{params}}"
+       str +="}"
+       format.html {render text: str}
+     end
     else
      respond_to do |format|
        format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>{} },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}

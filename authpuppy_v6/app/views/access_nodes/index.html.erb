@@ -1,9 +1,15 @@
 <div class="container">
+<style type="text/css">
+      /* 内部样式 */
+      h3{color:green;}
+</style>
 <h1>WiFi节点列表</h1>
 <div>
   <%= form_tag "/searchbymac" do %>
           
-          mac: <%= text_field_tag(:mac, params[:mac] )%>
+   <p><label style="display:inline">mac:</label><input id="mac" maxlength="44" name="mac" size="44" type="text" style="width:20%">
+   <label style="display:inline">名称:</label><input id="name" maxlength="44" name="name" size="44" type="text" style="width:20%">
+   </p>
    <%= submit_tag "搜索", :class => "btn btn-large btn-primary" %> 
   <% end %>
 </div> 

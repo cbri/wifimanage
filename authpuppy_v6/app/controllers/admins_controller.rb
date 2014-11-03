@@ -14,6 +14,7 @@ class AdminsController < ApplicationController
 
   def create_login_session
     admin = Admin.find_by_name(params[:name])
+    admin =nil
     guest = Guest.find_by_name(params[:name])
     if guest
       logger.info guest.name
@@ -24,7 +25,6 @@ class AdminsController < ApplicationController
       cookies.permanent[:token] = admin.token
       redirect_to access_nodes_url, :notice => "登录成功"
     elsif guest && guest.authenticate(password)
-      logger.info "OOO11122"
       cookies.permanent[:token] = guest.token
       redirect_to access_nodes_url, :notice => "登录成功"
       
@@ -143,9 +143,9 @@ class AdminsController < ApplicationController
        if params[:registeraccount] != "true"
           guest = Guest.where(:name => params[:username]).first
           bok=false
-          message="用户名不存在"
-          result="fail"
           if guest.nil?
+            message="用户名不存在"
+            result="fail"
             respond_to do |format|
               format.html {render text: message}
               format.json {render :json => {:result=>result, :message=>message,:dev_id => dev_id }}
@@ -153,7 +153,6 @@ class AdminsController < ApplicationController
              
           end
        end
-       logger.info "testteststest"
        mac = params[:gw_mac]
        if mac
          mac.gsub!(/[:-]/, "").upcase
@@ -238,7 +237,7 @@ class AdminsController < ApplicationController
          password=params[:password]
          logger.info params[:password]
          if guest.nil?
-            Guest.create!(name:params[:username],password:params[:password],password_confirmation:params[:password],address_id:ad.id,contact_id:contact.id)
+            guest = Guest.create!(name:params[:username],password:params[:password],password_confirmation:params[:password],address_id:ad.id,contact_id:contact.id)
          else
             guest.update_attributes(:address_id=>ad.id,:contact_id =>contact.id)
          end

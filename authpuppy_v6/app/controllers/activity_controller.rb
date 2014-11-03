@@ -8,5 +8,9 @@ class ActivityController < ApplicationController
     @group = AccessNode.where("last_seen is not null").order(last_seen: :desc).limit(5)
 
   end
+  
+  def setconfig
+   @guest=Guest.find_by_name(params[:name])   
+  end
 
 end

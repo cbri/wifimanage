@@ -9,6 +9,8 @@
         <li><%= link_to "列表", access_nodes_path %></li>
         <li><%= link_to current_admin.name %></li>
         <li><%= link_to "退出", logout_path, method: "delete" %></li>
+        <li><%= link_to "配置", edit_guest_url(current_admin) %></li>
+        <li><%= link_to "模板", "template" %></li>
       <% else %>
         <li><%= link_to "登录", root_url %></li>
 

@@ -23,32 +23,8 @@
           <%= f.text_field :redirect_url %>
           <%= f.label "欢迎页面" %>
           <%= f.text_field :portal_url %>
-          <%= f.label "广告间隔" %>
-          <% if @access.time_limit == 1 %>
-          <%= f.select(:time_limit,'<option value="1"  selected= "selected" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
-          <% else %>
-          <% if @access.time_limit == 5 %>
-          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" selected= "selected" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
-          <% else %>
-          <% if @access.time_limit == 10 %>
-          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10"  selected= "selected" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
-          <% else %>
-          <% if @access.time_limit == 30 %>
-          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30"  selected= "selected" >30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
-          <% else %>
-          <% if @access.time_limit == 60 %>
-          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60"  selected= "selected" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
-          <% else %>
-          <% if @access.time_limit == 600 %>
-          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600"  selected= "selected" >10小时</option>'.html_safe ) %>
-          <% else %>
-          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
-          <% end %>
-          <% end %>
-          <% end %>
-          <% end %>
-          <% end %>
-          <% end %>
+          <%= f.label "广告间隔(分钟)" %>
+          <%= f.text_field :time_limit %>
         </div>
          <%= f.submit "更新节点", :class => "btn btn-large btn-primary" %> 
       <% end %>
