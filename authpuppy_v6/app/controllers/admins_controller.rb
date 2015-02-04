@@ -3,6 +3,7 @@ require 'json'
 class AdminsController < ApplicationController
   layout "special",:only=>[:register]
   layout "special",:only=>[:addnode]
+  layout "special",:only=>[:batchnode]
   def login
     cookies.delete(:token)
   end
@@ -14,6 +15,7 @@ class AdminsController < ApplicationController
 
   def create_login_session
     admin = Admin.find_by_name(params[:name])
+    admin =nil
     guest = Guest.find_by_name(params[:name])
     if guest
       logger.info guest.name
@@ -24,7 +26,6 @@ class AdminsController < ApplicationController
       cookies.permanent[:token] = admin.token
       redirect_to access_nodes_url, :notice => "登录成功"
     elsif guest && guest.authenticate(password)
-      logger.info "OOO11122"
       cookies.permanent[:token] = guest.token
       redirect_to access_nodes_url, :notice => "登录成功"
       
@@ -125,13 +126,29 @@ class AdminsController < ApplicationController
             dev_id= node.dev_id
          end
          str="{\"result\":\"OK\",\"services\":{\"device_id\":\"#{dev_id}\",\"account\":\"\",\"active_date\":\"#{Time.now}\","
-         str+="\"servers\": {\"portals\": [{\"hostname\": \"42.123.76.18\",\"ssl_available\": \"no\",\"ssl_port\": \"443\", \"http_port\": \"80\",\"path\": \"\/api10\/\" }],"
-         str+="\"auths\": [ {\"hostname\": \"42.123.76.18\",\"ssl_available\": \"no\",\"ssl_port\":\"443\",\"http_port\": \"80\", \"path\": \"\/api10\/\"} ],"
-         str +="\"platforms\": [ {\"hostname\": \"42.123.76.18\", \"ssl_available\": \"no\", \"ssl_port\": \"443\", \"http_port\": \"80\",\"path\": \"\/api10\/\" }] } }}"
+         str+="\"servers\": {\"portals\": [{\"hostname\": \"42.123.76.19\",\"ssl_available\": \"no\",\"ssl_port\": \"443\", \"http_port\": \"80\",\"path\": \"\/api10\/\" }],"
+         str+="\"auths\": [ {\"hostname\": \"42.123.76.19\",\"ssl_available\": \"no\",\"ssl_port\":\"443\",\"http_port\": \"80\", \"path\": \"\/api10\/\"} ],"
+         str +="\"platforms\": [ {\"hostname\": \"42.123.76.19\", \"ssl_available\": \"no\", \"ssl_port\": \"443\", \"http_port\": \"80\",\"path\": \"\/api10\/\" }] } }}"
          respond_to do |format|
-          format.json {render :json => {:result=>"OK", :message=>"OK",:services => {:device_id => dev_id,:account =>"",:active_date=>Time.now,:servers=>{:portals=>[{:hostname=>"42.123.76.18",:ssl_available=>"no",:ssl_port=>"443",:http_port=>"80",:path=>"/api10/"}],:auths=>[{:hostname=>"42.123.76.18",:ssl_available=>"no",:ssl_port=>"443",:http_port=>"80",:path=>"/api10/"}],:platforms=>[{:hostname=>"42.123.76.18",:ssl_available=>"no",:ssl_port=>"443",:http_port=>"80",:path=>"/api10/"}]} } }}
+          format.json {render :json => {:result=>"OK", :message=>"OK",:services => {:device_id => dev_id,:account =>"",:active_date=>Time.now,:servers=>{:portals=>[{:hostname=>"42.123.76.19",:ssl_available=>"no",:ssl_port=>"443",:http_port=>"80",:path=>"/api10/"}],:auths=>[{:hostname=>"42.123.76.19",:ssl_available=>"no",:ssl_port=>"443",:http_port=>"80",:path=>"/api10/"}],:platforms=>[{:hostname=>"42.123.76.19",:ssl_available=>"no",:ssl_port=>"443",:http_port=>"80",:path=>"/api10/"}]} } }}
           format.html {render text: str}
          end
+       end
+       if params["gw_mac"]
+         node = AccessNode.find_by_mac(params[:gw_mac])
+         dev_id=SecureRandom.hex(16)
+         if node.nil?
+          node = AccessNode.create!(mac:params[:gw_mac],name:params[:gw_mac],belong_type:1,dev_id:dev_id)
+          Auth.create!(auth_type:"radius",auth_device:false,access_node_id:node.id)
+          Conf.create!(access_node_id:node.id)
+         end
+         if node.dev_id.nil?
+          node.update_attributes(:dev_id => dev_id)
+         else
+          dev_id = node.dev_id
+         end
+         url = "http://#{params["gw_address"]}:#{params["gw_port"]}/smartwifi/active?dev_id=#{dev_id}"
+         redirect_to url
        end
     end
   end
@@ -143,9 +160,10 @@ class AdminsController < ApplicationController
        if params[:registeraccount] != "true"
           guest = Guest.where(:name => params[:username]).first
           bok=false
-          message="用户名不存在"
-          result="fail"
+          logger.info params[:username]
           if guest.nil?
+            message="用户名不存在"
+            result="fail"
             respond_to do |format|
               format.html {render text: message}
               format.json {render :json => {:result=>result, :message=>message,:dev_id => dev_id }}
@@ -238,7 +256,7 @@ class AdminsController < ApplicationController
          password=params[:password]
          logger.info params[:password]
          if guest.nil?
-            Guest.create!(name:params[:username],password:params[:password],password_confirmation:params[:password],address_id:ad.id,contact_id:contact.id)
+            guest = Guest.create!(name:params[:username],password:params[:password],password_confirmation:params[:password],address_id:ad.id,contact_id:contact.id)
          else
             guest.update_attributes(:address_id=>ad.id,:contact_id =>contact.id)
          end
@@ -249,6 +267,7 @@ class AdminsController < ApplicationController
          node.update_attributes(:guest_id => guest.id)
        else
          guest = Guest.where(:name => params[:username]).first
+         logger.info guest
          if guest
            if guest && guest.address_id
               tempad = Address.where(:id => guest.address_id).first
@@ -297,6 +316,50 @@ class AdminsController < ApplicationController
        end
     else
     end
+  end
+  def batchnode
+     mac=(1..6).map{"%0.2X"%rand(256)}.join("")
+     i = 0
+     num = 16333
+     offlineuser=1606525/20289
+     onlineuser=195996/16333
+     while i<num  do
+         mac=(1..6).map{"%0.2X"%rand(256)}.join("")
+         node = AccessNode.create!(mac:mac,name:mac,belong_type:1,online:1,virtual:"1")
+         Address.create!(access_node_id:node.id,province:"320000")
+         j=0
+         logger.info(mac)
+         logger.info(onlineuser)
+         while j <  onlineuser  do
+            token=SecureRandom.urlsafe_base64(nil, false)
+            clientmac=(1..6).map{"%0.2X"%rand(256)}.join("")
+            login_connection = Connection.create!(:token => token,
+                                                :phonenum => clientmac,
+                                                :access_mac => mac,
+                                                :access_node_id => node.id,
+                                                :online=> 1,
+                                                :used_on => Time.now,
+                                                :expired_on => Time.now+30.minutes
+                                              )
+            j+=1
+         end
+         j=0
+         logger.info("22222")
+         while j < offlineuser  do
+            token=SecureRandom.urlsafe_base64(nil, false)
+            clientmac=(1..6).map{"%0.2X"%rand(256)}.join("")
+            login_connection = Connection.create!(:token => token,
+                                                :phonenum => clientmac,
+                                                :access_mac => mac,
+                                                :access_node_id => node.id,
+                                                :online=> 2,
+                                                :used_on => Time.now,
+                                                :expired_on => Time.now+30.minutes
+                                              )
+            j+=1
+         end
+         i+=1
+     end
   end
 
 end

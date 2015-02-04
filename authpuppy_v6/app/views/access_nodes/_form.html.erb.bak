@@ -1,0 +1,56 @@
+
+    <div class="row">
+      <div class="span6 offset1">
+        <h3>基本设置</h3>
+        <p></p>
+        <%= form_for(@access) do |f| %>
+  <div class="field">
+          <%= f.label "设备名称" %>
+          <%= f.text_field :name %>
+          <%= f.label "设备MAC" %>
+          <%= f.text_field :mac %>
+          <%= f.label "认证平台" %>
+          <% if @access.auth_plattype == 0 %>
+          <%= f.select(:auth_plattype,'<option value="0"  selected= "selected" >北研</option><option value="1" >ICT</option><option value="2" >浙江</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.auth_plattype == 1 %>
+          <%= f.select(:auth_plattype,'<option value="0" >北研</option><option value="1" selected= "selected" >ICT</option><option value="2" >浙江</option>'.html_safe ) %>
+          <% else %>
+          <%= f.select(:auth_plattype,'<option value="0" >北研</option><option value="1" >ICT</option><option value="2" selected= "selected" >浙江</option>'.html_safe ) %>
+          <% end %>
+          <% end %>
+          <%= f.label "认证页面" %>
+          <%= f.text_field :redirect_url %>
+          <%= f.label "欢迎页面" %>
+          <%= f.text_field :portal_url %>
+          <%= f.label "广告间隔" %>
+          <% if @access.time_limit == 1 %>
+          <%= f.select(:time_limit,'<option value="1"  selected= "selected" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.time_limit == 5 %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" selected= "selected" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.time_limit == 10 %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10"  selected= "selected" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.time_limit == 30 %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30"  selected= "selected" >30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.time_limit == 60 %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60"  selected= "selected" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.time_limit == 600 %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600"  selected= "selected" >10小时</option>'.html_safe ) %>
+          <% else %>
+          <%= f.select(:time_limit,'<option value="1" >1分钟</option><option value="5" >5分钟</option><option value="10" >10分钟</option><option value="30">30分钟</option><option value="60" >60分钟</option><option value="600" >10小时</option>'.html_safe ) %>
+          <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
+          <% end %>
+        </div>
+         <%= f.submit "更新节点", :class => "btn btn-large btn-primary" %> 
+      <% end %>
+    </div>
+  </div>

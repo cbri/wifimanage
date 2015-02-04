@@ -1,4 +1,7 @@
 # encoding: utf-8
+require 'openssl'
+require 'base64'
+require 'uri'
 class UserController < ApplicationController
   #layout "special",:only=>[:login_zj]
   layout "special",:only=>[:portal_zj]
@@ -8,6 +11,7 @@ class UserController < ApplicationController
   end 
   def back_json(code,msg,token,auth_url)
     respond_to do |format|
+      format.html {render text: token}
       format.json {render :json => {:status => {:code=>code.to_s, :message=>msg,:token => token,:auth_url=>auth_url }}}
     end
   end 
@@ -16,6 +20,7 @@ class UserController < ApplicationController
       device = request.user_agent.downcase
       check=  AccessNode.authenticate(params,device)
       if check[:check]
+        logger.info("111");
         back_json(check[:code],check[:msg],check[:token],check[:auth_url]);
       else
         redirect_to check
@@ -48,9 +53,90 @@ class UserController < ApplicationController
   end
   
   def login_zj
-    node = AccessNode.find_by_dev_id(params[:dev_id])
-    if node and !node.redirect_url.blank?
-      redirect_to AccessNode.login_zj(params)   
+    if request.get?
+      node = AccessNode.find_by_dev_id(params[:dev_id])
+      if node and !node.redirect_url.blank?
+        redirect_to AccessNode.login_zj(params)   
+      end
+    else
+      dev_id=''
+      session_id=0
+      re = {}
+      if params[:params]
+        param= params[:params]
+        param=param.delete "\n"
+        de_cipher = OpenSSL::Cipher::Cipher.new("AES-256-ECB")
+        de_cipher.decrypt
+        key = "01234567890123456789012345678912"
+        de_cipher.key = key
+        str=Base64.decode64(param)
+        text=(de_cipher.update(str) << de_cipher.final)
+        logger.info(text)
+        tjson = JSON.parse text
+        session_id=tjson["session_id"]
+        url=tjson["url"]
+        url=url.delete "\\"
+        querys = URI.parse(url).query.split("&")
+        querys.each do | query |  
+          query_arr = query.split("=")  
+          re[query_arr[0]]=query_arr[1]  
+        end 
+        dev_id=re["dev_id"] 
+        logger.info dev_id      
+      end
+      node = AccessNode.find_by_dev_id(dev_id)
+      if node
+        device = request.user_agent.downcase
+        token=SecureRandom.urlsafe_base64(nil, false)
+        curcon=Connection.find(:first, :conditions => ["mac = ? and expired_on > NOW()",re["client_mac"]])
+        if curcon
+           token=curcon.token
+        else
+          if !node.time_limit.nil? and node.time_limit > 0
+            login_connection = Connection.create!(:token => token,
+                                                :phonenum => re["client_mac"],
+                                                :access_mac => re["gw_id"],
+                                                :device => device,
+                                                :access_node_id => node.id,
+                                                :expired_on => Time.now+node.time_limit.minutes,
+                                                :portal_url => re["url"]
+                                               )
+          else
+            login_connection = Connection.create!(:token => token,
+                                                :phonenum => re["client_mac"],
+                                                :access_mac => re["gw_id"],
+                                                :device => device,
+                                                :access_node_id => node.id,
+                                                :expired_on => Time.now+30.minutes,
+                                                :portal_url => re["url"]
+                                               )
+          end
+        end
+        auth_url=""
+        if node.auth_plattype==2 
+          auth_url="http://#{re["gw_address"]}:#{re["gw_port"]}/smartwifi/auth?token=#{token}"
+        else
+          auth_url="http://#{re["gw_address"]}:#{re["gw_port"]}/ctbrihuang/auth?token=#{token}"
+        end
+        str="{\"api_code\":1,\"session_id\":#{session_id}"
+        str+=",\"ad_url\":\"#{node.portal_url}\""
+        str+=",\"auth_url\":\"#{auth_url}\""
+        str+="}"
+        en_cipher = OpenSSL::Cipher::Cipher.new("AES-256-ECB")
+        en_cipher.encrypt
+        en_cipher.key = "01234567890123456789012345678912"
+        cipher = en_cipher.update(str)
+        cipher << en_cipher.final 
+        stren = Base64.encode64(cipher)
+        logger.info str
+        logger.info stren
+        logger.info session_id
+        respond_to do |format|
+         pjson = JSON.parse str
+         #format.json {render :json =>pjson}
+         format.html {render text: stren}
+        end       
+      end
     end
   end
 

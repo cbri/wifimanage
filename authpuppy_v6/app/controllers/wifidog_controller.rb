@@ -20,15 +20,38 @@ class WifidogController < ApplicationController
        format.html {render text: str}
       end
     elsif code["task_code"]=="2003"
+      params = code["task_params"]
+      ssid=""
+      hostname=""
+      if params.include? "ssid:"
+         ssid=params.gsub(/ssid:/,"")
+      elsif params.include? "hostname:"
+         hostname = params.gsub(/hostname:/,"")
+      else
+         ssid=params
+      end
       respond_to do |format|
-       format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>{ :ssid =>code["task_params"]},:hostname=>"" },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+       format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>{ :ssid =>ssid,:hostname=>hostname }},:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
        str = "{\"result\":\"#{code["result"]}\","
        str += "\"code\":\"#{code["code"]}\","
        str += "\"message\":\"#{code["message"]}\","
-       str += "\"task\":{\"task_code\":#{code["task_code"]},\"task_id\":\"#{code["task_id"]}\",\"task_params\":{\"ssid\":\"#{code["task_params"]}\",\"hostname\":\"\"}}"
+       str += "\"task\":{\"task_code\":#{code["task_code"]},\"task_id\":\"#{code["task_id"]}\",\"task_params\":{\"ssid\":\"#{ssid}\",\"hostname\":\"#{hostname}\"}}"
        str +="}"
        format.html {render text: str}
       end
+    elsif code["task_code"]=="10000"
+      params = code["task_params"]
+      respond_to do |format|
+       pjson = JSON.parse params
+       format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>pjson },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
+
+       str = "{\"result\":\"#{code["result"]}\","
+       str += "\"code\":\"#{code["code"]}\","
+       str += "\"message\":\"#{code["message"]}\","
+       str += "\"task\":{\"task_code\":#{code["task_code"]},\"task_id\":\"#{code["task_id"]}\",\"task_params\":#{params}}"
+       str +="}"
+       format.html {render text: str}
+     end
     else
      respond_to do |format|
        format.json {render :json => {:task => {:task_code=>code["task_code"].to_i, :task_id=>code["task_id"],:task_params =>{} },:result =>code["result"],:code =>code["code"],:message =>code["message"]}}
@@ -64,6 +87,10 @@ class WifidogController < ApplicationController
   end
   
   def taskresult
+    if params[:dev_id]
+       task=Task.find_by_task_id(params[:task_id])
+       task.update_attributes( :status => "2",:result=>params[:result] )
+    end
     respond_to do |format|
       format.json {render :json => {:result =>"OK",:message =>""}}
     end
@@ -118,7 +145,23 @@ class WifidogController < ApplicationController
                                             )
     end
     respond_to do |format|
-      format.json {render :json => {:result =>"OK",:token => token}}
+      if params[:callback]
+       auth_url=""
+       if node.auth_plattype==1
+           auth_url="http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"
+        else
+          if node.auth_plattype==2
+            auth_url="http://#{params[:gw_address]}:#{params[:gw_port]}/smartwifi/auth?token=#{token}&url=#{params[:url]}"
+
+          else
+            auth_url= "http://#{params[:gw_address]}:#{params[:gw_port]}/ctbrihuang/auth?token=#{token}"
+          end
+       end
+       str= params[:callback]+"({result:\"OK\",token:\"#{token}\",auth_url:\"#{auth_url}\"})"
+       format.html {render text: str}
+      else
+       format.json {render :json => {:result =>"OK",:token => token}}
+      end
     end
   end
   def upload

@@ -6,14 +6,15 @@ class AccessNode < ActiveRecord::Base
   has_many :trusted_macs
   has_many :black_macs
   has_many :public_ips
+  has_many :black_ips
   has_many :online_connections, :class_name => "Connection", :conditions => "used_on is not null and (expired_on is null or expired_on > NOW())"
   has_one :auth
   has_one :conf
   has_one :address
   belongs_to :nodecmd
 
-  attr_accessible :last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id,:ssid, :wan_ip, :belong_type, :dev_id, :guest_id,:auth_plattype, :task_code, :task_params
-  validates :name, presence: true, uniqueness:true
+  attr_accessible :virtual,:uid,:online,:last_seen, :mac, :name, :portal_url, :redirect_url, :remote_addr, :sys_memfree, :sys_upload, :sys_uptime, :update_time, :cmdflag, :configflag, :cmdline, :time_limit, :auth, :lat, :long, :developer, :nodecmd_id,:ssid, :wan_ip, :belong_type, :dev_id, :guest_id,:auth_plattype, :task_code, :task_params
+  #validates :name, presence: true, uniqueness:true
 
   VALID_MAC_REGEX = /^[0-9A-F]+$/
   validates :mac, presence:true, uniqueness:true, length: { is:12 }, format: { with: VALID_MAC_REGEX }
@@ -115,9 +116,32 @@ class AccessNode < ActiveRecord::Base
   end
 
   def self.addnodes(params)
-    #if params[:AP].nil? || params[:AP].length > 10
-    #  {:check=>false,:code=>104, :msg=>"AP More Than ten"}
-    #else
+    if params[:AP]
+      begin
+        self.transaction do
+          params[:AP].each do |param|
+            object = param[:data]
+            object[:developer] = param[:username]
+            logger.info "zc begin creating"
+            access = self.create!(object)
+            logger.info "zc  node.id=#{access.id}"
+            Auth.create!(auth_type:"radius",auth_device:false,access_node_id:access.id)
+            logger.info "zc auth created!"
+            Conf.create!(access_node_id:access.id)
+            logger.info "zc conf created!"
+            ob_address = param[:address]
+            Address.create!(access_node_id:access.id,city:ob_address[:city],detail:ob_address[:detail],province:ob_address[:province],district:ob_address[:district])
+            ob_contact = param[:contact]
+            logger.info "zc address created"
+            Contact.create!(access_node_id:access.id,merchant:ob_contact[:merchant],name:ob_contact[:name],phonenum:ob_contact[:phonenum],telephonenum:ob_contact[:telephonenum],email:ob_contact[:email],weixin:ob_contact[:weixin],node_mac:object[:mac])
+            logger.info "zc contact created"
+          end
+        end
+      rescue Exception => e
+        return {:check=>false,:code=>105, :msg=>"Insert Error #{e.to_s}"}
+      end
+      {:check=>true, :code=>200, :msg=>"Success", :serverIP=>""}
+    else
       begin
         self.transaction do
           #params[:AP].each do |param|
@@ -142,7 +166,96 @@ class AccessNode < ActiveRecord::Base
         return {:check=>false,:code=>105, :msg=>"Insert Error #{e.to_s}"}
       end
       {:check=>true, :code=>200, :msg=>"Success", :serverIP=>""}
-    #end
+    end
+  end
+
+  def self.setap(params)
+    if params[:aplist].nil?                             
+      {:check=>false,:code=>104, :msg=>"AP is empty"}                       
+    else                                                                           
+      begin                                                                        
+        self.transaction do                                                        
+          params[:aplist].each do |ap|
+              access = self.find_by_mac(ap)
+	      if access
+                 if params[:portal]
+                    portal = params[:portal].strip
+                    if !portal.empty?
+     	               access.update_attributes( :redirect_url => portal );
+                    end
+                 end
+                 if params[:home]
+                    home = params[:portal].strip
+                    if !home.empty?
+     	               access.update_attributes( :portal_url => home );
+                    end
+                 end
+                 whitelist=params[:whitelist]
+                 if whitelist
+                   PublicIp.delete_all(["access_node_id = ?",access.id])
+                   whitelist.each do |white|
+                     begin
+                        PublicIp.create!(publicip:white.strip,access_node_id:access.id);
+                     rescue Exception => e
+                         @err = ""
+                     end
+                   end
+                 end
+                 blacklist=params[:blacklist]
+                 if blacklist
+                   BlackIp.delete_all(["access_node_id = ?",access.id])
+                   blacklist.each do |black|
+                     begin
+                        BlackIp.create!(publicip:black.strip,access_node_id:access.id);
+                     rescue Exception => e
+                         @err = ""
+                     end
+                   end
+                 end
+                 pips = PublicIp.where(" access_node_id= ? ", params[:id] )
+                 task_params = "{ \"whitelist\":["
+                 first =1
+                 pips.each do |pip|
+                   if first == 1
+                      task_params += "\"#{pip.publicip}\"" 
+                      first=0
+                   else
+                      task_params += ","
+                      task_params += "\"#{pip.publicip}\"" 
+         
+                   end
+                 end 
+                 task_params +="],"
+
+                 bips = BlackIp.where(" access_node_id= ? ", params[:id] )
+                 task_params += "\"blacklist\":["
+                 first =1
+                 bips.each do |pip|
+                   if first == 1
+                     task_params += "\"#{pip.publicip}\"" 
+                     first=0
+                   else
+                     task_params += ","
+                     task_params += "\"#{pip.publicip}\"" 
+         
+                   end
+                 end 
+                 task_params +="]"
+                 task_params +="}"
+        
+                 access.update_attributes(:task_code=>"10000", :task_params=>task_params,:cmdflag =>true )
+                 if access.dev_id
+                   Task.create!(dev_id:access.dev_id,task_code:"10000",status:"0",task_params:task_params)
+                 end
+              end
+		                                           
+          end
+        end
+      rescue Exception => e                                                        
+        return {:check=>false,:code=>105, :msg=>"Insert Error #{e.to_s}"}          
+      end
+      {:check=>true, :code=>200, :msg=>"Success"}
+    end
   end
 
   def self.bindurl(params)
@@ -166,7 +279,7 @@ class AccessNode < ActiveRecord::Base
   end
 
   def self.update_publicip(params)
-    if params[:data].nil? || params[:data].length > 5
+    if params[:data].nil? || params[:data].length > 30
       {:check=>false,:code=>104, :msg=>"Data More Than Five"}
     elsif  !access=self.find_by_mac(params[:mac])
       {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
@@ -189,7 +302,7 @@ class AccessNode < ActiveRecord::Base
   end
   
   def self.update_trustedmacs(params)
-    if params[:data].nil? || params[:data].length > 5
+    if params[:data].nil? || params[:data].length > 20
       {:check=>false,:code=>104, :msg=>"Data More Than Five"}
     elsif  !access=self.find_by_mac(params[:mac])
       {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
@@ -280,13 +393,23 @@ class AccessNode < ActiveRecord::Base
     nodecmd_id = params[:nodecmd_id].to_i
     if times<=0 or times>5
       return {:check=>false, :code=>102, :msg=>"Execced Max Number"}
-    elsif  nodecmd_id > 6 or nodecmd_id <= 0
+    elsif  nodecmd_id > 10 or nodecmd_id <= 0
       return {:check=>false, :code=>105, :msg=>"Set Wrong Number"}
     elsif !access = self.find_by_mac(params[:mac])
       {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
     else
       begin
-        access.update_attributes!(:nodecmd_id=>params[:nodecmd_id],:cmdflag =>true )
+        taskcode=0
+        nodecmd = Nodecmd.find(params[:nodecmd_id])
+        if nodecmd
+           if nodecmd.task_code
+              taskcode=nodecmd.task_code
+           end
+        end
+        if access.dev_id
+         Task.create!(dev_id:access.dev_id,task_code:taskcode,status:"0")
+        end
+        access.update_attributes!(:nodecmd_id=>params[:nodecmd_id],:task_code=>taskcode,:cmdflag =>true )
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end
@@ -307,6 +430,27 @@ class AccessNode < ActiveRecord::Base
         access.conf.update_attributes(checkinterval:params[:checkinterval],authinterval:params[:authinterval],clienttimeout:params[:clienttimeout],httpmaxconn:params[:httpmaxconn])
      	access.update_attributes( :configflag => true );
      	access.clean_all_conn 
+      rescue Exception => e
+        return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
+      end
+      {:check=>true,:code=>200,:msg=>"Success"}
+    end
+  end
+
+  def self.update_ssid(params)
+    times = params[:times].to_i
+    if times<=0 or times>5
+      return {:check=>false, :code=>102, :msg=>"Execced Max Number"}
+    elsif  params[:params].nil? or params[:mac].nil?
+      return {:check=>false, :code=>105, :msg=>"Less Params Error"}
+    elsif !access = self.find_by_mac(params[:mac])
+      {:check=>false, :code=>104,:msg=>"Not Found AccessNode"}
+    else
+      begin
+        if access.dev_id
+         Task.create!(dev_id:access.dev_id,task_code:"2003",status:"0",task_params:params[:params])
+        end
+        access.update_attributes(:task_code=>"2003", :task_params=>params[:params],:cmdflag =>true )
       rescue Exception => e
         return {:check=>false,:code=>103, :msg=>"Insert Error #{e.to_s}"}
       end
@@ -457,8 +601,8 @@ class AccessNode < ActiveRecord::Base
        )
        
      end
-     
-     if node.cmdflag == true
+     tasknum = Task.where(" dev_id= ? and status = ? ", params[:dev_id],"0" ).count
+     if tasknum > 0
         node.update_attributes( :cmdflag => false );
         pongstr = "Task"
      end
@@ -555,22 +699,31 @@ class AccessNode < ActiveRecord::Base
   end
 
   def self.taskrequest(params)
-    node = self.find_by_dev_id(params[:dev_id])
+    #node = self.find_by_dev_id(params[:dev_id])
+    task = Task.where(" dev_id= ? and status = ? ", params[:dev_id],"0" ).first
     x = {}
     sjson="{"
-    if params[:message].nil?
-        x["task_id"]="1"
-        x["task_code"]=node.task_code
-        x["task_params"]=node.task_params
+    if task
+      task_id=SecureRandom.hex(16)
+      task.update_attributes( :status => "1", :task_id => task_id)
+      if params[:message].nil?
+        x["task_id"]=task_id
+        x["task_code"]=task.task_code
+        x["task_params"]=task.task_params
         x["result"]="OK"
         x["code"]="0x0000"
         x["message"]="success"
-    else 
+      else 
+        x["result"]="OK"
+        x["code"]="0x000"
+        x["message"]="success"
+      end
+    else
         x["result"]="OK"
         x["code"]="0x000"
         x["message"]="success"
     end
-    node.update_attributes( :last_seen => Time.now, :cmdflag=>false )
+    #node.update_attributes( :last_seen => Time.now, :cmdflag=>false )
     x
   end
 
@@ -620,8 +773,15 @@ class AccessNode < ActiveRecord::Base
           nodepre = self.find_by_mac(conn.access_mac)
           guest1 = Guestnode.where("access_node_id = ?  ", nodepre.id).first
           guest2 = Guestnode.where("access_node_id = ?  ", node.id).first
+          isroam = 0
+          if guest1
+            roam = Roam.where("guest_id =?",guest1.guest_id).first
+            if roam
+              isroam=roam.roam
+            end
+          end
           if guest1 and guest2
-             if guest1.guest_id == guest2.guest_id
+             if guest1.guest_id == guest2.guest_id and isroam==1
                token=SecureRandom.urlsafe_base64(nil, false)
                login_connection = Connection.create!(:token => token,
                                                 :phonenum => conn.phonenum,
@@ -774,6 +934,7 @@ class AccessNode < ActiveRecord::Base
             login_connection = Connection.create!(:token => token,
                                                 :phonenum => params[:username],
                                                 :access_mac => params[:gw_id],
+                                                :online => params[:online],
                                                 :device => device,
                                                 :access_node_id => node.id,
                                                 :expired_on => Time.now+node.time_limit.minutes,
@@ -783,6 +944,7 @@ class AccessNode < ActiveRecord::Base
             login_connection = Connection.create!(:token => token,
                                                 :phonenum => params[:username],
                                                 :access_mac => params[:gw_id],
+                                                :online => params[:online],
                                                 :device => device,
                                                 :access_node_id => node.id,
                                                 :expired_on => Time.now+30.minutes,

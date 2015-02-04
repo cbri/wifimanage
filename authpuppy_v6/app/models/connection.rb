@@ -1,6 +1,6 @@
 class Connection < ActiveRecord::Base
   default_scope order('updated_at DESC')
-  attr_accessible :access_mac, :access_node_id, :expired_on, :incoming, :ipaddr, :mac, :outgoing, :token, :used_on, :device, :portal_url, :phonenum
+  attr_accessible :access_mac, :access_node_id, :expired_on, :incoming, :ipaddr, :mac, :outgoing, :token, :used_on, :device, :portal_url, :phonenum,:online
   belongs_to :access_node
 
   validates_presence_of :access_mac
@@ -144,6 +144,7 @@ class Connection < ActiveRecord::Base
           end
           connection.update_attributes({
             :ipaddr => params[:ip],
+            :mac => mac,
             :incoming => params[:incoming],
             :outgoing => params[:outgoing],
             :used_on => Time.now
@@ -156,6 +157,7 @@ class Connection < ActiveRecord::Base
         end
         connection.update_attributes({
             :ipaddr => params[:ip],
+            :mac => mac,
             :incoming => params[:incoming],
             :outgoing => params[:outgoing]
         })                        
