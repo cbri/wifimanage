@@ -39,8 +39,14 @@ gem 'rabl'
 # Also add either `oj` or `yajl-ruby` as the JSON parser
 gem 'oj'
 gem 'rufus-scheduler'
+<<<<<<< HEAD
 gem 'execjs' 
 gem 'therubyracer' 
 gem 'spreadsheet'
 gem 'aes'
 gem 'fast-aes'
+=======
+gem 'execjs'
+gem 'therubyracer'
+gem 'spreadsheet'
+>>>>>>> 424f7af30564fb8bacc9bc1840318b15fcf9db40

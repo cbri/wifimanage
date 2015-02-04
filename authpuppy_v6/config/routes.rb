@@ -15,7 +15,7 @@ Authpuppy::Application.routes.draw do
   root to: "admins#login"
   post "create_login_session" => "admins#create_login_session"
   delete "logout" => "admins#logout", :as => "logout"
-
+  resources :guest
   resources :access_nodes
   get "access_nodes/:id/advanced" => "access_nodes#advanced", :as => "advance"
   get "access_nodes/:id/init" => "access_nodes#init", :as => "init"
@@ -36,6 +36,7 @@ Authpuppy::Application.routes.draw do
   get "api10/auth" => "wifidog#auth_zj"
   post "api10/upload" => "wifidog#upload"
   post "auth/login" => "wifidog#login"
+  get "auth/login" => "wifidog#login"
   get "wifilogin" => "user#login"
   get "post/:aunnum" => "wifidog#authupdate"
   get "portal" => "user#portal"
@@ -51,6 +52,7 @@ Authpuppy::Application.routes.draw do
   get "api10/register" => "admins#register"
   post "api10/register" => "admins#register"
   get "api10/login" => "user#login_zj"
+  post "api10/login" => "user#login_zj"
   get "api10/portal" => "user#portal_zj"
   get "ict/portal" => "user#portal_ict"
   post "auth_update" => "auth#update"
@@ -66,15 +68,24 @@ Authpuppy::Application.routes.draw do
   post "update_auth_device" => "guest#update_auth_device"
   post "update_portal_url" => "guest#update_portal_url"
   post "update_access_time" => "guest#update_access_time"
+  post "update_cmdline" => "guest#update_cmdline"
+  post "update_ssid" => "guest#update_ssid"
   post "tmac_add" => "firewall#tmac_add"
   get  "tmac_del/:id" => "firewall#tmac_del", :as => "macdel"
   post "bmac_add" => "firewall#bmac_add"
   get  "bmac_del/:id" => "firewall#bmac_del", :as => "bmacdel"
   post "ip_add" => "firewall#ip_add"
   get  "ip_del/:id" => "firewall#ip_del", :as => "ipdel"
+  post "ipb_add" => "firewall#ipb_add"
+  get  "ipb_del/:id" => "firewall#ipb_del", :as => "ipbdel"
   get "indexconn" => "guest#index"
   post "sign_out" =>"user#sign_out", :as => "killline"
   post "upgrade" =>"access_nodes#upgrade"
   post "modifyssid" =>"access_nodes#modifyssid"
-
+  get "template" =>"access_nodes#template"
+  post "saveTemplate" =>"access_nodes#saveTemplate"
+  get "statistics" => "upload#download"
+  
+  post "set_ap" => "guest#setap"
+  get "batchnode" => "admins#batchnode"
 end

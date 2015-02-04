@@ -12,7 +12,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  host: 172.18.0.254
+  host: 172.18.0.9
   database: yunwifi_production
   pool: 5
   username: root
@@ -38,7 +38,7 @@ production:
   reconnect: false
   database: yunwifi_production
   pool: 5
-  host: 172.18.0.254
+  host: 172.18.0.9
   username: root
   password: ctbri@2014
   socket: /var/run/mysqld/mysqld.sock
