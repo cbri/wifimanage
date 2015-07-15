@@ -1,0 +1,291 @@
+body {
+	background-color: #ffffff  !important;
+}
+.header {
+	filter: !important; background-image: none !important; background-color: rgb(33, 33, 33) !important;
+}
+.header .btn-navbar {
+	background-color: rgb(33, 33, 33) !important;
+}
+.header .navbar-nav .dropdown-toggle:hover {
+	background-color: rgb(56, 56, 56) !important;
+}
+.header .navbar-nav .open.dropdown .dropdown-toggle {
+	background-color: rgb(56, 56, 56) !important;
+}
+.header .navbar-nav li.dropdown .dropdown-toggle i {
+	color: rgb(138, 138, 138) !important;
+}
+.header .search-form {
+	background-color: rgb(0, 0, 0);
+}
+.header .search-form .form-control {
+	border: 0px currentColor; color: rgb(153, 153, 153); background-color: rgb(0, 0, 0);
+}
+.header .search-form :-ms-input-placeholder.form-control {
+	color: rgb(119, 119, 119);
+}
+.header .search-form .submit {
+	background: url("../../img/search-icon-light.png");
+}
+.header .hor-menu ul.nav li a {
+	color: rgb(153, 153, 153);
+}
+.header .hor-menu ul.nav li.open > a {
+	background: rgb(56, 56, 56); color: rgb(255, 255, 255);
+}
+.header .hor-menu ul.nav li > a:hover {
+	background: rgb(56, 56, 56); color: rgb(255, 255, 255);
+}
+.header .hor-menu ul.nav li > a:focus {
+	background: rgb(56, 56, 56); color: rgb(255, 255, 255);
+}
+.header .hor-menu .dropdown-menu li:hover > a {
+	background: rgb(224, 34, 34) !important; color: rgb(255, 255, 255);
+}
+.header .hor-menu ul.nav li.active > a {
+	background: rgb(224, 34, 34) !important; color: rgb(255, 255, 255);
+}
+.header .hor-menu ul.nav li.active > a:hover {
+	background: rgb(224, 34, 34) !important; color: rgb(255, 255, 255);
+}
+.header .hor-menu ul.nav li.current > a {
+	background: rgb(224, 34, 34) !important; color: rgb(255, 255, 255);
+}
+.header .hor-menu ul.nav li.current > a:hover {
+	background: rgb(224, 34, 34) !important; color: rgb(255, 255, 255);
+}
+.header .hor-menu .dropdown-menu {
+	background: rgb(56, 56, 56);
+}
+.header .hor-menu .dropdown-menu li > a {
+	color: rgb(153, 153, 153);
+}
+.header .hor-menu .off.hor-menu-search-form-toggler {
+	background: url("../../img/hor-menu-search-close.png") no-repeat center rgb(56, 56, 56);
+}
+.header .hor-menu .search-form {
+	background: rgb(56, 56, 56);
+}
+.header .hor-menu .search-form form input {
+	color: rgb(153, 153, 153);
+}
+.header .hor-menu .search-form .btn {
+	background: url("../../img/search-icon.png") no-repeat center; color: rgb(153, 153, 153);
+}
+.header .hor-menu .search-form form input:-ms-input-placeholder {
+	color: rgb(153, 153, 153);
+}
+.mega-menu .mega-menu-submenu {
+	border-right-color: rgb(68, 68, 68); border-right-width: 1px; border-right-style: solid;
+}
+.mega-menu .mega-menu-submenu li h3 {
+	color: rgb(255, 255, 255);
+}
+.page-sidebar {
+	background-color: rgb(61, 61, 61);
+}
+ul.page-sidebar-menu > li > a {
+	color: rgb(255, 255, 255) !important; border-top-color: rgb(92, 92, 92) !important; border-top-width: 1px !important; border-top-style: solid !important;
+}
+ul.page-sidebar-menu > li:last-child > a {
+	border-bottom-color: transparent !important; border-bottom-width: 1px !important; border-bottom-style: solid !important;
+}
+ul.page-sidebar-menu > li a i {
+	color: rgb(150, 150, 150);
+}
+ul.page-sidebar-menu > li.open > a {
+	background: rgb(48, 48, 48);
+}
+ul.page-sidebar-menu > li > a:hover {
+	background: rgb(48, 48, 48);
+}
+ul.page-sidebar-menu > li:hover > a {
+	background: rgb(48, 48, 48);
+}
+ul.page-sidebar-menu > li.active > a {
+	background: rgb(224, 34, 34) !important; color: rgb(255, 255, 255); border-top-color: transparent !important;
+}
+ul.page-sidebar-menu > li.active > a i {
+	color: rgb(255, 255, 255);
+}
+ul.page-sidebar-menu > li > ul.sub-menu > li:first-child > a {
+	border-top-color: currentColor !important; border-top-width: 0px !important; border-top-style: none !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu > li.active > a {
+	background: rgb(87, 87, 87) !important; color: rgb(255, 255, 255) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu > li > a:hover {
+	background: rgb(87, 87, 87) !important; color: rgb(255, 255, 255) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu > li > a:hover {
+	background: rgb(87, 87, 87) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu li > ul.sub-menu > li.active > a {
+	background: rgb(87, 87, 87) !important; color: rgb(255, 255, 255) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu li > ul.sub-menu > li > a:hover {
+	background: rgb(87, 87, 87) !important; color: rgb(255, 255, 255) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu li.open > a {
+	background: rgb(87, 87, 87) !important; color: rgb(255, 255, 255) !important;
+}
+ul.page-sidebar-menu li > ul.sub-menu > li > a {
+	color: rgb(189, 189, 189);
+}
+ul.page-sidebar-menu > li > a .arrow::before {
+	color: rgb(125, 125, 125) !important;
+}
+ul.page-sidebar-menu > li > a .open.arrow::before {
+	color: rgb(125, 125, 125) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu a .arrow::before {
+	color: rgb(112, 112, 112) !important;
+}
+ul.page-sidebar-menu > li > ul.sub-menu a .open.arrow::before {
+	color: rgb(112, 112, 112) !important;
+}
+ul.page-sidebar-menu > li > a > .open.arrow::before {
+	color: rgb(138, 138, 138) !important;
+}
+ul.page-sidebar-menu > li.active > a .arrow::before {
+	color: rgb(255, 255, 255) !important;
+}
+ul.page-sidebar-menu > li.active > a .open.arrow::before {
+	color: rgb(255, 255, 255) !important;
+}
+.page-sidebar .sidebar-search input {
+	color: rgb(125, 125, 125); background-color: rgb(36, 36, 36) !important;
+}
+.page-sidebar .sidebar-search input:-ms-input-placeholder {
+	color: rgb(125, 125, 125) !important;
+}
+.page-sidebar .sidebar-search input {
+	color: rgb(191, 191, 191) !important; background-color: rgb(61, 61, 61) !important;
+}
+.page-sidebar .sidebar-search .input-box {
+	border-bottom-color: rgb(125, 125, 125) !important; border-bottom-width: 1px !important; border-bottom-style: solid !important;
+}
+.page-sidebar .sidebar-search .submit {
+	background-image: url("../../img/search-icon.png");
+}
+.sidebar-toggler {
+	background-image: url("../../img/sidebar-toggler.jpg"); background-color: rgb(36, 36, 36);
+}
+.page-sidebar-closed .page-sidebar .open.sidebar-search .form-container {
+	background-color: rgb(61, 61, 61) !important;
+}
+.page-sidebar-closed .page-sidebar .open.sidebar-search .form-container .remove {
+	background-image: url("../../img/sidebar-search-close.png");
+}
+.page-sidebar-closed ul.page-sidebar-menu > li:hover .sub-menu {
+	background-color: rgb(61, 61, 61);
+}
+.footer .footer-inner {
+	color: rgb(153, 153, 153);
+}
+.footer .footer-tools .go-top {
+	background-color: rgb(79, 79, 79);
+}
+.footer .footer-tools .go-top:hover {
+	opacity: 0.7;
+}
+.footer .footer-tools .go-top i {
+	color: rgb(138, 138, 138);
+}
+.page-footer-fixed .footer {
+	background-color: rgb(36, 36, 36);
+}
+.page-footer-fixed .footer .footer-inner {
+	color: rgb(153, 153, 153);
+}
+.page-footer-fixed .footer .footer-tools .go-top {
+	background-color: rgb(79, 79, 79);
+}
+.page-footer-fixed .footer .footer-tools .go-top i {
+	color: rgb(138, 138, 138);
+}
+.gritter-top {
+	background: url("../../plugins/gritter/images/gritter.png") no-repeat left -30px !important;
+}
+.gritter-bottom {
+	background: url("../../plugins/gritter/images/gritter.png") no-repeat left bottom !important;
+}
+.gritter-item {
+	background: url("../../plugins/gritter/images/gritter.png") no-repeat left -40px !important; display: block;
+}
+.gritter-close {
+	background: url("../../plugins/gritter/images/gritter.png") no-repeat left top !important;
+}
+.gritter-title {
+	text-shadow: none !important;
+}
+.gritter-light .gritter-item {
+	background-image: url("../../plugins/gritter/images/gritter-light.png") !important;
+}
+.gritter-light .gritter-bottom {
+	background-image: url("../../plugins/gritter/images/gritter-light.png") !important;
+}
+.gritter-light .gritter-top {
+	background-image: url("../../plugins/gritter/images/gritter-light.png") !important;
+}
+.gritter-light .gritter-close {
+	background-image: url("../../plugins/gritter/images/gritter-light.png") !important;
+}
+.gritter-item-wrapper a {
+	color: rgb(24, 165, 237);
+}
+.gritter-item-wrapper a:hover {
+	color: rgb(11, 102, 148);
+}
+@media all and (min-width:992px)
+{
+.page-boxed {
+	background-color: rgb(46, 46, 46) !important;
+}
+.page-boxed .page-container {
+	border-bottom-color: rgb(94, 94, 94); border-left-color: rgb(94, 94, 94); border-bottom-width: 1px; border-left-width: 1px; border-bottom-style: solid; border-left-style: solid; background-color: rgb(61, 61, 61);
+}
+.page-sidebar-reversed.page-boxed .page-container {
+	border-right-color: rgb(94, 94, 94); border-left-color: currentColor; border-right-width: 1px; border-left-width: 0px; border-right-style: solid; border-left-style: none;
+}
+.page-sidebar-fixed.page-boxed .page-container {
+	border-bottom-color: currentColor; border-left-color: currentColor; border-bottom-width: 0px; border-left-width: 0px; border-bottom-style: none; border-left-style: none;
+}
+.page-sidebar-fixed.page-sidebar-reversed.page-boxed .page-container {
+	border-right-color: currentColor; border-bottom-color: currentColor; border-left-color: currentColor; border-right-width: 0px; border-bottom-width: 0px; border-left-width: 0px; border-right-style: none; border-bottom-style: none; border-left-style: none;
+}
+.page-sidebar-fixed.page-boxed .page-sidebar {
+	border-left-color: rgb(94, 94, 94); border-left-width: 1px; border-left-style: solid;
+}
+.page-sidebar-fixed.page-sidebar-reversed.page-boxed .page-sidebar {
+	border-right-color: rgb(94, 94, 94); border-left-color: currentColor; border-right-width: 1px; border-left-width: 0px; border-right-style: solid; border-left-style: none;
+}
+.page-footer-fixed.page-sidebar-fixed.page-boxed .footer {
+	background-color: rgb(46, 46, 46) !important;
+}
+}
+@media all and (max-width:991px)
+{
+.page-sidebar {
+	background-color: rgb(41, 41, 41) !important;
+}
+ul.page-sidebar-menu > li > a {
+	border-top-color: rgb(74, 74, 74) !important; border-top-width: 1px !important; border-top-style: solid !important;
+}
+ul.page-sidebar-menu > li:last-child > a {
+	border-bottom-color: currentColor !important; border-bottom-width: 0px !important; border-bottom-style: none !important;
+}
+.page-sidebar .sidebar-search input {
+	background-color: rgb(41, 41, 41) !important;
+}
+ul.page-sidebar-menu > li.open > a {
+	background: rgb(30, 30, 30);
+}
+ul.page-sidebar-menu > li > a:hover {
+	background: rgb(30, 30, 30);
+}
+ul.page-sidebar-menu > li:hover > a {
+	background: rgb(30, 30, 30);
+}
+}

@@ -1,0 +1,29 @@
+<div class="container">
+<h1>Listing logs</h1>
+<ul class="users">
+<%= will_paginate @logs %>
+<table>
+  <tr>
+    <th>Log value</th>
+    <th>Dev</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @logs.each do |log| %>
+  <tr>
+    <td><%= log.log_value %></td>
+    <td><%= log.dev_id %></td>
+    <td><%= link_to 'Show', log %></td>
+    <td><%= link_to 'Edit', edit_log_path(log) %></td>
+    <td><%= link_to 'Destroy', log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= will_paginate @logs %>
+</ul>
+<%= link_to 'New Log', new_log_path %>
+</div>

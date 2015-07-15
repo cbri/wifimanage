@@ -1,0 +1,20 @@
+
+    <div class="row">
+      <div class="span6 offset1">
+        <h3>基本设置</h3>
+        <p></p>
+        <%= form_for(@guest) do |f| %>
+         <div class="field">
+          <%= f.label "漫游" %>
+          <% if @guest.roam == 0 %>
+          <%= f.select(:roam,'<option value=0  selected= "selected" >否</option><option value=1 >是</option>'.html_safe ) %>
+          <% else %>
+          <%= f.select(:roam,'<option value=0 >否</option><option value=1  selected= "selected" >是</option>'.html_safe ) %>
+          <% end %>
+         </div>
+         <%= f.submit "更新节点", :class => "btn btn-large btn-primary" %> 
+       <% end %>
+        <h3>统计信息</h3>
+        <%= link_to '下载','../../statistics',data: { confirm: '确定要下载吗?'} %>
+    </div>
+  </div>

@@ -1,0 +1,125 @@
+<div class="container">
+<style type="text/css">
+      /* 内部样式 */
+      h3{color:green;}
+</style>
+<script>
+  /**保存升级计划*/
+
+function checkAll(){
+	var row = document.getElementById("ap_table_1").rows.length;
+        if (document.getElementById("check_input_all").checked){
+	  for(var i = 1;i<row;i++){
+		var tr = document.getElementById("ap_table_1").rows[i];
+		//当没有选中时，不让保存
+		tr.cells[0].getElementsByTagName("input")[0].checked=true
+          }
+        }
+        else {
+	  for(var i = 1;i<row;i++){
+		var tr = document.getElementById("ap_table_1").rows[i];
+		//当没有选中时，不让保存
+		tr.cells[0].getElementsByTagName("input")[0].checked=false
+          }
+        }
+    
+}
+function savetemplate(){
+	//升级计划名称
+        $("#err_msg").text("");
+	var redirect = $("#authportal").val();
+	if(redirect.replace(/\s+/g,'') == ''){
+		$("#err_msg").text("认证页面不能为空");
+		return;
+	}
+	var duration = $("#duration").val();
+        duration = duration.replace(/\s+/g,'')
+	if(duration!='' && isNaN(duration)){
+		$("#err_msg").text("广告间隔不是数字");
+		return;
+	}
+	var portal = $("#welcomeportal").val();
+        portal = portal.replace(/\s+/g,'')
+	var auth_plattype = $("#auth_plattype").val();
+	//升级的AP(右边表的数据)
+	var row = document.getElementById("ap_table_1").rows.length;
+	var macs = "";
+	for(var i = 1;i<row;i++){
+		var tr = document.getElementById("ap_table_1").rows[i];
+		//当没有选中时，不让保存
+		if(!tr.cells[0].getElementsByTagName("input")[0].checked){
+			continue;
+		}
+		var mac = tr.cells[1].innerHTML;
+		if(macs == ""){
+			macs = mac;
+		}else{
+			macs = macs+":"+mac;
+		}
+	}
+	if(macs == ""){
+		$("#err_msg").text("AP选择不能为空");
+		return;
+	}
+	$.post("saveTemplate",
+			"redirect="+redirect+"&" +
+			"duration="+duration+"&" +
+			"portal="+portal+"&" +
+			"auth_plattype="+auth_plattype+"&" +
+			"macs=" +macs,
+			function(res){
+				var d = res.code;
+				//表格追加一行
+				if(d == '200'){
+                                       $("#err_msg").text("保存成功");
+				}else{
+                                       $("#err_msg").text("保存失败");
+					//保存失败
+				}
+			},"json");
+}
+</script>
+<div>
+          
+   <p><label style="display:inline">认证页面:</label><input id="authportal" maxlength="100" name="authportal" size="100" type="text" style="width:50%"></p>
+   <p>
+   <label style="display:inline">欢迎页面:</label><input id="welcomeportal" maxlength="100" name="welcomeportal" size="100" type="text" style="width:50%">
+   </p>
+   <p>
+   <label style="display:inline">广告间隔(分钟):</label><input id="duration" maxlength="20" name="duration" size="20" type="text" style="width:10%">
+   <label style="display:inline">ROM版本:</label><select id="auth_plattype" name="auth_plattype" style="width:10%"><option value="0">定制</option><option value="1">ICT</option><option value="2" selected="selected">联盟</option></select>
+   </p>
+   <p><span style="color: #f00;margin-right: 20px;" id="err_msg"></span></p>
+   <button onclick="savetemplate()">修改</button>
+   <p></p>
+   <p></p>
+   <p></p>
+</div> 
+<ul class="users">
+  <%= will_paginate @access_nodes %>
+  <div style="overflow: auto; width: 80%;float:left;height:100%">
+  <table border="1" width="96%" id="ap_table_1">
+   <tr style="background:#61E4B5">
+     <td align="center" width="8%"><input type="checkbox" onclick="checkAll()" id="check_input_all" />
+     </td>
+     <td align="center" width="40%">MAC</td>
+     <td align="center" width="52%">名称</td>
+   </tr>
+   <% @access_nodes.each do |access| %>
+   <tr id="upgrade_window_tb_1_0">
+   <td><div align="center">
+       <input type="checkbox" id="check_input_0">
+       <input type="hidden" id="upgrade_window_hidden_1_0" value="176">
+       <input type="hidden" id="province_code0" value="110101"></div>
+   </td>
+   <td align="center"><%=access.mac%></td>
+   <td align="center"><%=access.name%></td>
+  </tr>
+   <% end %>
+							</table>
+  </div>
+  <%= will_paginate @access_nodes %>
+</ul>
+</div>
+
+

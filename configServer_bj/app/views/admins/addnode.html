@@ -1,0 +1,599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0052)http://test-www1.51iwifi.com:8000/api10/register.htm -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title id="frame_title_text">爱WiFi联盟</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta http-equiv="cache-control" content="max-age=0">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="-1">
+	<meta http-equiv="pragma" content="no-cache">
+    <!-- Bootstrap -->
+    <link href="/assets/resources/css/bootstrap.min.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/bootstrap-switch.css" rel="stylesheet" media="screen">
+    <link href="/assets/resources/css/ionicons.min.css" rel="stylesheet" media="screen">
+    <link href="/assets/resources/css/jquery.pnotify.default.css" rel="stylesheet" media="screen">
+    <link href="/assets/resources/css/jquery.pnotify.default.icons.css" rel="stylesheet" media="screen">
+    <link href="/assets/resources/css/signin.css" rel="stylesheet" media="screen">
+    
+	<link href="/assets/resources/css/css.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/default.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/font-awesome.min.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/plugins.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/print.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/style.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/style-responsive.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/tasks.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/uniform.default.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/select2.css" rel="stylesheet" media="screen">
+	<link href="/assets/resources/css/select2-metronic.css" rel="stylesheet" media="screen">
+	
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.6.2/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            font-family: '微软雅黑';
+        }
+        .error-notification {
+            color: #dd1144;
+        }
+    </style>
+</head>
+<body>
+<div id="content" class="container">
+<div class="row">
+ <div class="col-md-1"></div>
+<div class="col-md-7 col-md-offset-3">
+<img src="/assets/resources/img/den_03.png">
+</div>
+<div class="col-md-1"></div>
+</div>
+ <div class="row">
+ <div class="col-md-1"></div>
+ <div class="col-md-10">
+ <div class="portlet box yellow">
+	<div class="portlet-title">
+		<div class="caption">
+			<i class="glyphicon glyphicon-user"></i>绑定设备
+		</div>		
+	</div>
+ 
+ 	<div class="portlet-body form">
+		<!-- BEGIN FORM-->
+		<form id="id_registerform" class="form-horizontal" novalidate="novalidate">
+			<div class="form-actions top fluid">
+				<div class="col-md-offset-3 col-md-9">
+					<button id="id_regbtn" type="submit" class="btn btn-success">注册</button>
+				</div>
+			</div>
+			<div class="form-body">
+				<div class="form-group">
+					<label class="col-md-3 control-label">MAC </label>
+					<div class="col-md-4">
+			        	<input id="id_mac" name="mac" type="text" class="form-control" placeholder="MAC" required="" autofocus="">
+			        	<div id="mac_result" class="error-notification"></div>
+					</div>
+				</div>
+				<div class="form-group">
+                                        <label class="col-md-3 control-label">设备名称 </label>
+                                        <div class="col-md-4">
+                                        <input id="id_device" name="device" type="text" class="form-control" placeholder="设备名称" required="" autofocus="">
+			        	<div id="device_result" class="error-notification"></div>
+                                        </div>
+                                </div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">用户名  <i id="username_validation_result" class="" style="float: right; display: none;"></i></label>
+					<div class="col-md-4">
+			        	<input id="id_username" name="username" type="text" class="form-control" placeholder="用户名" required="" autofocus="">
+			        	<div id="username_result" class="error-notification"></div>
+			        </div>
+			        <div class="col-md-5">
+			        	<p class="navbar-text" style="margin-top:8px"> 注册新用户</p>
+						<div id="mapSwitch" class="makeswitch navbar-btn" style="margin-top:6px" data-on="danger" data-off="primary">    					
+    						<input style="margin-bottom:10px" id="checkbox-register" type="checkbox">					 
+						</div>			
+			        </div>
+		          	<div class="col-md-2"></div>  			            			 
+				</div>
+				<div class="form-group">
+					<label class="col-md-3 control-label">密码</label>
+					<div class="col-md-4">
+						<input id="id_password" name="password" type="password" class="form-control" placeholder="密码" required="">
+					</div>
+				</div>
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">重复密码</label>
+					<div class="col-md-4">
+						<input id="id_repassword" name="repassword" type="password" class="form-control" placeholder="重复密码">
+					</div>
+				</div>
+                                
+                                <div class="form-group register-account" style="display: none;">
+                                        <label class="col-md-3 control-label">认证页面</label>
+                                        <div class="col-md-4">
+                                                <input id="id_redirect_url" name="redirect_url" type="text" class="form-control" placeholder="认证页面">
+                                        </div>
+                                </div>
+                                <div class="form-group register-account" style="display: none;">
+                                        <label class="col-md-3 control-label">欢迎页面</label>
+                                        <div class="col-md-4">
+                                                <input id="id_portal_url" name="portal_url" type="text" class="form-control" placeholder="欢迎页面">
+                                        </div>
+                                </div>
+
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">邮箱</label>
+					<div class="col-md-4">
+						<input id="id_email" name="email" type="text" class="form-control" placeholder="邮箱">
+					</div>
+				</div>
+				
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">手机号码</label>
+					<div class="col-md-4">
+						<input id="id_cellNumber" name="cellNumber" type="text" class="form-control" placeholder="手机号码（可选）">
+					</div>
+				</div>
+                                 
+                                <div class="form-group register-account" style="display: none;">
+                                        <label class="col-md-3 control-label">固定号码</label>
+                                        <div class="col-md-4">
+                                                <input id="id_telephone" name="telephone" type="text" class="form-control" placeholder="固定号码（可选）">
+                                        </div>
+                                </div>
+				
+                                <div class="form-group register-account" style="display: none;">
+                                        <label class="col-md-3 control-label">微信号</label>
+                                        <div class="col-md-4">
+                                                <input id="id_weixin" name="weixin" type="text" class="form-control" placeholder="微信号（可选）">
+                                        </div>
+                                </div>
+                                
+                                <div class="form-group register-account" style="display: none;">
+                                        <label class="col-md-3 control-label">联系人</label>
+                                        <div class="col-md-4">
+                                                <input id="id_contact" name="contact" type="text" class="form-control" placeholder="联系人（可选）">
+                                        </div>
+                                </div>
+
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">商户名</label>
+					<div class="col-md-4">
+						<input id="id_merchantName" name="merchantName" type="text" class="form-control" placeholder="商户名（可选）">
+					</div>
+				</div>
+				
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">商户描述</label>
+					<div class="col-md-4">
+						<textarea id="id_merchantDescription" name="merchantDescription" type="text" class="form-control" placeholder="商户描述（可选）"></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">地区</label>
+					<div class="col-md-4">
+						<div class="row">
+						    <div class="col-md-4" style="padding-right: 0px;">
+						        <select id="id_province" name="province" class="form-control"><option value="请选择:0">请选择</option><option value="北京:1">北京</option><option value="广东:2">广东</option><option value="上海:3">上海</option><option value="天津:4">天津</option><option value="重庆:5">重庆</option><option value="辽宁:6">辽宁</option><option value="江苏:7">江苏</option><option value="湖北:8">湖北</option><option value="四川:9">四川</option><option value="陕西:10">陕西</option><option value="河北:11">河北</option><option value="山西:12">山西</option><option value="河南:13">河南</option><option value="吉林:14">吉林</option><option value="黑龙江:15">黑龙江</option><option value="内蒙古:16">内蒙古</option><option value="山东:17">山东</option><option value="安徽:18">安徽</option><option value="浙江:19">浙江</option><option value="福建:20">福建</option><option value="湖南:21">湖南</option><option value="广西:22">广西</option><option value="江西:23">江西</option><option value="贵州:24">贵州</option><option value="云南:25">云南</option><option value="西藏:26">西藏</option><option value="海南:27">海南</option><option value="甘肃:28">甘肃</option><option value="宁夏:29">宁夏</option><option value="青海:30">青海</option><option value="新疆:31">新疆</option><option value="香港:32">香港</option><option value="澳门:33">澳门</option><option value="台湾:34">台湾</option><option value="海外:35">海外</option><option value="其他:36">其他</option></select>
+						        <div id="province_result" class="error-notification"></div>
+						    </div>
+						    <div class="col-md-4" style="padding-left:0px; padding-right: 0px;">
+						        <select id="id_city" name="city" class="form-control"><option value="请选择:19:0">请选择</option><option value="杭州:19:1">杭州</option><option value="宁波:19:2">宁波</option><option value="温州:19:3">温州</option><option value="嘉兴:19:4">嘉兴</option><option value="湖州:19:5">湖州</option><option value="绍兴:19:6">绍兴</option><option value="金华:19:7">金华</option><option value="衢州:19:8">衢州</option><option value="舟山:19:9">舟山</option><option value="台州:19:10">台州</option><option value="丽水:19:11">丽水</option><option value="其他:19:12">其他</option></select>
+						        <div id="city_result" class="error-notification"></div>
+						    </div>
+						    <div class="col-md-4" style="padding-left:0px;">
+						        <select id="id_county" name="county" class="form-control"><option value="请选择:19:1:0">请选择</option><option value="拱墅区:19:1:1">拱墅区</option><option value="西湖区:19:1:2">西湖区</option><option value="上城区:19:1:3">上城区</option><option value="下城区:19:1:4">下城区</option><option value="江干区:19:1:5">江干区</option><option value="滨江区:19:1:6">滨江区</option><option value="余杭区:19:1:7">余杭区</option><option value="萧山区:19:1:8">萧山区</option><option value="建德市:19:1:9">建德市</option><option value="富阳市:19:1:10">富阳市</option><option value="临安市:19:1:11">临安市</option><option value="桐庐县:19:1:12">桐庐县</option><option value="淳安县:19:1:13">淳安县</option><option value="其他:19:1:14">其他</option></select>
+						    </div>
+						</div>
+					</div>
+				</div>
+							
+				<div class="form-group register-account" style="display: none;">
+					<label class="col-md-3 control-label">详细地址</label>
+					<div class="col-md-4">
+						<textarea id="id_address" name="Location" type="text" class="form-control" placeholder="详细地址（可选）" rows="3"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="form-actions fluid">
+				<div class="col-md-offset-3 col-md-9">
+					<button id="id_regbtn" type="submit" class="btn btn-success">注册</button>
+					
+				</div>
+			</div>
+		</form>
+		<!-- END FORM-->
+		 
+	</div>
+ </div>
+ <div class="col-md-1"></div>
+ </div>
+
+</div>
+</div>
+<!-- /container -->
+
+<script src="/assets/register/js/jquery-1.11.0.js"></script>
+<script src="/assets/register/js/bootstrap.min.js"></script>
+<script src="/assets/register/js/bootstrap-switch.min.js"></script>
+<script src="/assets/register/js/jquery.pnotify.js"></script>
+<script src="/assets/register/js/jquery.validate.min.js"></script>
+<script src="/assets/register/js/messages_zh.js"></script>
+<script src="/assets/register/js/md5.js"></script>
+<script src="/assets/register/js/global.js"></script>
+<script src="/assets/register/js/resources.js"></script>
+<script src="/assets/register/js/address.js"></script>
+<script type="text/javascript">
+	var gw_address = "";
+	var gw_port = "";
+	var gw_mac = "";
+	var pin = "";
+	var componentVer = "";
+	var registeraccount = false;
+        var Request = new Object();
+        Request = GetRequest();
+        gw_mac = Request["gw_mac"];
+        gw_address = Request["gw_address"];
+        gw_port = Request["gw_port"];
+        componentVer = Request["soft_ver"];
+        
+    //alert("address: " + gw_address + " gw_port: " + gw_port + " mac: " + gw_mac + " pin_code: " + pin);
+	$(".register-account").hide();
+	
+    $(document).ready(function (e) {
+        $.pnotify.defaults.styling = "bootstrap";
+        $.pnotify.defaults.history = false;
+        $.pnotify.defaults.delay = 1500;
+
+        addr_selector_create('id_province', 'id_city', 'id_county');
+        addr_selector_set('id_province', "浙江", 'id_city', "杭州", "id_county", "上城区");
+        
+        $("#id_mac").text(gw_mac);
+        
+        $("#username_validation_result").hide();
+        
+        $("#id_username").blur(function() {
+        	var username = $("#id_username").val();
+        	if (isNotEmptyString(username) && registeraccount) {
+        		validateUsername();
+        	}
+        });
+        $("#id_mac").blur(function() {
+                var temp = $("#id_mac").val();
+                if (isNotEmptyString(temp)) {
+                        validatemac();
+                }
+        });
+        $("#id_device").blur(function() {
+                var temp = $("#id_device").val();
+                if (isNotEmptyString(temp)) {
+                        validatedevicename();
+                }
+        });
+        /*
+    	$('#mapSwitch').on('click', function (e, data) {
+    	    var $el = $(data.el), value = data.value;
+
+    	    if(value){
+    	    		$(".register-account").show();
+    	    		registeraccount = true;
+    	    		setAccountValidationRules();
+    	    	}
+    	    else{
+    	    		$(".register-account").hide();
+    	    		registeraccount = false;
+    	    		removeAccountValidationRules();
+    	    	}
+    	});
+        */
+    	
+    	$("#checkbox-register").bind("click", function () {
+    		 if ($(this).is(":checked")) {
+    			 $(".register-account").show();
+ 	    		registeraccount = true;
+ 	    		setAccountValidationRules();
+             }
+    		 else
+    			{
+    			   $(".register-account").hide();
+ 	    		   registeraccount = false;
+ 	    		   removeAccountValidationRules();
+    			 }           
+        });
+    	
+        $('#id_registerform').validate({
+            errorClass: "error-notification",
+            errorElement: "div",
+            rules: {
+                username: {
+                    required: true,
+                    maxlength: 64,
+              	},
+                password: {
+                    required: true,
+                    rangelength: [6, 20]
+                },
+                telcom_account: {
+                    required: true,
+                    maxlength: 200,
+                }/* ,
+                recommendNumber : {
+    				required : true
+                } */
+            },
+            messages: {
+                username: {
+                	required : "请填写用户名",
+                    maxlength: "用户名不得超过64个字符",
+                    remote:"用户名已被注册"
+                },
+                password: {
+                    required: "请填写密码",
+                    rangelength: "请输入6-20位长度的密码"
+                },
+                telcom_account: {
+                	required : "请填写上网帐号(PPPoE上网帐号或静态IP)",
+                	isMobile: "上网帐号不得超过200个字符"
+                }/* ,
+                recommendNumber : {
+                	required : "请输入推荐码"
+                } */
+            },
+            submitHandler: function (form) {
+            	SubmitRegisterDevice();
+            }
+        });
+    });
+
+     function GetRequest() {
+       var url = location.search; //获取url中"?"符后的字串
+       var theRequest = new Object();
+       if (url.indexOf("?") != -1) {
+         var str = url.substr(1);
+         strs = str.split("&");
+         for(var i = 0; i < strs.length; i ++) {
+           theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+         }
+       }
+       return theRequest;
+    }
+   
+    function SubmitRegisterDevice() {
+    	if(!locationValidate()){
+    		return false;
+    	}
+
+        $.ajax({
+            type: 'POST',
+            dataType: 'json',
+            url: '/addnode',
+            data: {
+            	"gw_mac": $("#id_mac").val(),
+            	"registeraccount": registeraccount,
+                "username": $("#id_username").val(),
+                "password": $("#id_password").val(),
+                "email": $("#id_email").val(),
+                "cellNumber": $("#id_cellNumber").val(),
+                "telephone": $("#id_telephone").val(),
+                "name": $("#id_device").val(),
+                "contact": $("#id_contact").val(),
+                "redirect_url": $("#id_redirect_url").val(),
+                "portal_url": $("#id_portal_url").val(),
+                "merchantName": $("#id_merchantName").val(),
+                "merchantDescription": $("#id_merchantDescription").val(),
+                "geoLocation": JSON.stringify(getAddress()),
+                "weixin":$("#id_weixin").val()
+            },
+            success: function (data) {
+                if (data.result == 'OK') {
+                     $.pnotify({
+                        title: "设备绑定成功",
+                        type: 'success',
+                        text: "设备绑定成功",
+                        delay: 10000
+                    });
+                     
+                } else {
+                    $.pnotify({
+                        title: "绑定失败",
+                        text: data.message,
+                        type: 'error',
+                        delay: 20000
+                    });
+                }
+            },
+            error: function (data) {
+                $.pnotify({
+                    title: "无法连接服务器",
+                    text: "设备绑定失败！" + data.message,
+                    type: 'error'
+                });
+            }
+        });
+    }
+    
+ 	function setAccountValidationRules() {
+ 		removeAccountValidationRules();
+
+ 		$("#id_cellNumber").rules("add", {rangelength: [7, 20]});
+ 		
+ 		$("#id_email").rules("add", {
+        	required: true,
+        	email: true,
+        	maxlength: 100
+ 		});
+                $("#id_mac").rules("add", {
+                required: true,
+                });
+ 		
+ 		$("#id_repassword").rules("add", {
+ 			required: true,
+ 			equalTo: '#id_password'
+ 		});
+ 	}
+ 	
+ 	function removeAccountValidationRules() {
+ 		$("#id_cellNumber").rules("remove");
+ 		$("#id_mac").rules("remove");
+ 		$("#id_email").rules("remove");
+ 		$("#id_repassword").rules("remove");
+ 	}
+	
+    function validateUsername() {
+    	var username = $("#id_username").val();
+    	
+    	$("#username_validation_result").hide();
+    	$("#username_validation_result").removeClass();
+    	
+		$.ajax({
+			url: "/account/usernamevalidation", 
+		    type: 'GET',
+		    dataType: 'json',
+		    data: {username: username},
+		    beforeSend :function(xmlHttp){ 
+		    	xmlHttp.setRequestHeader("If-Modified-Since","0"); 
+		    	xmlHttp.setRequestHeader("Cache-Control","no-cache"); 
+		    }, 
+		    success: function (data) {
+				if (data.result == 'OK') {
+					
+					$("#username_validation_result").addClass("icon ion-checkmark-circled");
+					$("#id_regbtn").removeClass("disabled");
+					$("#username_result").html("");
+				} 
+				else {
+					$("#username_validation_result").addClass("icon ion-close-circled");
+					$("#id_regbtn").addClass("disabled");
+					$("#username_result").html("该用户名已存在");
+				}
+				$("#username_validation_result").show();
+		    },
+		    error: function (data) {
+		    }
+		});
+    }
+
+    function validatedevicename() {
+    	var devicename = $("#id_device").val();
+    	
+    	$("#device_validation_result").hide();
+    	$("#device_validation_result").removeClass();
+    	
+		$.ajax({
+			url: "/devicenamevalidation", 
+		    type: 'GET',
+		    dataType: 'json',
+		    data: {devicename: devicename},
+		    beforeSend :function(xmlHttp){ 
+		    	xmlHttp.setRequestHeader("If-Modified-Since","0"); 
+		    	xmlHttp.setRequestHeader("Cache-Control","no-cache"); 
+		    }, 
+		    success: function (data) {
+				if (data.result == 'OK') {
+					
+					$("#device_validation_result").addClass("icon ion-checkmark-circled");
+					$("#id_regbtn").removeClass("disabled");
+					$("#device_result").html("");
+				} 
+				else {
+					$("#device_validation_result").addClass("icon ion-close-circled");
+					$("#id_regbtn").addClass("disabled");
+					$("#device_result").html("该设备名称已存在");
+				}
+				$("#device_validation_result").show();
+		    },
+		    error: function (data) {
+		    }
+		});
+    }
+    function validatemac() {
+        var mac_1 = $("#id_mac").val();
+        
+        $("#mac_validation_result").hide();
+        $("#mac_validation_result").removeClass();
+        var reg_name=/[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}:[A-F\d]{2}/; 
+        if(!reg_name.test(mac_1)){ 
+          $("#mac_validation_result").addClass("icon ion-close-circled");
+          $("#mac_result").html("mac地址格式不正确！mac地址格式为00:24:21:19:BD:E4");
+        }
+        else{
+          $("#mac_validation_result").addClass("icon ion-checkmark-circled");
+          $("#mac_result").html("");
+        } 
+        
+    }
+    
+    function getAddress() {
+    	var province = addr_selector_field_get('id_province');
+    	var city = addr_selector_field_get('id_city');
+    	var county = addr_selector_field_get('id_county');
+    	var detailAddress = $("#id_address").val();
+    	
+    	return getObjectAddress(province, city, county, detailAddress);
+    }
+    
+	function loadResources() {
+		$("#frame_title_text").text(frame_title_text);
+	}
+	
+    function validateRecommendNumber() {
+    	var recommendNumber = $("#id_recommendNumber").val();
+    	if(recommendNumber != ""){
+    		$.ajax({
+    			url: "/account/recommendNumbervalidation.htm", 
+    		    type: 'GET',
+    		    dataType: 'json',
+    		    data: {recommendNumber: recommendNumber},
+    		    beforeSend :function(xmlHttp){ 
+    		    	xmlHttp.setRequestHeader("If-Modified-Since","0"); 
+    		    	xmlHttp.setRequestHeader("Cache-Control","no-cache"); 
+    		    }, 
+    		    success: function (data) {
+    				if (data.result == 'OK') {
+    					$("#recommendNumber_result").html("");
+    				} 
+    				else {
+    					$("#recommendNumber_result").html("推荐码验证失败");
+    				}
+    		    },
+    		    error: function (data) {
+    		    }
+    		});
+    	} else {
+    		$("#recommendNumber_result").html("");
+    	}
+    }
+    
+    function locationValidate (){
+		var province = addr_selector_field_get('id_province');
+    	var city = addr_selector_field_get('id_city');
+    	if(province == null){
+    		$("#province_result").html("请选择省");
+    		$("#province_result").show();
+    		return false;
+    	} else {
+    		$("#province_result").html("");
+    		$("#province_result").hide();
+    	}
+    	
+    	if(city == null){
+    		$("#city_result").html("请选择市");
+    		$("#city_result").show();
+    		return false;
+    	} else {
+
+    		$("#city_result").html("");
+    		$("#city_result").hide();
+    	}
+    	
+    	return true;
+	}
+</script>
+
+</body></html>

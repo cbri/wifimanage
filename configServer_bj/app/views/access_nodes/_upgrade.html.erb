@@ -1,0 +1,15 @@
+<div class="row">
+      <div class="span6 offset1">
+        <h3>请输入升级文件地址  </h3>
+        <p></p>
+        <%= form_tag "/upgrade", :remote => true do %>
+          <%= hidden_field_tag :id, @access.id %>
+  <div class="field">
+          <%= text_field_tag :url, params[:name] %>
+        </div>
+         <%= submit_tag "确认", :class => "btn btn-large btn-primary" %>
+      <% end %>
+      <p></p>
+      <div id="upgradereply"></div>
+    </div>
+  </div>

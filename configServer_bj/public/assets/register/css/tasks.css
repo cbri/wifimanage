@@ -1,0 +1,69 @@
+.tasks-widget .task-content::after {
+	clear: both;
+}
+.tasks-widget .task-footer {
+	margin-top: 5px;
+}
+.tasks-widget .task-footer::after {
+	line-height: 0; display: table; content: "";
+}
+.tasks-widget .task-footer::before {
+	line-height: 0; display: table; content: "";
+}
+.tasks-widget .task-footer::after {
+	clear: both;
+}
+.tasks-widget .task-list {
+	list-style: none; margin: 0px; padding: 0px;
+}
+.tasks-widget .task-list > li {
+	padding: 10px 5px; border-bottom-color: rgb(234, 234, 234); border-bottom-width: 1px; border-bottom-style: solid; position: relative;
+}
+.tasks-widget .task-list li.last-line {
+	border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+.tasks-widget .task-list li > .task-bell {
+	margin-left: 10px;
+}
+.tasks-widget .task-list li > .task-checkbox {
+	width: 30px; float: left;
+}
+.tasks-widget .task-list li > .task-title {
+	margin-right: 10px;
+}
+.tasks-widget .task-list li > .task-config {
+	top: 10px; right: 10px; position: absolute;
+}
+.tasks-widget .task-list li .task-title .task-title-sp {
+	margin-right: 5px;
+}
+.tasks-widget .task-list li.task-done .task-title-sp {
+	text-decoration: line-through;
+}
+.tasks-widget .task-list li.task-done {
+	background: rgb(246, 246, 246);
+}
+.tasks-widget .task-list li.task-done:hover {
+	background: rgb(244, 244, 244);
+}
+.tasks-widget .task-list li:hover {
+	background: rgb(249, 249, 249);
+}
+.tasks-widget .task-list li .task-config {
+	display: none;
+}
+.tasks-widget .task-list li:hover > .task-config {
+	margin-bottom: 0px !important; display: block;
+}
+.tasks-widget .task-config-btn {
+	margin-top: -1px;
+}
+@media only screen and (max-width:480px)
+{
+.tasks-widget .task-config-btn {
+	float: inherit; display: block;
+}
+.tasks-widget .task-list-projects li > .label {
+	margin-bottom: 5px;
+}
+}

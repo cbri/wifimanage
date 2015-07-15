@@ -1,0 +1,25 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  merchant: MyString
+  name: MyString
+  phonenum: MyString
+  email: MyString
+  telephonenum: MyString
+  weixin: MyString
+  access_node_id: 1
+  created_at: 2014-06-19 11:50:39
+  updated_at: 2014-06-19 11:50:39
+  node_mac: MyString
+
+two:
+  merchant: MyString
+  name: MyString
+  phonenum: MyString
+  email: MyString
+  telephonenum: MyString
+  weixin: MyString
+  access_node_id: 1
+  created_at: 2014-06-19 11:50:39
+  updated_at: 2014-06-19 11:50:39
+  node_mac: MyString

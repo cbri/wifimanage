@@ -1,0 +1,32 @@
+<div class="container">
+<style type="text/css">
+      /* 内部样式 */
+      h3{color:green;}
+</style>
+<h1>WiFi节点列表</h1>
+<div>
+  <%= form_tag "/searchbymac" do %>
+          
+   <p><label style="display:inline">mac:</label><input id="mac" maxlength="44" name="mac" size="44" type="text" style="width:20%">
+   <label style="display:inline">名称:</label><input id="name" maxlength="44" name="name" size="44" type="text" style="width:20%">
+   </p>
+   <%= submit_tag "搜索", :class => "btn btn-large btn-primary" %> 
+  <% end %>
+</div> 
+<ul class="users">
+  <%= will_paginate @access_nodes %>
+  <% @access_nodes.each do |access| %>
+    <li class="anode">
+    <% if access.running? %>
+      <%= link_to image_tag("work.png", size:"52x52" ) %>
+    <% else %>
+      <%= link_to image_tag("stop.png", size:"52x52" ) %>
+    <% end %>
+    <%= link_to access.name, access %>  <div class="bnode"><%= link_to "防火墙设置", firewall_url(access), {:class=>"btn btn-danger" } %> |  <%= link_to "编辑节点", edit_access_node_url(access), {:class=>"btn btn-primary" } %> | <%= link_to " 高级设置", advance_url(access), {:class => "btn btn-warning" }%> | <%= link_to "初始设置", init_url(access), { :class => "btn btn-success" } %> </div>
+    </li>
+  <% end %>
+  <%= will_paginate @access_nodes %>
+</ul>
+</div>
+
+

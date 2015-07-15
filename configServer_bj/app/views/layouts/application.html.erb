@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Authpuppy</title>
+  <%= stylesheet_link_tag    "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= render 'shared/shim' %>
+</head>
+<body>
+
+  <%= render 'shared/header' %>
+    <div class="flash-message">
+      <%= flash[:notice] %>
+    </div>
+    <%= yield %>
+  <%= render 'layouts/footer' %>
+
+</div>
+</body>
+</html>

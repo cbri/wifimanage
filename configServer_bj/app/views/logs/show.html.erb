@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Log value:</b>
+  <%= @log.log_value %>
+</p>
+
+<p>
+  <b>Dev:</b>
+  <%= @log.dev_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_log_path(@log) %> |
+<%= link_to 'Back', logs_path %>

@@ -1,0 +1,32 @@
+
+    <div class="row">
+      <div class="span6 offset1">
+        <h3>基本设置</h3>
+        <p></p>
+        <%= form_for(@access) do |f| %>
+  <div class="field">
+          <%= f.label "设备名称" %>
+          <%= f.text_field :name %>
+          <%= f.label "设备MAC" %>
+          <%= f.text_field :mac %>
+          <%= f.label "ROM平台" %>
+          <% if @access.auth_plattype == 0 %>
+          <%= f.select(:auth_plattype,'<option value="0"  selected= "selected" >定制</option><option value="1" >ICT</option><option value="2" >联盟</option>'.html_safe ) %>
+          <% else %>
+          <% if @access.auth_plattype == 1 %>
+          <%= f.select(:auth_plattype,'<option value="0" >定制</option><option value="1" selected= "selected" >ICT</option><option value="2" >联盟</option>'.html_safe ) %>
+          <% else %>
+          <%= f.select(:auth_plattype,'<option value="0" >定制</option><option value="1" >ICT</option><option value="2" selected= "selected" >联盟</option>'.html_safe ) %>
+          <% end %>
+          <% end %>
+          <%= f.label "认证页面" %>
+          <%= f.text_field :redirect_url %>
+          <%= f.label "欢迎页面" %>
+          <%= f.text_field :portal_url %>
+          <%= f.label "广告间隔(分钟)" %>
+          <%= f.text_field :time_limit %>
+        </div>
+         <%= f.submit "更新节点", :class => "btn btn-large btn-primary" %> 
+      <% end %>
+    </div>
+  </div>

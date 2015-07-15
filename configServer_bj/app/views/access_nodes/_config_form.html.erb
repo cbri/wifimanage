@@ -1,0 +1,7 @@
+<%= form_tag "/access_nodes/setconfig" do  %>
+  <%= hidden_field_tag "id", @access.id %>
+  <div class="field">
+    <%= select_tag :nodecmd_id, "<option value='1'>重启设备</option><option value='2'>免认证</option><option value='3'>关闭进程</option><option value='4'>进程重启</option><option value='5'>远程升级</option><option value='6'>文件更新</option><option value='7'>Portal启动</option><option value='8'>Portal关闭</option><option value='9'>Portal重启</option>".html_safe %>
+  </div>
+  <%= submit_tag "远程管理", class: "btn btn-large btn-primary" %>
+<% end %>

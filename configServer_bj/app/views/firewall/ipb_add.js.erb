@@ -1,0 +1,2 @@
+$('#resultreplyb').text('设置成功(2分钟后生效)');
+$('#ipbadd').append('<div id="ipb<%= @ip.id %>" style="padding-bottom: 5px;" ><%= @ip.publicip %> <%= link_to "删除", ipdel_url(@ip),  :remote => true, :class=>"btn-link" %></div>')
